@@ -1,0 +1,22 @@
+device: I210
+version: v3.7
+spec_reference: external/intel_avb/spec/333016 - I210_Datasheet_v_3_7.pdf
+blocks:
+  - name: PTP
+    base: 0x0B600
+    registers:
+      - name: SYSTIML
+        offset: 0x0
+        width: 32
+        description: System time register Low
+        spec_section: Section 8.12.3.2
+      - name: SYSTIMH
+        offset: 0x4
+        width: 32
+        description: System time register High
+        spec_section: Section 8.12.3.3
+      - name: TIMINCA
+        offset: 0x8
+        width: 32
+        description: Increment attributes register
+        spec_section: Section 8.12.3.4
