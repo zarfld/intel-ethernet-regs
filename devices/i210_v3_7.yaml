@@ -21,6 +21,20 @@ blocks:
         offset: 0x14
         width: 32
         description: Tx Time Sync Control Register
+        access: rw
+        fields:
+          - name: TXTT_EN
+            lsb: 4
+            width: 1
+            description: Enable Tx timestamping
+          - name: TXTTNUM
+            lsb: 5
+            width: 2
+            description: Timestamp type selection
+            enums:
+              0: ALL
+              1: SYNC
+              2: DELAY_REQ
       - name: TXSTMPL
         offset: 0x18
         width: 32
@@ -33,6 +47,20 @@ blocks:
         offset: 0x20
         width: 32
         description: Rx Time Sync Control Register
+        access: rw
+        fields:
+          - name: RXTT_EN
+            lsb: 4
+            width: 1
+            description: Enable Rx timestamping
+          - name: RXTTNUM
+            lsb: 5
+            width: 2
+            description: Timestamp type selection
+            enums:
+              0: ALL
+              1: SYNC
+              2: DELAY_REQ
       - name: RXSTMPL
         offset: 0x24
         width: 32

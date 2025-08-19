@@ -52,8 +52,43 @@ def gen_header(device_yaml: str, out_dir: str):
             rname = reg['name'].upper()
             abs_off = base + roff
             desc = reg.get('description', '')
-            lines.append(f"/* {desc} */")
+            access = reg.get('access')
+            reset = reg.get('reset')
+            if desc:
+                lines.append(f"/* {desc} */")
+            if access or reset:
+                meta = []
+                if access:
+                    meta.append(f"access={access}")
+                if reset:
+                    meta.append(f"reset={reset}")
+                lines.append(f"/* {'; '.join(meta)} */")
             lines.append(f"#define {name}_{rname}\t0x{abs_off:05X}")
+
+            # Emit field macros if present
+            fields = reg.get('fields', [])
+            for fld in fields:
+                fname = f"{rname}_{fld['name'].upper()}"
+                lsb = int(fld['lsb'])
+                fwidth = int(fld['width'])
+                if fwidth >= 64:
+                    mask_expr = "(~0ULL)"
+                else:
+                    mask_expr = f"((1ULL<<{fwidth})-1ULL)"
+                lines.append(f"#define {name}_{fname}_SHIFT\t{lsb}")
+                lines.append(f"#define {name}_{fname}_MASK\t({mask_expr} << {name}_{fname}_SHIFT)")
+                # Enums if any
+                enums = fld.get('enums', {})
+                for ev, ename in enums.items():
+                    try:
+                        ev_int = int(ev)
+                    except Exception:
+                        continue
+                    lines.append(f"#define {name}_{fname}_{str(ename).upper()}\t{ev_int}U")
+            if fields:
+                # Inline helpers once per register
+                lines.append(f"static inline unsigned long long {name}_{rname}_GET(unsigned long long v, unsigned long long mask, unsigned shift) {{ return (v & mask) >> shift; }}")
+                lines.append(f"static inline unsigned long long {name}_{rname}_SET(unsigned long long v, unsigned long long mask, unsigned shift, unsigned long long val) {{ return (v & ~mask) | ((val << shift) & mask); }}")
         lines.append("")
 
     lines.append(f"#endif /* {guard} */")
