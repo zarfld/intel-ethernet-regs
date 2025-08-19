@@ -33,12 +33,22 @@ def gen_header(device_yaml: str, out_dir: str):
     lines.append(f"#define {guard}")
     lines.append("")
 
+    def parse_hex_or_int(v):
+        if isinstance(v, int):
+            return v
+        if isinstance(v, str):
+            v = v.strip()
+            if v.lower().startswith('0x'):
+                return int(v, 16)
+            return int(v)
+        raise TypeError(f"Unsupported numeric type: {type(v)}")
+
     for blk in blocks:
-        base = int(blk['base'], 16)
+        base = parse_hex_or_int(blk['base'])
         blk_name = blk['name'].upper()
         lines.append(f"/* Block {blk_name} base: 0x{base:05X} */")
         for reg in blk.get('registers', []):
-            roff = int(reg['offset'], 16)
+            roff = parse_hex_or_int(reg['offset'])
             rname = reg['name'].upper()
             abs_off = base + roff
             desc = reg.get('description', '')
