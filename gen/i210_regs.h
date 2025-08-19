@@ -16,13 +16,33 @@ extern "C" {
 /* Time Increment Attributes */
 #define I210_TIMINCA	0x0B608
 /* Tx Time Sync Control Register */
+/* access=rw */
 #define I210_TSYNCTXCTL	0x0B614
+#define I210_TSYNCTXCTL_TXTT_EN_SHIFT	4
+#define I210_TSYNCTXCTL_TXTT_EN_MASK	(((1ULL<<1)-1ULL) << I210_TSYNCTXCTL_TXTT_EN_SHIFT)
+#define I210_TSYNCTXCTL_TXTTNUM_SHIFT	5
+#define I210_TSYNCTXCTL_TXTTNUM_MASK	(((1ULL<<2)-1ULL) << I210_TSYNCTXCTL_TXTTNUM_SHIFT)
+#define I210_TSYNCTXCTL_TXTTNUM_ALL	0U
+#define I210_TSYNCTXCTL_TXTTNUM_SYNC	1U
+#define I210_TSYNCTXCTL_TXTTNUM_DELAY_REQ	2U
+static inline unsigned long long I210_TSYNCTXCTL_GET(unsigned long long v, unsigned long long mask, unsigned shift) { return (v & mask) >> shift; }
+static inline unsigned long long I210_TSYNCTXCTL_SET(unsigned long long v, unsigned long long mask, unsigned shift, unsigned long long val) { return (v & ~mask) | ((val << shift) & mask); }
 /* Tx Timestamp Value Low */
 #define I210_TXSTMPL	0x0B618
 /* Tx Timestamp Value High */
 #define I210_TXSTMPH	0x0B61C
 /* Rx Time Sync Control Register */
+/* access=rw */
 #define I210_TSYNCRXCTL	0x0B620
+#define I210_TSYNCRXCTL_RXTT_EN_SHIFT	4
+#define I210_TSYNCRXCTL_RXTT_EN_MASK	(((1ULL<<1)-1ULL) << I210_TSYNCRXCTL_RXTT_EN_SHIFT)
+#define I210_TSYNCRXCTL_RXTTNUM_SHIFT	5
+#define I210_TSYNCRXCTL_RXTTNUM_MASK	(((1ULL<<2)-1ULL) << I210_TSYNCRXCTL_RXTTNUM_SHIFT)
+#define I210_TSYNCRXCTL_RXTTNUM_ALL	0U
+#define I210_TSYNCRXCTL_RXTTNUM_SYNC	1U
+#define I210_TSYNCRXCTL_RXTTNUM_DELAY_REQ	2U
+static inline unsigned long long I210_TSYNCRXCTL_GET(unsigned long long v, unsigned long long mask, unsigned shift) { return (v & mask) >> shift; }
+static inline unsigned long long I210_TSYNCRXCTL_SET(unsigned long long v, unsigned long long mask, unsigned shift, unsigned long long val) { return (v & ~mask) | ((val << shift) & mask); }
 /* Rx Timestamp Low */
 #define I210_RXSTMPL	0x0B624
 /* Rx Timestamp High */
