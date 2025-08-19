@@ -9,18 +9,12 @@ extern "C" {
 #define INTEL_I210_REGS_H
 
 /* Block PTP base: 0x0B600 */
-/* System Time Residue */
-#define I210_SYSTIMR	0x0B6F8
 /* System time register Low */
 #define I210_SYSTIML	0x0B600
 /* System time register High */
 #define I210_SYSTIMH	0x0B604
-/* System Time Register Tx MS */
-#define I210_SYSTIMTM	0x0B6FC
-/* Increment attributes register */
+/* Time Increment Attributes */
 #define I210_TIMINCA	0x0B608
-/* Time Adjustment Offset Register */
-#define I210_TIMADJ	0x0B60C
 /* Tx Time Sync Control Register */
 #define I210_TSYNCTXCTL	0x0B614
 /* Tx Timestamp Value Low */
@@ -33,32 +27,6 @@ extern "C" {
 #define I210_RXSTMPL	0x0B624
 /* Rx Timestamp High */
 #define I210_RXSTMPH	0x0B628
-/* TimeSync Auxiliary Control */
-#define I210_TSAUXC	0x0B640
-/* Target Time Register 0 Low */
-#define I210_TRGTTIML0	0x0B644
-/* Target Time Register 0 High */
-#define I210_TRGTTIMH0	0x0B648
-/* Target Time Register 1 Low */
-#define I210_TRGTTIML1	0x0B64C
-/* Target Time Register 1 High */
-#define I210_TRGTTIMH1	0x0B650
-/* Frequency Out 0 Control */
-#define I210_FREQOUT0	0x0B654
-/* Frequency Out 1 Control */
-#define I210_FREQOUT1	0x0B658
-/* Auxiliary Timestamp 0 Register Low */
-#define I210_AUXSTMPL0	0x0B65C
-/* Auxiliary Timestamp 0 Register High */
-#define I210_AUXSTMPH0	0x0B660
-/* Auxiliary Timestamp 1 Register Low */
-#define I210_AUXSTMPL1	0x0B664
-/* Auxiliary Timestamp 1 Register High */
-#define I210_AUXSTMPH1	0x0B668
-/* Time Sync Interrupt Cause Register */
-#define I210_TSICR	0x0B66C
-/* Time Sync Interrupt Mask Register */
-#define I210_TSIM	0x0B674
 
 /* Block MAC_CTRL base: 0x00000 */
 /* Device Control */
@@ -71,10 +39,6 @@ extern "C" {
 /* Block MDIC base: 0x00020 */
 /* MDI Control */
 #define I210_MDIC	0x00020
-
-/* Block MDI_CONFIG base: 0x00E00 */
-/* MDI Configuration */
-#define I210_MDICNFG	0x00E04
 
 /* Block INTERRUPTS base: 0x000C0 */
 /* Interrupt Cause Read */
@@ -199,30 +163,6 @@ extern "C" {
 #define I210_GOTCL	0x04090
 /* Good Octets Transmitted Count (High) */
 #define I210_GOTCH	0x04094
-/* Management Packets Transmitted Count */
-#define I210_MNGPTC	0x041BC
-/* Packets Transmitted (64 Bytes) Count */
-#define I210_PTC64	0x041D8
-/* Packets Transmitted (65–127 Bytes) Count */
-#define I210_PTC127	0x041DC
-/* Packets Transmitted (128–255 Bytes) Count */
-#define I210_PTC255	0x041E0
-/* Packets Transmitted (256–511 Bytes) Count */
-#define I210_PTC511	0x041E4
-/* Packets Transmitted (512–1023 Bytes) Count */
-#define I210_PTC1023	0x041E8
-/* Packets Transmitted (1024 Bytes or Greater) Count */
-#define I210_PTC1522	0x041EC
-/* Host Good Packets Transmitted Count */
-#define I210_HGPTC	0x04118
-/* Host Good Octets Received Count (Low) */
-#define I210_HGORCL	0x04128
-/* Host Good Octets Received Count (High) */
-#define I210_HGORCH	0x0412C
-/* Host Good Octets Transmitted Count (Low) */
-#define I210_HGOTCL	0x04130
-/* Host Good Octets Transmitted Count (High) */
-#define I210_HGOTCH	0x04134
 
 #endif /* INTEL_I210_REGS_H */
 

@@ -1,0 +1,315 @@
+device: I210
+version: CS/CL v1.8 (335761)
+spec_reference: external/intel_avb/spec/335761 - Intel I210 CS-CL v1.8.pdf
+blocks:
+  - name: PTP
+    base: 0x0B600
+    registers:
+      - name: SYSTIML
+        offset: 0x0
+        width: 32
+        description: System time register Low
+      - name: SYSTIMH
+        offset: 0x4
+        width: 32
+        description: System time register High
+      - name: TIMINCA
+        offset: 0x8
+        width: 32
+        description: Time Increment Attributes
+      - name: TSYNCTXCTL
+        offset: 0x14
+        width: 32
+        description: Tx Time Sync Control Register
+      - name: TXSTMPL
+        offset: 0x18
+        width: 32
+        description: Tx Timestamp Value Low
+      - name: TXSTMPH
+        offset: 0x1C
+        width: 32
+        description: Tx Timestamp Value High
+      - name: TSYNCRXCTL
+        offset: 0x20
+        width: 32
+        description: Rx Time Sync Control Register
+      - name: RXSTMPL
+        offset: 0x24
+        width: 32
+        description: Rx Timestamp Low
+      - name: RXSTMPH
+        offset: 0x28
+        width: 32
+        description: Rx Timestamp High
+
+  - name: MAC_CTRL
+    base: 0x00000
+    registers:
+      - name: CTRL
+        offset: 0x00000
+        width: 32
+        description: Device Control
+      - name: STATUS
+        offset: 0x00008
+        width: 32
+        description: Device Status
+      - name: CTRL_EXT
+        offset: 0x00018
+        width: 32
+        description: Extended Device Control
+
+  - name: MDIC
+    base: 0x00020
+    registers:
+      - name: MDIC
+        offset: 0x0
+        width: 32
+        description: MDI Control
+
+  - name: INTERRUPTS
+    base: 0x000C0
+    registers:
+      - name: ICR
+        offset: 0x0
+        width: 32
+        description: Interrupt Cause Read
+      - name: ICS
+        offset: 0x8
+        width: 32
+        description: Interrupt Cause Set
+      - name: IMS
+        offset: 0x10
+        width: 32
+        description: Interrupt Mask Set/Read
+      - name: IMC
+        offset: 0x18
+        width: 32
+        description: Interrupt Mask Clear
+
+  - name: EXT_INTERRUPTS
+    base: 0x01500
+    registers:
+      - name: EIMS
+        offset: 0x24
+        width: 32
+        description: Extended Interrupt Mask Set/Read
+      - name: EIMC
+        offset: 0x28
+        width: 32
+        description: Extended Interrupt Mask Clear
+      - name: EIAC
+        offset: 0x2C
+        width: 32
+        description: Extended Interrupt Auto Clear Enable
+      - name: EIAM
+        offset: 0x30
+        width: 32
+        description: Extended Interrupt Auto Mask Enable
+      - name: EICR
+        offset: 0x80
+        width: 32
+        description: Extended Interrupt Cause Read
+
+  - name: EITR
+    base: 0x01680
+    registers:
+      - name: EITR0
+        offset: 0x0
+        width: 32
+        description: Interrupt Throttle for vector 0
+      - name: EITR1
+        offset: 0x4
+        width: 32
+        description: Interrupt Throttle for vector 1
+      - name: EITR2
+        offset: 0x8
+        width: 32
+        description: Interrupt Throttle for vector 2
+      - name: EITR3
+        offset: 0xC
+        width: 32
+        description: Interrupt Throttle for vector 3
+      - name: EITR4
+        offset: 0x10
+        width: 32
+        description: Interrupt Throttle for vector 4
+
+  - name: RX
+    base: 0x00100
+    registers:
+      - name: RCTL
+        offset: 0x0
+        width: 32
+        description: Receive Control
+
+  - name: TX
+    base: 0x00400
+    registers:
+      - name: TCTL
+        offset: 0x0
+        width: 32
+        description: Transmit Control
+      - name: TIPG
+        offset: 0x10
+        width: 32
+        description: Transmit Inter-Packet Gap
+
+  - name: FLOW_CONTROL_TIMER
+    base: 0x00170
+    registers:
+      - name: FCTTV
+        offset: 0x0
+        width: 32
+        description: Flow Control Transmit Timer Value
+
+  - name: FLOW_CONTROL_THRESHOLDS
+    base: 0x02160
+    registers:
+      - name: FCRTL
+        offset: 0x0
+        width: 32
+        description: Flow Control Receive Threshold Low
+      - name: FCRTH
+        offset: 0x8
+        width: 32
+        description: Flow Control Receive Threshold High
+
+  - name: FLOW_CONTROL_REFRESH
+    base: 0x02460
+    registers:
+      - name: FCRTV
+        offset: 0x0
+        width: 32
+        description: Flow Control Refresh Timer Value
+
+  - name: RX_QUEUE0
+    base: 0x02800
+    registers:
+      - name: RDBAL
+        offset: 0x0
+        width: 32
+        description: Receive Descriptor Base Address Low (Queue 0)
+      - name: RDBAH
+        offset: 0x4
+        width: 32
+        description: Receive Descriptor Base Address High (Queue 0)
+      - name: RDLEN
+        offset: 0x8
+        width: 32
+        description: Receive Descriptor Length (Queue 0)
+      - name: RDH
+        offset: 0x10
+        width: 32
+        description: Receive Descriptor Head (Queue 0)
+      - name: RDT
+        offset: 0x18
+        width: 32
+        description: Receive Descriptor Tail (Queue 0)
+
+  - name: TX_QUEUE0
+    base: 0x03800
+    registers:
+      - name: TDBAL
+        offset: 0x0
+        width: 32
+        description: Transmit Descriptor Base Address Low (Queue 0)
+      - name: TDBAH
+        offset: 0x4
+        width: 32
+        description: Transmit Descriptor Base Address High (Queue 0)
+      - name: TDLEN
+        offset: 0x8
+        width: 32
+        description: Transmit Descriptor Length (Queue 0)
+      - name: TDH
+        offset: 0x10
+        width: 32
+        description: Transmit Descriptor Head (Queue 0)
+      - name: TDT
+        offset: 0x18
+        width: 32
+        description: Transmit Descriptor Tail (Queue 0)
+
+  - name: MAC_ADDRESS
+    base: 0x05400
+    registers:
+      - name: RAL0
+        offset: 0x0
+        width: 32
+        description: Receive Address Low [0]
+      - name: RAH0
+        offset: 0x4
+        width: 32
+        description: Receive Address High [0]
+
+  - name: MTA
+    base: 0x05200
+    registers:
+      - name: MTA0
+        offset: 0x0
+        width: 32
+        description: Multicast Table Array [0]
+
+  - name: VFTA
+    base: 0x05600
+    registers:
+      - name: VFTA0
+        offset: 0x0
+        width: 32
+        description: VLAN Filter Table Array [0]
+
+  - name: STATS
+    base: 0x04000
+    registers:
+      - name: RXERRC
+        offset: 0x0C
+        width: 32
+        description: RX Error Count
+      - name: MPC
+        offset: 0x10
+        width: 32
+        description: Missed Packets Count
+      - name: PRC64
+        offset: 0x5C
+        width: 32
+        description: Packets Received (64 Bytes) Count
+      - name: PRC127
+        offset: 0x60
+        width: 32
+        description: Packets Received (65–127 Bytes) Count
+      - name: PRC255
+        offset: 0x64
+        width: 32
+        description: Packets Received (128–255 Bytes) Count
+      - name: PRC511
+        offset: 0x68
+        width: 32
+        description: Packets Received (256–511 Bytes) Count
+      - name: PRC1023
+        offset: 0x6C
+        width: 32
+        description: Packets Received (512–1023 Bytes) Count
+      - name: PRC1522
+        offset: 0x70
+        width: 32
+        description: Packets Received (1024 to Max Bytes) Count
+      - name: GPTC
+        offset: 0x80
+        width: 32
+        description: Good Packets Transmitted Count
+      - name: GORCL
+        offset: 0x88
+        width: 32
+        description: Good Octets Received Count (Low)
+      - name: GORCH
+        offset: 0x8C
+        width: 32
+        description: Good Octets Received Count (High)
+      - name: GOTCL
+        offset: 0x90
+        width: 32
+        description: Good Octets Transmitted Count (Low)
+      - name: GOTCH
+        offset: 0x94
+        width: 32
+        description: Good Octets Transmitted Count (High)
