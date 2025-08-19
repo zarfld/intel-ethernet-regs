@@ -1,0 +1,126 @@
+device: I225
+version: Rev 2.6
+spec_reference: external/intel_avb/spec/2407151103_Intel-Altera-KTI226V-S-RKTU_C26159200.pdf
+blocks:
+  - name: MAC_CTRL
+    base: 0x00000
+    registers:
+      - name: CTRL
+        offset: 0x0
+        width: 32
+        description: Device Control
+        spec_section: Section 3.5.1 (TFCE), Section 6.4.2 (VME), Section 6.6 (EXT_VLAN)
+      - name: STATUS
+        offset: 0x8
+        width: 32
+        description: Device Status
+      - name: CTRL_EXT
+        offset: 0x18
+        width: 32
+        description: Extended Device Control
+        spec_section: Section 6.6 (EXT_VLAN)
+
+  - name: MDIO
+    base: 0x00020
+    registers:
+      - name: MDIC
+        offset: 0x0
+        width: 32
+        description: MDI Control (MDIO/MDC access to internal PHY)
+        spec_section: Section 1.1.1 (MDIO interface)
+
+  - name: INTERRUPTS
+    base: 0x000C0
+    registers:
+      - name: ICR
+        offset: 0x0
+        width: 32
+        description: Interrupt Cause Read
+      - name: ICS
+        offset: 0x8
+        width: 32
+        description: Interrupt Cause Set
+      - name: IMS
+        offset: 0x10
+        width: 32
+        description: Interrupt Mask Set/Read
+      - name: IMC
+        offset: 0x18
+        width: 32
+        description: Interrupt Mask Clear
+
+  - name: EXT_INTERRUPTS
+    base: 0x01500
+    registers:
+      - name: EIMS
+        offset: 0x24
+        width: 32
+        description: Extended Interrupt Mask Set/Read
+      - name: EIMC
+        offset: 0x28
+        width: 32
+        description: Extended Interrupt Mask Clear
+      - name: EIAC
+        offset: 0x2C
+        width: 32
+        description: Extended Interrupt Auto Clear Enable
+      - name: EIAM
+        offset: 0x30
+        width: 32
+        description: Extended Interrupt Auto Mask Enable
+      - name: EICR
+        offset: 0x80
+        width: 32
+        description: Extended Interrupt Cause Read
+
+  - name: EITR
+    base: 0x01680
+    registers:
+      - name: EITR0
+        offset: 0x0
+        width: 32
+        description: Interrupt Throttle for vector 0
+      - name: EITR1
+        offset: 0x4
+        width: 32
+        description: Interrupt Throttle for vector 1
+      - name: EITR2
+        offset: 0x8
+        width: 32
+        description: Interrupt Throttle for vector 2
+      - name: EITR3
+        offset: 0xC
+        width: 32
+        description: Interrupt Throttle for vector 3
+
+  - name: MAC_ADDR
+    base: 0x05400
+    registers:
+      - name: RAL0
+        offset: 0x0
+        width: 32
+        description: Receive Address Low 0 (lower 32 bits of MAC)
+        spec_section: Section 5.1.1.1-5.1.1.3 (NVM IA → RAL0/RAH0)
+      - name: RAH0
+        offset: 0x4
+        width: 32
+        description: Receive Address High 0 (upper 16 bits + AV bit)
+        spec_section: Section 5.1.1.1-5.1.1.3 (NVM IA → RAL0/RAH0)
+
+  - name: VLAN
+    base: 0x05600
+    registers:
+      - name: VFTA0
+        offset: 0x0
+        width: 32
+        description: VLAN Filter Table Array [0]
+        spec_section: Section 6.5 (802.1Q VLAN Packet Filtering)
+
+  - name: LED
+    base: 0x00E00
+    registers:
+      - name: LEDCTL
+        offset: 0x0
+        width: 32
+        description: LED Control Register
+        spec_section: Section 3.4 (Configurable LED Outputs)
