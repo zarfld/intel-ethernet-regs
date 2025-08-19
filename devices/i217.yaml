@@ -1,0 +1,168 @@
+device: I217
+version: v2.x
+spec_reference: external/intel_avb/spec/i217-ethernet-controller-datasheet-2.md
+blocks:
+  - name: PTP
+    base: 0x0B600
+    registers:
+      - name: SYSTIML
+        offset: 0x0
+        width: 32
+        description: System time register Low
+        spec_section: Section 11.1.2.7
+      - name: SYSTIMH
+        offset: 0x4
+        width: 32
+        description: System time register High
+        spec_section: Section 11.1.2.7
+      - name: TIMINCA
+        offset: 0x8
+        width: 32
+        description: Time Increment Attributes
+        spec_section: Section 11.1.2.7
+      - name: TSYNCTXCTL
+        offset: 0x14
+        width: 32
+        description: TX Time Sync Control Register (0xB614)
+        spec_section: Section 11.1.2.7.2
+      - name: TXSTMPL
+        offset: 0x18
+        width: 32
+        description: TX Timestamp Value Low
+        spec_section: Section 11.1.2.7
+      - name: TXSTMPH
+        offset: 0x1C
+        width: 32
+        description: TX Timestamp Value High
+        spec_section: Section 11.1.2.7
+      - name: TSYNCRXCTL
+        offset: 0x20
+        width: 32
+        description: RX Time Sync Control Register (0xB620; RW)
+        spec_section: Section 11.1.2.7.1
+      - name: RXSTMPL
+        offset: 0x24
+        width: 32
+        description: RX Timestamp Low (0xB624; RO)
+        spec_section: Section 11.1.2.7
+      - name: RXSTMPH
+        offset: 0x28
+        width: 32
+        description: RX Timestamp High (0xB628; RO)
+        spec_section: Section 11.1.2.7
+
+  - name: MAC_CTRL
+    base: 0x00000
+    registers:
+      - name: CTRL
+        offset: 0x00000
+        width: 32
+        description: Device Control
+      - name: STATUS
+        offset: 0x00008
+        width: 32
+        description: Device Status
+      - name: CTRL_EXT
+        offset: 0x00018
+        width: 32
+        description: Extended Device Control
+
+  - name: MDIC
+    base: 0x00020
+    registers:
+      - name: MDIC
+        offset: 0x0
+        width: 32
+        description: MDI Control
+
+  - name: INTERRUPTS
+    base: 0x000C0
+    registers:
+      - name: ICR
+        offset: 0x0
+        width: 32
+        description: Interrupt Cause Read
+      - name: ICS
+        offset: 0x8
+        width: 32
+        description: Interrupt Cause Set
+      - name: IMS
+        offset: 0x10
+        width: 32
+        description: Interrupt Mask Set/Read
+      - name: IMC
+        offset: 0x18
+        width: 32
+        description: Interrupt Mask Clear
+
+  - name: EXT_INTERRUPTS
+    base: 0x01500
+    registers:
+      - name: EIMS
+        offset: 0x24
+        width: 32
+        description: Extended Interrupt Mask Set/Read
+      - name: EIMC
+        offset: 0x28
+        width: 32
+        description: Extended Interrupt Mask Clear
+      - name: EIAC
+        offset: 0x2C
+        width: 32
+        description: Extended Interrupt Auto Clear Enable
+      - name: EIAM
+        offset: 0x30
+        width: 32
+        description: Extended Interrupt Auto Mask Enable
+      - name: EICR
+        offset: 0x80
+        width: 32
+        description: Extended Interrupt Cause Read
+
+  - name: EITR
+    base: 0x01680
+    registers:
+      - name: EITR0
+        offset: 0x0
+        width: 32
+        description: Interrupt Throttling Rate Vector 0
+      - name: EITR1
+        offset: 0x4
+        width: 32
+        description: Interrupt Throttling Rate Vector 1
+      - name: EITR2
+        offset: 0x8
+        width: 32
+        description: Interrupt Throttling Rate Vector 2
+      - name: EITR3
+        offset: 0xC
+        width: 32
+        description: Interrupt Throttling Rate Vector 3
+
+  - name: MAC_ADDRESS
+    base: 0x05400
+    registers:
+      - name: RAL0
+        offset: 0x0
+        width: 32
+        description: Receive Address Low [0]
+      - name: RAH0
+        offset: 0x4
+        width: 32
+        description: Receive Address High [0]
+
+  - name: VFTA
+    base: 0x05600
+    registers:
+      - name: VFTA0
+        offset: 0x0
+        width: 32
+        description: VLAN Filter Table Array [0]
+
+  - name: LED
+    base: 0x00E00
+    registers:
+      - name: LEDCTL
+        offset: 0x0
+        width: 32
+        description: LED Control
