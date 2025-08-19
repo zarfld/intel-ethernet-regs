@@ -13,18 +13,20 @@ extern "C" {
 #define I210_SYSTIML	0x0B600
 /* System time register High */
 #define I210_SYSTIMH	0x0B604
-/* Time Increment Attributes */
+/* Increment attributes register */
 #define I210_TIMINCA	0x0B608
+/* Time Adjustment Offset Register */
+#define I210_TIMADJ	0x0B60C
 /* Tx Time Sync Control Register */
 /* access=rw */
 #define I210_TSYNCTXCTL	0x0B614
-#define I210_TSYNCTXCTL_TXTT_EN_SHIFT	4
-#define I210_TSYNCTXCTL_TXTT_EN_MASK	(((1ULL<<1)-1ULL) << I210_TSYNCTXCTL_TXTT_EN_SHIFT)
-#define I210_TSYNCTXCTL_TXTTNUM_SHIFT	5
-#define I210_TSYNCTXCTL_TXTTNUM_MASK	(((1ULL<<2)-1ULL) << I210_TSYNCTXCTL_TXTTNUM_SHIFT)
-#define I210_TSYNCTXCTL_TXTTNUM_ALL	0U
-#define I210_TSYNCTXCTL_TXTTNUM_SYNC	1U
-#define I210_TSYNCTXCTL_TXTTNUM_DELAY_REQ	2U
+#define I210_TSYNCTXCTL_EN_SHIFT	4
+#define I210_TSYNCTXCTL_EN_MASK	(((1ULL<<1)-1ULL) << I210_TSYNCTXCTL_EN_SHIFT)
+#define I210_TSYNCTXCTL_TYPE_SHIFT	5
+#define I210_TSYNCTXCTL_TYPE_MASK	(((1ULL<<2)-1ULL) << I210_TSYNCTXCTL_TYPE_SHIFT)
+#define I210_TSYNCTXCTL_TYPE_ALL	0U
+#define I210_TSYNCTXCTL_TYPE_SYNC	1U
+#define I210_TSYNCTXCTL_TYPE_DELAY_REQ	2U
 static inline unsigned long long I210_TSYNCTXCTL_GET(unsigned long long v, unsigned long long mask, unsigned shift) { return (v & mask) >> shift; }
 static inline unsigned long long I210_TSYNCTXCTL_SET(unsigned long long v, unsigned long long mask, unsigned shift, unsigned long long val) { return (v & ~mask) | ((val << shift) & mask); }
 /* Tx Timestamp Value Low */
@@ -34,19 +36,45 @@ static inline unsigned long long I210_TSYNCTXCTL_SET(unsigned long long v, unsig
 /* Rx Time Sync Control Register */
 /* access=rw */
 #define I210_TSYNCRXCTL	0x0B620
-#define I210_TSYNCRXCTL_RXTT_EN_SHIFT	4
-#define I210_TSYNCRXCTL_RXTT_EN_MASK	(((1ULL<<1)-1ULL) << I210_TSYNCRXCTL_RXTT_EN_SHIFT)
-#define I210_TSYNCRXCTL_RXTTNUM_SHIFT	5
-#define I210_TSYNCRXCTL_RXTTNUM_MASK	(((1ULL<<2)-1ULL) << I210_TSYNCRXCTL_RXTTNUM_SHIFT)
-#define I210_TSYNCRXCTL_RXTTNUM_ALL	0U
-#define I210_TSYNCRXCTL_RXTTNUM_SYNC	1U
-#define I210_TSYNCRXCTL_RXTTNUM_DELAY_REQ	2U
+#define I210_TSYNCRXCTL_EN_SHIFT	4
+#define I210_TSYNCRXCTL_EN_MASK	(((1ULL<<1)-1ULL) << I210_TSYNCRXCTL_EN_SHIFT)
+#define I210_TSYNCRXCTL_TYPE_SHIFT	5
+#define I210_TSYNCRXCTL_TYPE_MASK	(((1ULL<<2)-1ULL) << I210_TSYNCRXCTL_TYPE_SHIFT)
+#define I210_TSYNCRXCTL_TYPE_ALL	0U
+#define I210_TSYNCRXCTL_TYPE_SYNC	1U
+#define I210_TSYNCRXCTL_TYPE_DELAY_REQ	2U
 static inline unsigned long long I210_TSYNCRXCTL_GET(unsigned long long v, unsigned long long mask, unsigned shift) { return (v & mask) >> shift; }
 static inline unsigned long long I210_TSYNCRXCTL_SET(unsigned long long v, unsigned long long mask, unsigned shift, unsigned long long val) { return (v & ~mask) | ((val << shift) & mask); }
 /* Rx Timestamp Low */
 #define I210_RXSTMPL	0x0B624
 /* Rx Timestamp High */
 #define I210_RXSTMPH	0x0B628
+/* TimeSync Auxiliary Control */
+#define I210_TSAUXC	0x0B640
+/* Target Time Register 0 Low */
+#define I210_TRGTTIML0	0x0B644
+/* Target Time Register 0 High */
+#define I210_TRGTTIMH0	0x0B648
+/* Target Time Register 1 Low */
+#define I210_TRGTTIML1	0x0B64C
+/* Target Time Register 1 High */
+#define I210_TRGTTIMH1	0x0B650
+/* Frequency Out 0 Control */
+#define I210_FREQOUT0	0x0B654
+/* Frequency Out 1 Control */
+#define I210_FREQOUT1	0x0B658
+/* Auxiliary Timestamp 0 Register Low */
+#define I210_AUXSTMPL0	0x0B65C
+/* Auxiliary Timestamp 0 Register High */
+#define I210_AUXSTMPH0	0x0B660
+/* Auxiliary Timestamp 1 Register Low */
+#define I210_AUXSTMPL1	0x0B664
+/* Auxiliary Timestamp 1 Register High */
+#define I210_AUXSTMPH1	0x0B668
+/* Time Sync Interrupt Cause Register */
+#define I210_TSICR	0x0B66C
+/* Time Sync Interrupt Mask Register */
+#define I210_TSIM	0x0B674
 
 /* Block MAC_CTRL base: 0x00000 */
 /* Device Control */
@@ -83,15 +111,11 @@ static inline unsigned long long I210_TSYNCRXCTL_SET(unsigned long long v, unsig
 #define I210_EICR	0x01580
 
 /* Block EITR base: 0x01680 */
-/* Interrupt Throttle for vector 0 */
+/* Interrupt Throttle for vector n */
 #define I210_EITR0	0x01680
-/* Interrupt Throttle for vector 1 */
 #define I210_EITR1	0x01684
-/* Interrupt Throttle for vector 2 */
 #define I210_EITR2	0x01688
-/* Interrupt Throttle for vector 3 */
 #define I210_EITR3	0x0168C
-/* Interrupt Throttle for vector 4 */
 #define I210_EITR4	0x01690
 
 /* Block RX base: 0x00100 */
@@ -183,6 +207,30 @@ static inline unsigned long long I210_TSYNCRXCTL_SET(unsigned long long v, unsig
 #define I210_GOTCL	0x04090
 /* Good Octets Transmitted Count (High) */
 #define I210_GOTCH	0x04094
+/* Management Packets Transmitted Count */
+#define I210_MNGPTC	0x041BC
+/* Packets Transmitted (64 Bytes) Count */
+#define I210_PTC64	0x041D8
+/* Packets Transmitted (65–127 Bytes) Count */
+#define I210_PTC127	0x041DC
+/* Packets Transmitted (128–255 Bytes) Count */
+#define I210_PTC255	0x041E0
+/* Packets Transmitted (256–511 Bytes) Count */
+#define I210_PTC511	0x041E4
+/* Packets Transmitted (512–1023 Bytes) Count */
+#define I210_PTC1023	0x041E8
+/* Packets Transmitted (1024 Bytes or Greater) Count */
+#define I210_PTC1522	0x041EC
+/* Host Good Packets Transmitted Count */
+#define I210_HGPTC	0x04118
+/* Host Good Octets Received Count (Low) */
+#define I210_HGORCL	0x04128
+/* Host Good Octets Received Count (High) */
+#define I210_HGORCH	0x0412C
+/* Host Good Octets Transmitted Count (Low) */
+#define I210_HGOTCL	0x04130
+/* Host Good Octets Transmitted Count (High) */
+#define I210_HGOTCH	0x04134
 
 #endif /* INTEL_I210_REGS_H */
 

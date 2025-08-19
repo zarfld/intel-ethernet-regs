@@ -5,11 +5,6 @@ blocks:
   - name: PTP
     base: 0x0B600
     registers:
-      - name: SYSTIMR
-        offset: 0xF8
-        width: 32
-        description: System Time Residue
-        spec_section: Section 8.15.7
       - name: SYSTIML
         offset: 0x0
         width: 32
@@ -20,11 +15,6 @@ blocks:
         width: 32
         description: System time register High
         spec_section: Section 8.15.9
-      - name: SYSTIMTM
-        offset: 0xFC
-        width: 32
-        description: System Time Register Tx MS
-        spec_section: Section 8.15.10
       - name: TIMINCA
         offset: 0x8
         width: 32
@@ -41,11 +31,12 @@ blocks:
         description: Tx Time Sync Control Register
         access: rw
         fields:
-          - name: TXTT_EN
+          - name: EN
             lsb: 4
             width: 1
             description: Enable Tx timestamping
-          - name: TXTTNUM
+            spec_section: Section 8.15.4
+          - name: TYPE
             lsb: 5
             width: 2
             description: Timestamp type selection
@@ -53,6 +44,7 @@ blocks:
               0: ALL
               1: SYNC
               2: DELAY_REQ
+            spec_section: Section 8.15.4
         spec_section: Section 8.15.4
       - name: TXSTMPL
         offset: 0x18
@@ -70,11 +62,12 @@ blocks:
         description: Rx Time Sync Control Register
         access: rw
         fields:
-          - name: RXTT_EN
+          - name: EN
             lsb: 4
             width: 1
             description: Enable Rx timestamping
-          - name: RXTTNUM
+            spec_section: Section 8.15.1
+          - name: TYPE
             lsb: 5
             width: 2
             description: Timestamp type selection
@@ -82,6 +75,7 @@ blocks:
               0: ALL
               1: SYNC
               2: DELAY_REQ
+            spec_section: Section 8.15.1
         spec_section: Section 8.15.1
       - name: RXSTMPL
         offset: 0x24
@@ -182,16 +176,6 @@ blocks:
         offset: 0x0
         width: 32
         description: MDI Control
-        spec_section: Section 8.2.4
-
-  - name: MDI_CONFIG
-    base: 0x00E00
-    registers:
-      - name: MDICNFG
-        offset: 0x4
-        width: 32
-        description: MDI Configuration
-        spec_section: Section 8.2.5
 
   - name: INTERRUPTS
     base: 0x000C0
@@ -245,30 +229,12 @@ blocks:
   - name: EITR
     base: 0x01680
     registers:
-      - name: EITR0
+      - name: EITR
         offset: 0x0
         width: 32
-        description: Interrupt Throttle for vector 0
-        spec_section: Section 8.8.14
-      - name: EITR1
-        offset: 0x4
-        width: 32
-        description: Interrupt Throttle for vector 1
-        spec_section: Section 8.8.14
-      - name: EITR2
-        offset: 0x8
-        width: 32
-        description: Interrupt Throttle for vector 2
-        spec_section: Section 8.8.14
-      - name: EITR3
-        offset: 0xC
-        width: 32
-        description: Interrupt Throttle for vector 3
-        spec_section: Section 8.8.14
-      - name: EITR4
-        offset: 0x10
-        width: 32
-        description: Interrupt Throttle for vector 4
+        description: Interrupt Throttle for vector n
+        count: 5
+        stride: 0x4
         spec_section: Section 8.8.14
 
   - name: RX

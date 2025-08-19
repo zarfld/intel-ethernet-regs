@@ -23,11 +23,12 @@ blocks:
         description: Tx Time Sync Control Register
         access: rw
         fields:
-          - name: TXTT_EN
+          - name: EN
             lsb: 4
             width: 1
             description: Enable Tx timestamping
-          - name: TXTTNUM
+            spec_section: Section 8.15.4
+          - name: TYPE
             lsb: 5
             width: 2
             description: Timestamp type selection
@@ -35,6 +36,7 @@ blocks:
               0: ALL
               1: SYNC
               2: DELAY_REQ
+            spec_section: Section 8.15.4
       - name: TXSTMPL
         offset: 0x18
         width: 32
@@ -49,11 +51,12 @@ blocks:
         description: Rx Time Sync Control Register
         access: rw
         fields:
-          - name: RXTT_EN
+          - name: EN
             lsb: 4
             width: 1
             description: Enable Rx timestamping
-          - name: RXTTNUM
+            spec_section: Section 8.15.1
+          - name: TYPE
             lsb: 5
             width: 2
             description: Timestamp type selection
@@ -61,6 +64,7 @@ blocks:
               0: ALL
               1: SYNC
               2: DELAY_REQ
+            spec_section: Section 8.15.1
       - name: RXSTMPL
         offset: 0x24
         width: 32
@@ -141,26 +145,12 @@ blocks:
   - name: EITR
     base: 0x01680
     registers:
-      - name: EITR0
+      - name: EITR
         offset: 0x0
         width: 32
-        description: Interrupt Throttle for vector 0
-      - name: EITR1
-        offset: 0x4
-        width: 32
-        description: Interrupt Throttle for vector 1
-      - name: EITR2
-        offset: 0x8
-        width: 32
-        description: Interrupt Throttle for vector 2
-      - name: EITR3
-        offset: 0xC
-        width: 32
-        description: Interrupt Throttle for vector 3
-      - name: EITR4
-        offset: 0x10
-        width: 32
-        description: Interrupt Throttle for vector 4
+        description: Interrupt Throttle for vector n
+        count: 5
+        stride: 0x4
 
   - name: RX
     base: 0x00100
@@ -169,26 +159,6 @@ blocks:
         offset: 0x0
         width: 32
         description: Receive Control
-
-  - name: TX
-    base: 0x00400
-    registers:
-      - name: TCTL
-        offset: 0x0
-        width: 32
-        description: Transmit Control
-      - name: TIPG
-        offset: 0x10
-        width: 32
-        description: Transmit Inter-Packet Gap
-
-  - name: FLOW_CONTROL_TIMER
-    base: 0x00170
-    registers:
-      - name: FCTTV
-        offset: 0x0
-        width: 32
-        description: Flow Control Transmit Timer Value
 
   - name: FLOW_CONTROL_THRESHOLDS
     base: 0x02160
