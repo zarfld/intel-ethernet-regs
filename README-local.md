@@ -18,3 +18,9 @@ py -3 tools\reggen.py devices\i210.yaml gen
 ```
 
 Output will be written to `gen/i210_regs.h`.
+
+## Datasheet references
+
+- Prefer Intel PDFs as the canonical source. For I210, use:
+	- `external/intel_avb/spec/335761 - I210_CS_CL_Datasheet_v_1_8.pdf`
+- For easier reading in the editor, you can keep a Markdown-converted copy alongside the PDF (no content changes), e.g. `external/intel_avb/spec/335761 - I210_CS_CL_Datasheet_v_1_8.md`.
