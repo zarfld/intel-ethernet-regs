@@ -1,25 +1,135 @@
 device: I210
 version: v3.7
-spec_reference: external/intel_avb/spec/333016 - I210_Datasheet_v_3_7.pdf
+spec_reference: external/intel_avb/spec/333016 - I210_Datasheet_v_3_7.md
 blocks:
   - name: PTP
     base: 0x0B600
     registers:
+      - name: SYSTIMR
+        offset: 0xF8
+        width: 32
+        description: System Time Residue
+        spec_section: Section 8.15.7
       - name: SYSTIML
         offset: 0x0
         width: 32
         description: System time register Low
-        spec_section: Section 8.12.3.2
+        spec_section: Section 8.15.8
       - name: SYSTIMH
         offset: 0x4
         width: 32
         description: System time register High
-        spec_section: Section 8.12.3.3
+        spec_section: Section 8.15.9
+      - name: SYSTIMTM
+        offset: 0xFC
+        width: 32
+        description: System Time Register Tx MS
+        spec_section: Section 8.15.10
       - name: TIMINCA
         offset: 0x8
         width: 32
         description: Increment attributes register
-        spec_section: Section 8.12.3.4
+        spec_section: Section 8.15.11
+      - name: TIMADJ
+        offset: 0xC
+        width: 32
+        description: Time Adjustment Offset Register
+        spec_section: Section 8.15.12
+      - name: TSYNCTXCTL
+        offset: 0x14
+        width: 32
+        description: Tx Time Sync Control Register
+        spec_section: Section 8.15.4
+      - name: TXSTMPL
+        offset: 0x18
+        width: 32
+        description: Tx Timestamp Value Low
+        spec_section: Section 8.15.5
+      - name: TXSTMPH
+        offset: 0x1C
+        width: 32
+        description: Tx Timestamp Value High
+        spec_section: Section 8.15.6
+      - name: TSYNCRXCTL
+        offset: 0x20
+        width: 32
+        description: Rx Time Sync Control Register
+        spec_section: Section 8.15.1
+      - name: RXSTMPL
+        offset: 0x24
+        width: 32
+        description: Rx Timestamp Low
+        spec_section: Section 8.15.2
+      - name: RXSTMPH
+        offset: 0x28
+        width: 32
+        description: Rx Timestamp High
+        spec_section: Section 8.15.3
+      - name: TSAUXC
+        offset: 0x40
+        width: 32
+        description: TimeSync Auxiliary Control
+        spec_section: Section 8.15.13
+      - name: TRGTTIML0
+        offset: 0x44
+        width: 32
+        description: Target Time Register 0 Low
+        spec_section: Section 8.15.14
+      - name: TRGTTIMH0
+        offset: 0x48
+        width: 32
+        description: Target Time Register 0 High
+        spec_section: Section 8.15.15
+      - name: TRGTTIML1
+        offset: 0x4C
+        width: 32
+        description: Target Time Register 1 Low
+        spec_section: Section 8.15.16
+      - name: TRGTTIMH1
+        offset: 0x50
+        width: 32
+        description: Target Time Register 1 High
+        spec_section: Section 8.15.17
+      - name: FREQOUT0
+        offset: 0x54
+        width: 32
+        description: Frequency Out 0 Control
+        spec_section: Section 8.15.18
+      - name: FREQOUT1
+        offset: 0x58
+        width: 32
+        description: Frequency Out 1 Control
+        spec_section: Section 8.15.19
+      - name: AUXSTMPL0
+        offset: 0x5C
+        width: 32
+        description: Auxiliary Timestamp 0 Register Low
+        spec_section: Section 8.15.20
+      - name: AUXSTMPH0
+        offset: 0x60
+        width: 32
+        description: Auxiliary Timestamp 0 Register High
+        spec_section: Section 8.15.21
+      - name: AUXSTMPL1
+        offset: 0x64
+        width: 32
+        description: Auxiliary Timestamp 1 Register Low
+        spec_section: Section 8.15.22
+      - name: AUXSTMPH1
+        offset: 0x68
+        width: 32
+        description: Auxiliary Timestamp 1 Register High
+        spec_section: Section 8.15.23
+      - name: TSICR
+        offset: 0x6C
+        width: 32
+        description: Time Sync Interrupt Cause Register
+        spec_section: Section 8.16.1
+      - name: TSIM
+        offset: 0x74
+        width: 32
+        description: Time Sync Interrupt Mask Register
+        spec_section: Section 8.16.2
 
   - name: MAC_CTRL
     base: 0x00000
@@ -44,6 +154,16 @@ blocks:
         offset: 0x0
         width: 32
         description: MDI Control
+        spec_section: Section 8.2.4
+
+  - name: MDI_CONFIG
+    base: 0x00E00
+    registers:
+      - name: MDICNFG
+        offset: 0x4
+        width: 32
+        description: MDI Configuration
+        spec_section: Section 8.2.5
 
   - name: INTERRUPTS
     base: 0x000C0
@@ -64,6 +184,64 @@ blocks:
         offset: 0x18
         width: 32
         description: Interrupt Mask Clear
+
+  - name: EXT_INTERRUPTS
+    base: 0x01500
+    registers:
+      - name: EIMS
+        offset: 0x24
+        width: 32
+        description: Extended Interrupt Mask Set/Read
+        spec_section: Section 8.8.5
+      - name: EIMC
+        offset: 0x28
+        width: 32
+        description: Extended Interrupt Mask Clear
+        spec_section: Section 8.8.6
+      - name: EIAC
+        offset: 0x2C
+        width: 32
+        description: Extended Interrupt Auto Clear Enable
+        spec_section: Section 8.8.7
+      - name: EIAM
+        offset: 0x30
+        width: 32
+        description: Extended Interrupt Auto Mask Enable
+        spec_section: Section 8.8.8
+      - name: EICR
+        offset: 0x80
+        width: 32
+        description: Extended Interrupt Cause Read
+        spec_section: Section 8.8.3
+
+  - name: EITR
+    base: 0x01680
+    registers:
+      - name: EITR0
+        offset: 0x0
+        width: 32
+        description: Interrupt Throttle for vector 0
+        spec_section: Section 8.8.14
+      - name: EITR1
+        offset: 0x4
+        width: 32
+        description: Interrupt Throttle for vector 1
+        spec_section: Section 8.8.14
+      - name: EITR2
+        offset: 0x8
+        width: 32
+        description: Interrupt Throttle for vector 2
+        spec_section: Section 8.8.14
+      - name: EITR3
+        offset: 0xC
+        width: 32
+        description: Interrupt Throttle for vector 3
+        spec_section: Section 8.8.14
+      - name: EITR4
+        offset: 0x10
+        width: 32
+        description: Interrupt Throttle for vector 4
+        spec_section: Section 8.8.14
 
   - name: RX
     base: 0x00100
@@ -188,3 +366,132 @@ blocks:
         offset: 0x0
         width: 32
         description: VLAN Filter Table Array [0]
+
+  - name: STATS
+    base: 0x04000
+    registers:
+      - name: RXERRC
+        offset: 0x0C
+        width: 32
+        description: RX Error Count
+        spec_section: Section 8.18.4
+      - name: MPC
+        offset: 0x10
+        width: 32
+        description: Missed Packets Count
+        spec_section: Section 8.18.5
+      - name: PRC64
+        offset: 0x5C
+        width: 32
+        description: Packets Received (64 Bytes) Count
+        spec_section: Section 8.18.20
+      - name: PRC127
+        offset: 0x60
+        width: 32
+        description: Packets Received (65–127 Bytes) Count
+        spec_section: Section 8.18.21
+      - name: PRC255
+        offset: 0x64
+        width: 32
+        description: Packets Received (128–255 Bytes) Count
+        spec_section: Section 8.18.22
+      - name: PRC511
+        offset: 0x68
+        width: 32
+        description: Packets Received (256–511 Bytes) Count
+        spec_section: Section 8.18.23
+      - name: PRC1023
+        offset: 0x6C
+        width: 32
+        description: Packets Received (512–1023 Bytes) Count
+        spec_section: Section 8.18.24
+      - name: PRC1522
+        offset: 0x70
+        width: 32
+        description: Packets Received (1024 to Max Bytes) Count
+        spec_section: Section 8.18.25
+      - name: GPTC
+        offset: 0x80
+        width: 32
+        description: Good Packets Transmitted Count
+        spec_section: Section 8.18.29
+      - name: GORCL
+        offset: 0x88
+        width: 32
+        description: Good Octets Received Count (Low)
+        spec_section: Section 8.18.30
+      - name: GORCH
+        offset: 0x8C
+        width: 32
+        description: Good Octets Received Count (High)
+        spec_section: Section 8.18.31
+      - name: GOTCL
+        offset: 0x90
+        width: 32
+        description: Good Octets Transmitted Count (Low)
+        spec_section: Section 8.18.32
+      - name: GOTCH
+        offset: 0x94
+        width: 32
+        description: Good Octets Transmitted Count (High)
+        spec_section: Section 8.18.33
+      - name: MNGPTC
+        offset: 0x1BC
+        width: 32
+        description: Management Packets Transmitted Count
+        spec_section: Section 8.18.41
+      - name: PTC64
+        offset: 0x1D8
+        width: 32
+        description: Packets Transmitted (64 Bytes) Count
+        spec_section: Section 8.18.52
+      - name: PTC127
+        offset: 0x1DC
+        width: 32
+        description: Packets Transmitted (65–127 Bytes) Count
+        spec_section: Section 8.18.53
+      - name: PTC255
+        offset: 0x1E0
+        width: 32
+        description: Packets Transmitted (128–255 Bytes) Count
+        spec_section: Section 8.18.54
+      - name: PTC511
+        offset: 0x1E4
+        width: 32
+        description: Packets Transmitted (256–511 Bytes) Count
+        spec_section: Section 8.18.55
+      - name: PTC1023
+        offset: 0x1E8
+        width: 32
+        description: Packets Transmitted (512–1023 Bytes) Count
+        spec_section: Section 8.18.56
+      - name: PTC1522
+        offset: 0x1EC
+        width: 32
+        description: Packets Transmitted (1024 Bytes or Greater) Count
+        spec_section: Section 8.18.57
+      - name: HGPTC
+        offset: 0x118
+        width: 32
+        description: Host Good Packets Transmitted Count
+        spec_section: Section 8.18.64
+      - name: HGORCL
+        offset: 0x128
+        width: 32
+        description: Host Good Octets Received Count (Low)
+        spec_section: Section 8.18.66
+      - name: HGORCH
+        offset: 0x12C
+        width: 32
+        description: Host Good Octets Received Count (High)
+        spec_section: Section 8.18.67
+      - name: HGOTCL
+        offset: 0x130
+        width: 32
+        description: Host Good Octets Transmitted Count (Low)
+        spec_section: Section 8.18.68
+      - name: HGOTCH
+        offset: 0x134
+        width: 32
+        description: Host Good Octets Transmitted Count (High)
+        spec_section: Section 8.18.69
