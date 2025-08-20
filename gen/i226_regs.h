@@ -140,6 +140,12 @@ static inline unsigned long long I226_IMS_SET(unsigned long long v, unsigned lon
 /* Extended Interrupt Cause Read */
 /* access=rc/w1c */
 #define I226_EICR	0x01580
+#define I226_EICR_OTHER_SHIFT	31
+#define I226_EICR_OTHER_MASK	(((1ULL<<1)-1ULL) << I226_EICR_OTHER_SHIFT)
+#define I226_EICR_TCP_TIMER_SHIFT	30
+#define I226_EICR_TCP_TIMER_MASK	(((1ULL<<1)-1ULL) << I226_EICR_TCP_TIMER_SHIFT)
+static inline unsigned long long I226_EICR_GET(unsigned long long v, unsigned long long mask, unsigned shift) { return (v & mask) >> shift; }
+static inline unsigned long long I226_EICR_SET(unsigned long long v, unsigned long long mask, unsigned shift, unsigned long long val) { return (v & ~mask) | ((val << shift) & mask); }
 
 /* Block TSN base: 0x08600 */
 /* Time Aware Shaper Control */

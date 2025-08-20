@@ -235,6 +235,15 @@ blocks:
         width: 32
         description: Extended Interrupt Cause Read
         access: rc/w1c
+        fields:
+          - name: OTHER
+            lsb: 31
+            width: 1
+            description: Other interrupt causes (summary of ICR as masked)
+          - name: TCP_TIMER
+            lsb: 30
+            width: 1
+            description: TCP Timer interrupt cause (allocated to EICR[30])
 
   - name: TSN
     base: 0x08600
