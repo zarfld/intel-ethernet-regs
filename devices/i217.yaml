@@ -10,46 +10,87 @@ blocks:
         width: 32
         description: System time register Low
         spec_section: Section 11.1.2.7
+        access: ro
       - name: SYSTIMH
         offset: 0x4
         width: 32
         description: System time register High
         spec_section: Section 11.1.2.7
+        access: ro
       - name: TIMINCA
         offset: 0x8
         width: 32
         description: Time Increment Attributes
         spec_section: Section 11.1.2.7
+        access: rw
       - name: TSYNCTXCTL
         offset: 0x14
         width: 32
         description: TX Time Sync Control Register (0xB614)
         spec_section: Section 11.1.2.7.2
+        access: rw
+        fields:
+          - name: TXTT
+            lsb: 0
+            width: 1
+            description: Tx timestamp valid (RO/V) - clears on read of TXSTMPH
+            spec_section: Section 11.1.2.7.8-10
+          - name: EN
+            lsb: 4
+            width: 1
+            description: Enable TX timestamping
+            spec_section: Section 11.1.2.7.8
       - name: TXSTMPL
         offset: 0x18
         width: 32
         description: TX Timestamp Value Low
         spec_section: Section 11.1.2.7
+        access: ro
       - name: TXSTMPH
         offset: 0x1C
         width: 32
         description: TX Timestamp Value High
         spec_section: Section 11.1.2.7
+        access: ro
       - name: TSYNCRXCTL
         offset: 0x20
         width: 32
         description: RX Time Sync Control Register (0xB620; RW)
         spec_section: Section 11.1.2.7.1
+        access: rw
+        fields:
+          - name: RXTT
+            lsb: 0
+            width: 1
+            description: Rx timestamp valid (RO/V) - clears on read of RXSTMPH
+            spec_section: Section 11.1.2.7.2-3
+          - name: TYPE
+            lsb: 1
+            width: 3
+            description: Packet types to timestamp (V1/V2/All/Event)
+            spec_section: Section 11.1.2.7.1
+          - name: EN
+            lsb: 4
+            width: 1
+            description: Enable RX timestamping
+            spec_section: Section 11.1.2.7.1
+          - name: SYSCFI
+            lsb: 5
+            width: 1
+            description: System Clock Frequency Indication (0=25MHz, 1=96MHz)
+            spec_section: Section 11.1.2.7.1
       - name: RXSTMPL
         offset: 0x24
         width: 32
         description: RX Timestamp Low (0xB624; RO)
         spec_section: Section 11.1.2.7
+        access: ro
       - name: RXSTMPH
         offset: 0x28
         width: 32
         description: RX Timestamp High (0xB628; RO)
         spec_section: Section 11.1.2.7
+        access: ro
 
   - name: MAC_CTRL
     base: 0x00000
@@ -75,6 +116,43 @@ blocks:
         width: 32
         description: MDI Control
         access: rw
+        spec_section: Section 11.1.2.2.5
+        fields:
+          - name: DATA
+            lsb: 0
+            width: 16
+            description: MDIO read/write data
+            spec_section: Section 11.1.2.2.5
+          - name: REG
+            lsb: 16
+            width: 5
+            description: MDIO register address
+            spec_section: Section 11.1.2.2.5
+          - name: PHY
+            lsb: 21
+            width: 5
+            description: MDIO PHY address
+            spec_section: Section 11.1.2.2.5
+          - name: OP
+            lsb: 26
+            width: 2
+            description: MDIO operation (01=write, 10=read)
+            spec_section: Section 11.1.2.2.5
+          - name: R
+            lsb: 28
+            width: 1
+            description: Ready/busy status (1=busy in progress per spec timing)
+            spec_section: Section 11.1.2.2.5
+          - name: I
+            lsb: 29
+            width: 1
+            description: Interrupt (set when MDIO operation completes)
+            spec_section: Section 11.1.2.2.5
+          - name: E
+            lsb: 30
+            width: 1
+            description: Error indicator
+            spec_section: Section 11.1.2.2.5
 
   - name: INTERRUPTS
     base: 0x000C0
@@ -123,22 +201,27 @@ blocks:
         offset: 0x24
         width: 32
         description: Extended Interrupt Mask Set/Read
+        access: rw
       - name: EIMC
         offset: 0x28
         width: 32
         description: Extended Interrupt Mask Clear
+        access: wo
       - name: EIAC
         offset: 0x2C
         width: 32
         description: Extended Interrupt Auto Clear Enable
+        access: rw
       - name: EIAM
         offset: 0x30
         width: 32
         description: Extended Interrupt Auto Mask Enable
+        access: rw
       - name: EICR
         offset: 0x80
         width: 32
         description: Extended Interrupt Cause Read
+        access: rc/w1c
 
   - name: EITR
     base: 0x01680

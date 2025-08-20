@@ -10,22 +10,47 @@ extern "C" {
 
 /* Block PTP base: 0x0B600 */
 /* System time register Low */
+/* access=ro */
 #define I217_SYSTIML	0x0B600
 /* System time register High */
+/* access=ro */
 #define I217_SYSTIMH	0x0B604
 /* Time Increment Attributes */
+/* access=rw */
 #define I217_TIMINCA	0x0B608
 /* TX Time Sync Control Register (0xB614) */
+/* access=rw */
 #define I217_TSYNCTXCTL	0x0B614
+#define I217_TSYNCTXCTL_TXTT_SHIFT	0
+#define I217_TSYNCTXCTL_TXTT_MASK	(((1ULL<<1)-1ULL) << I217_TSYNCTXCTL_TXTT_SHIFT)
+#define I217_TSYNCTXCTL_EN_SHIFT	4
+#define I217_TSYNCTXCTL_EN_MASK	(((1ULL<<1)-1ULL) << I217_TSYNCTXCTL_EN_SHIFT)
+static inline unsigned long long I217_TSYNCTXCTL_GET(unsigned long long v, unsigned long long mask, unsigned shift) { return (v & mask) >> shift; }
+static inline unsigned long long I217_TSYNCTXCTL_SET(unsigned long long v, unsigned long long mask, unsigned shift, unsigned long long val) { return (v & ~mask) | ((val << shift) & mask); }
 /* TX Timestamp Value Low */
+/* access=ro */
 #define I217_TXSTMPL	0x0B618
 /* TX Timestamp Value High */
+/* access=ro */
 #define I217_TXSTMPH	0x0B61C
 /* RX Time Sync Control Register (0xB620; RW) */
+/* access=rw */
 #define I217_TSYNCRXCTL	0x0B620
+#define I217_TSYNCRXCTL_RXTT_SHIFT	0
+#define I217_TSYNCRXCTL_RXTT_MASK	(((1ULL<<1)-1ULL) << I217_TSYNCRXCTL_RXTT_SHIFT)
+#define I217_TSYNCRXCTL_TYPE_SHIFT	1
+#define I217_TSYNCRXCTL_TYPE_MASK	(((1ULL<<3)-1ULL) << I217_TSYNCRXCTL_TYPE_SHIFT)
+#define I217_TSYNCRXCTL_EN_SHIFT	4
+#define I217_TSYNCRXCTL_EN_MASK	(((1ULL<<1)-1ULL) << I217_TSYNCRXCTL_EN_SHIFT)
+#define I217_TSYNCRXCTL_SYSCFI_SHIFT	5
+#define I217_TSYNCRXCTL_SYSCFI_MASK	(((1ULL<<1)-1ULL) << I217_TSYNCRXCTL_SYSCFI_SHIFT)
+static inline unsigned long long I217_TSYNCRXCTL_GET(unsigned long long v, unsigned long long mask, unsigned shift) { return (v & mask) >> shift; }
+static inline unsigned long long I217_TSYNCRXCTL_SET(unsigned long long v, unsigned long long mask, unsigned shift, unsigned long long val) { return (v & ~mask) | ((val << shift) & mask); }
 /* RX Timestamp Low (0xB624; RO) */
+/* access=ro */
 #define I217_RXSTMPL	0x0B624
 /* RX Timestamp High (0xB628; RO) */
+/* access=ro */
 #define I217_RXSTMPH	0x0B628
 
 /* Block MAC_CTRL base: 0x00000 */
@@ -40,6 +65,22 @@ extern "C" {
 /* MDI Control */
 /* access=rw */
 #define I217_MDIC	0x00020
+#define I217_MDIC_DATA_SHIFT	0
+#define I217_MDIC_DATA_MASK	(((1ULL<<16)-1ULL) << I217_MDIC_DATA_SHIFT)
+#define I217_MDIC_REG_SHIFT	16
+#define I217_MDIC_REG_MASK	(((1ULL<<5)-1ULL) << I217_MDIC_REG_SHIFT)
+#define I217_MDIC_PHY_SHIFT	21
+#define I217_MDIC_PHY_MASK	(((1ULL<<5)-1ULL) << I217_MDIC_PHY_SHIFT)
+#define I217_MDIC_OP_SHIFT	26
+#define I217_MDIC_OP_MASK	(((1ULL<<2)-1ULL) << I217_MDIC_OP_SHIFT)
+#define I217_MDIC_R_SHIFT	28
+#define I217_MDIC_R_MASK	(((1ULL<<1)-1ULL) << I217_MDIC_R_SHIFT)
+#define I217_MDIC_I_SHIFT	29
+#define I217_MDIC_I_MASK	(((1ULL<<1)-1ULL) << I217_MDIC_I_SHIFT)
+#define I217_MDIC_E_SHIFT	30
+#define I217_MDIC_E_MASK	(((1ULL<<1)-1ULL) << I217_MDIC_E_SHIFT)
+static inline unsigned long long I217_MDIC_GET(unsigned long long v, unsigned long long mask, unsigned shift) { return (v & mask) >> shift; }
+static inline unsigned long long I217_MDIC_SET(unsigned long long v, unsigned long long mask, unsigned shift, unsigned long long val) { return (v & ~mask) | ((val << shift) & mask); }
 
 /* Block INTERRUPTS base: 0x000C0 */
 /* Interrupt Cause Read */
@@ -65,14 +106,19 @@ static inline unsigned long long I217_IMS_SET(unsigned long long v, unsigned lon
 
 /* Block EXT_INTERRUPTS base: 0x01500 */
 /* Extended Interrupt Mask Set/Read */
+/* access=rw */
 #define I217_EIMS	0x01524
 /* Extended Interrupt Mask Clear */
+/* access=wo */
 #define I217_EIMC	0x01528
 /* Extended Interrupt Auto Clear Enable */
+/* access=rw */
 #define I217_EIAC	0x0152C
 /* Extended Interrupt Auto Mask Enable */
+/* access=rw */
 #define I217_EIAM	0x01530
 /* Extended Interrupt Cause Read */
+/* access=rc/w1c */
 #define I217_EICR	0x01580
 
 /* Block EITR base: 0x01680 */
