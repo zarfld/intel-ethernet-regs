@@ -207,6 +207,14 @@ static inline unsigned long long I225_EICR_SET(unsigned long long v, unsigned lo
 /* Time Aware Shaper Control */
 /* access=rw */
 #define I225_TAS_CTRL	0x08600
+#define I225_TAS_CTRL_EN_SHIFT	0
+#define I225_TAS_CTRL_EN_MASK	(((1ULL<<1)-1ULL) << I225_TAS_CTRL_EN_SHIFT)
+#define I225_TAS_CTRL_GATE_LIST_SHIFT	1
+#define I225_TAS_CTRL_GATE_LIST_MASK	(((1ULL<<1)-1ULL) << I225_TAS_CTRL_GATE_LIST_SHIFT)
+#define I225_TAS_CTRL_BASE_TIME_SHIFT	2
+#define I225_TAS_CTRL_BASE_TIME_MASK	(((1ULL<<1)-1ULL) << I225_TAS_CTRL_BASE_TIME_SHIFT)
+static inline unsigned long long I225_TAS_CTRL_GET(unsigned long long v, unsigned long long mask, unsigned shift) { return (v & mask) >> shift; }
+static inline unsigned long long I225_TAS_CTRL_SET(unsigned long long v, unsigned long long mask, unsigned shift, unsigned long long val) { return (v & ~mask) | ((val << shift) & mask); }
 
 /* Block EITR base: 0x01680 */
 /* Interrupt Throttle for vector 0 */

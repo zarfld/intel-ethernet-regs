@@ -398,6 +398,22 @@ blocks:
         width: 32
         description: Time Aware Shaper Control
         access: rw
+        fields:
+          - name: EN
+            lsb: 0
+            width: 1
+            description: Enable Time Aware Shaper
+            spec_section: I225 TSN/TAS Control; see IEEE 802.1Qbv implementation notes
+          - name: GATE_LIST
+            lsb: 1
+            width: 1
+            description: Gate List Ready/Valid
+            spec_section: I225 TSN/TAS Control; see IEEE 802.1Qbv implementation notes
+          - name: BASE_TIME
+            lsb: 2
+            width: 1
+            description: Base Time Valid
+            spec_section: I225 TSN/TAS Control; see IEEE 802.1Qbv implementation notes
 
   - name: EITR
     base: 0x01680
