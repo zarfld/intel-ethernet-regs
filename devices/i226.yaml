@@ -484,18 +484,66 @@ blocks:
         offset: 0x0
         width: 32
         description: Interrupt Throttle for vector 0
+        spec_section: I226 (I225 family) SW Manual, Interrupt Moderation; see I210 Section 8.8.14 for behavior
+        fields:
+          - name: INTERVAL
+            lsb: 0
+            width: 16
+            description: Inter-interrupt interval (1 µs granularity)
+            spec_section: I225/I226 Software Manual 1.3, Section 6.3.5
+          - name: COUNTER
+            lsb: 16
+            width: 16
+            description: Current down-counter; write full register to reload
+            spec_section: I225/I226 Software Manual 1.3, Section 6.3.5
       - name: EITR1
         offset: 0x4
         width: 32
         description: Interrupt Throttle for vector 1
+        spec_section: I226 (I225 family) SW Manual, Interrupt Moderation; see I210 Section 8.8.14 for behavior
+        fields:
+          - name: INTERVAL
+            lsb: 0
+            width: 16
+            description: Inter-interrupt interval (1 µs granularity)
+            spec_section: I225/I226 Software Manual 1.3, Section 6.3.5
+          - name: COUNTER
+            lsb: 16
+            width: 16
+            description: Current down-counter; write full register to reload
+            spec_section: I225/I226 Software Manual 1.3, Section 6.3.5
       - name: EITR2
         offset: 0x8
         width: 32
         description: Interrupt Throttle for vector 2
+        spec_section: I226 (I225 family) SW Manual, Interrupt Moderation; see I210 Section 8.8.14 for behavior
+        fields:
+          - name: INTERVAL
+            lsb: 0
+            width: 16
+            description: Inter-interrupt interval (1 µs granularity)
+            spec_section: I225/I226 Software Manual 1.3, Section 6.3.5
+          - name: COUNTER
+            lsb: 16
+            width: 16
+            description: Current down-counter; write full register to reload
+            spec_section: I225/I226 Software Manual 1.3, Section 6.3.5
       - name: EITR3
         offset: 0xC
         width: 32
         description: Interrupt Throttle for vector 3
+        spec_section: I226 (I225 family) SW Manual, Interrupt Moderation; see I210 Section 8.8.14 for behavior
+        fields:
+          - name: INTERVAL
+            lsb: 0
+            width: 16
+            description: Inter-interrupt interval (1 µs granularity)
+            spec_section: I225/I226 Software Manual 1.3, Section 6.3.5
+          - name: COUNTER
+            lsb: 16
+            width: 16
+            description: Current down-counter; write full register to reload
+            spec_section: I225/I226 Software Manual 1.3, Section 6.3.5
 
   - name: MAC_ADDR
     base: 0x05400

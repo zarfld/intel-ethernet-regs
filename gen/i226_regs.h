@@ -254,12 +254,36 @@ static inline unsigned long long I226_FP_CONFIG_SET(unsigned long long v, unsign
 /* Block EITR base: 0x01680 */
 /* Interrupt Throttle for vector 0 */
 #define I226_EITR0	0x01680
+#define I226_EITR0_INTERVAL_SHIFT	0
+#define I226_EITR0_INTERVAL_MASK	(((1ULL<<16)-1ULL) << I226_EITR0_INTERVAL_SHIFT)
+#define I226_EITR0_COUNTER_SHIFT	16
+#define I226_EITR0_COUNTER_MASK	(((1ULL<<16)-1ULL) << I226_EITR0_COUNTER_SHIFT)
+static inline unsigned long long I226_EITR0_GET(unsigned long long v, unsigned long long mask, unsigned shift) { return (v & mask) >> shift; }
+static inline unsigned long long I226_EITR0_SET(unsigned long long v, unsigned long long mask, unsigned shift, unsigned long long val) { return (v & ~mask) | ((val << shift) & mask); }
 /* Interrupt Throttle for vector 1 */
 #define I226_EITR1	0x01684
+#define I226_EITR1_INTERVAL_SHIFT	0
+#define I226_EITR1_INTERVAL_MASK	(((1ULL<<16)-1ULL) << I226_EITR1_INTERVAL_SHIFT)
+#define I226_EITR1_COUNTER_SHIFT	16
+#define I226_EITR1_COUNTER_MASK	(((1ULL<<16)-1ULL) << I226_EITR1_COUNTER_SHIFT)
+static inline unsigned long long I226_EITR1_GET(unsigned long long v, unsigned long long mask, unsigned shift) { return (v & mask) >> shift; }
+static inline unsigned long long I226_EITR1_SET(unsigned long long v, unsigned long long mask, unsigned shift, unsigned long long val) { return (v & ~mask) | ((val << shift) & mask); }
 /* Interrupt Throttle for vector 2 */
 #define I226_EITR2	0x01688
+#define I226_EITR2_INTERVAL_SHIFT	0
+#define I226_EITR2_INTERVAL_MASK	(((1ULL<<16)-1ULL) << I226_EITR2_INTERVAL_SHIFT)
+#define I226_EITR2_COUNTER_SHIFT	16
+#define I226_EITR2_COUNTER_MASK	(((1ULL<<16)-1ULL) << I226_EITR2_COUNTER_SHIFT)
+static inline unsigned long long I226_EITR2_GET(unsigned long long v, unsigned long long mask, unsigned shift) { return (v & mask) >> shift; }
+static inline unsigned long long I226_EITR2_SET(unsigned long long v, unsigned long long mask, unsigned shift, unsigned long long val) { return (v & ~mask) | ((val << shift) & mask); }
 /* Interrupt Throttle for vector 3 */
 #define I226_EITR3	0x0168C
+#define I226_EITR3_INTERVAL_SHIFT	0
+#define I226_EITR3_INTERVAL_MASK	(((1ULL<<16)-1ULL) << I226_EITR3_INTERVAL_SHIFT)
+#define I226_EITR3_COUNTER_SHIFT	16
+#define I226_EITR3_COUNTER_MASK	(((1ULL<<16)-1ULL) << I226_EITR3_COUNTER_SHIFT)
+static inline unsigned long long I226_EITR3_GET(unsigned long long v, unsigned long long mask, unsigned shift) { return (v & mask) >> shift; }
+static inline unsigned long long I226_EITR3_SET(unsigned long long v, unsigned long long mask, unsigned shift, unsigned long long val) { return (v & ~mask) | ((val << shift) & mask); }
 
 /* Block MAC_ADDR base: 0x05400 */
 /* Receive Address Low 0 (lower 32 bits of MAC) */

@@ -207,23 +207,49 @@ static inline unsigned long long I225_EICR_SET(unsigned long long v, unsigned lo
 /* Time Aware Shaper Control */
 /* access=rw */
 #define I225_TAS_CTRL	0x08600
-#define I225_TAS_CTRL_EN_SHIFT	0
-#define I225_TAS_CTRL_EN_MASK	(((1ULL<<1)-1ULL) << I225_TAS_CTRL_EN_SHIFT)
-#define I225_TAS_CTRL_GATE_LIST_SHIFT	1
-#define I225_TAS_CTRL_GATE_LIST_MASK	(((1ULL<<1)-1ULL) << I225_TAS_CTRL_GATE_LIST_SHIFT)
-#define I225_TAS_CTRL_BASE_TIME_SHIFT	2
-#define I225_TAS_CTRL_BASE_TIME_MASK	(((1ULL<<1)-1ULL) << I225_TAS_CTRL_BASE_TIME_SHIFT)
-static inline unsigned long long I225_TAS_CTRL_GET(unsigned long long v, unsigned long long mask, unsigned shift) { return (v & mask) >> shift; }
-static inline unsigned long long I225_TAS_CTRL_SET(unsigned long long v, unsigned long long mask, unsigned shift, unsigned long long val) { return (v & ~mask) | ((val << shift) & mask); }
+
+/* Block EITR base: 0x01680 */
+/* Interrupt Throttle for vector 0 */
+#define I225_EITR0	0x01680
+#define I225_EITR0_INTERVAL_SHIFT	0
+#define I225_EITR0_INTERVAL_MASK	(((1ULL<<16)-1ULL) << I225_EITR0_INTERVAL_SHIFT)
+#define I225_EITR0_COUNTER_SHIFT	16
+#define I225_EITR0_COUNTER_MASK	(((1ULL<<16)-1ULL) << I225_EITR0_COUNTER_SHIFT)
+static inline unsigned long long I225_EITR0_GET(unsigned long long v, unsigned long long mask, unsigned shift) { return (v & mask) >> shift; }
+static inline unsigned long long I225_EITR0_SET(unsigned long long v, unsigned long long mask, unsigned shift, unsigned long long val) { return (v & ~mask) | ((val << shift) & mask); }
+/* Interrupt Throttle for vector 1 */
+#define I225_EITR1	0x01684
+#define I225_EITR1_INTERVAL_SHIFT	0
+#define I225_EITR1_INTERVAL_MASK	(((1ULL<<16)-1ULL) << I225_EITR1_INTERVAL_SHIFT)
+#define I225_EITR1_COUNTER_SHIFT	16
+#define I225_EITR1_COUNTER_MASK	(((1ULL<<16)-1ULL) << I225_EITR1_COUNTER_SHIFT)
+static inline unsigned long long I225_EITR1_GET(unsigned long long v, unsigned long long mask, unsigned shift) { return (v & mask) >> shift; }
+static inline unsigned long long I225_EITR1_SET(unsigned long long v, unsigned long long mask, unsigned shift, unsigned long long val) { return (v & ~mask) | ((val << shift) & mask); }
+/* Interrupt Throttle for vector 2 */
+#define I225_EITR2	0x01688
+#define I225_EITR2_INTERVAL_SHIFT	0
+#define I225_EITR2_INTERVAL_MASK	(((1ULL<<16)-1ULL) << I225_EITR2_INTERVAL_SHIFT)
+#define I225_EITR2_COUNTER_SHIFT	16
+#define I225_EITR2_COUNTER_MASK	(((1ULL<<16)-1ULL) << I225_EITR2_COUNTER_SHIFT)
+static inline unsigned long long I225_EITR2_GET(unsigned long long v, unsigned long long mask, unsigned shift) { return (v & mask) >> shift; }
+static inline unsigned long long I225_EITR2_SET(unsigned long long v, unsigned long long mask, unsigned shift, unsigned long long val) { return (v & ~mask) | ((val << shift) & mask); }
+/* Interrupt Throttle for vector 3 */
+#define I225_EITR3	0x0168C
+#define I225_EITR3_INTERVAL_SHIFT	0
+#define I225_EITR3_INTERVAL_MASK	(((1ULL<<16)-1ULL) << I225_EITR3_INTERVAL_SHIFT)
+#define I225_EITR3_COUNTER_SHIFT	16
+#define I225_EITR3_COUNTER_MASK	(((1ULL<<16)-1ULL) << I225_EITR3_COUNTER_SHIFT)
+static inline unsigned long long I225_EITR3_GET(unsigned long long v, unsigned long long mask, unsigned shift) { return (v & mask) >> shift; }
+static inline unsigned long long I225_EITR3_SET(unsigned long long v, unsigned long long mask, unsigned shift, unsigned long long val) { return (v & ~mask) | ((val << shift) & mask); }
 /* TAS Base Time Low / Cycle Config */
 /* access=rw */
-#define I225_TAS_CONFIG0	0x08604
+#define I225_TAS_CONFIG0	0x01684
 /* TAS Base Time High */
 /* access=rw */
-#define I225_TAS_CONFIG1	0x08608
+#define I225_TAS_CONFIG1	0x01688
 /* TAS Gate List Base */
 /* access=rw */
-#define I225_TAS_GATE_LIST	0x08610
+#define I225_TAS_GATE_LIST	0x01690
 
 /* Block FRAME_PREEMPTION base: 0x08700 */
 /* Frame Preemption Config */
@@ -250,16 +276,6 @@ static inline unsigned long long I225_FP_CONFIG_SET(unsigned long long v, unsign
 #define I225_FWSWMB	0x08F04
 /* FW Status 0 register (RO) */
 #define I225_FWSTS	0x08F0C
-
-/* Block EITR base: 0x01680 */
-/* Interrupt Throttle for vector 0 */
-#define I225_EITR0	0x01680
-/* Interrupt Throttle for vector 1 */
-#define I225_EITR1	0x01684
-/* Interrupt Throttle for vector 2 */
-#define I225_EITR2	0x01688
-/* Interrupt Throttle for vector 3 */
-#define I225_EITR3	0x0168C
 
 /* Block MAC_ADDR base: 0x05400 */
 /* Receive Address Low 0 (lower 32 bits of MAC) */
