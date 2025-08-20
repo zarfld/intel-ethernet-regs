@@ -29,6 +29,43 @@ blocks:
         width: 32
         description: MDI Control
         spec_section: Section 11.1.2.2.5
+        access: rw
+        fields:
+          - name: DATA
+            lsb: 0
+            width: 16
+            description: MDIO read/write data
+            spec_section: Section 11.1.2.2.5
+          - name: REG
+            lsb: 16
+            width: 5
+            description: MDIO register address
+            spec_section: Section 11.1.2.2.5
+          - name: PHY
+            lsb: 21
+            width: 5
+            description: MDIO PHY address
+            spec_section: Section 11.1.2.2.5
+          - name: OP
+            lsb: 26
+            width: 2
+            description: MDIO operation (01=write, 10=read)
+            spec_section: Section 11.1.2.2.5
+          - name: R
+            lsb: 28
+            width: 1
+            description: Ready/busy status
+            spec_section: Section 11.1.2.2.5
+          - name: I
+            lsb: 29
+            width: 1
+            description: Interrupt (set when MDIO operation completes)
+            spec_section: Section 11.1.2.2.5
+          - name: E
+            lsb: 30
+            width: 1
+            description: Error indicator
+            spec_section: Section 11.1.2.2.5
 
   - name: INTERRUPTS
     base: 0x000C0
@@ -36,23 +73,89 @@ blocks:
       - name: ICR
         offset: 0x0
         width: 32
-        description: Interrupt Cause Read (RC/WC)
+        description: Interrupt Cause Read
         spec_section: Section 11.1.2.2.22
+        access: rc/w1c
+        fields:
+          - name: TXDW
+            lsb: 0
+            width: 1
+            description: Transmit Descriptor Written Back
+            spec_section: Section 11.1.2.2.22
+          - name: TXQE
+            lsb: 1
+            width: 1
+            description: Transmit Queue Empty
+            spec_section: Section 11.1.2.2.22
+          - name: LSC
+            lsb: 2
+            width: 1
+            description: Link Status Change
+            spec_section: Section 11.1.2.2.22
+          - name: RXDMT0
+            lsb: 4
+            width: 1
+            description: Receive Descriptor Minimum Threshold hit
+            spec_section: Section 11.1.2.2.22
+          - name: RXO
+            lsb: 6
+            width: 1
+            description: Receiver Overrun
+            spec_section: Section 11.1.2.2.22
+          - name: RXT0
+            lsb: 7
+            width: 1
+            description: Receiver Timer Interrupt
+            spec_section: Section 11.1.2.2.22
       - name: ICS
         offset: 0x8
         width: 32
-        description: Interrupt Cause Set (WO)
+        description: Interrupt Cause Set
         spec_section: Section 11.1.2.2.24
+        access: wo
       - name: IMS
         offset: 0x10
         width: 32
-        description: Interrupt Mask Set/Read (RW)
+        description: Interrupt Mask Set/Read
         spec_section: Section 11.1.2.2.25
+        access: rw
+        fields:
+          - name: TXDW
+            lsb: 0
+            width: 1
+            description: Mask for Transmit Descriptor Written Back
+            spec_section: Section 11.1.2.2.25
+          - name: TXQE
+            lsb: 1
+            width: 1
+            description: Mask for Transmit Queue Empty
+            spec_section: Section 11.1.2.2.25
+          - name: LSC
+            lsb: 2
+            width: 1
+            description: Link Status Change mask
+            spec_section: Section 11.1.2.2.25
+          - name: RXDMT0
+            lsb: 4
+            width: 1
+            description: Mask for Receive Descriptor Minimum Threshold hit
+            spec_section: Section 11.1.2.2.25
+          - name: RXO
+            lsb: 6
+            width: 1
+            description: Mask for Receiver Overrun
+            spec_section: Section 11.1.2.2.25
+          - name: RXT0
+            lsb: 7
+            width: 1
+            description: Mask for Receiver Timer Interrupt
+            spec_section: Section 11.1.2.2.25
       - name: IMC
         offset: 0x18
         width: 32
-        description: Interrupt Mask Clear (WO)
+        description: Interrupt Mask Clear
         spec_section: Section 11.1.2.2.26
+        access: wo
 
   - name: EITR
     base: 0x01680

@@ -18,16 +18,65 @@ extern "C" {
 
 /* Block MDIO base: 0x00020 */
 /* MDI Control */
+/* access=rw */
 #define I219_MDIC	0x00020
+#define I219_MDIC_DATA_SHIFT	0
+#define I219_MDIC_DATA_MASK	(((1ULL<<16)-1ULL) << I219_MDIC_DATA_SHIFT)
+#define I219_MDIC_REG_SHIFT	16
+#define I219_MDIC_REG_MASK	(((1ULL<<5)-1ULL) << I219_MDIC_REG_SHIFT)
+#define I219_MDIC_PHY_SHIFT	21
+#define I219_MDIC_PHY_MASK	(((1ULL<<5)-1ULL) << I219_MDIC_PHY_SHIFT)
+#define I219_MDIC_OP_SHIFT	26
+#define I219_MDIC_OP_MASK	(((1ULL<<2)-1ULL) << I219_MDIC_OP_SHIFT)
+#define I219_MDIC_R_SHIFT	28
+#define I219_MDIC_R_MASK	(((1ULL<<1)-1ULL) << I219_MDIC_R_SHIFT)
+#define I219_MDIC_I_SHIFT	29
+#define I219_MDIC_I_MASK	(((1ULL<<1)-1ULL) << I219_MDIC_I_SHIFT)
+#define I219_MDIC_E_SHIFT	30
+#define I219_MDIC_E_MASK	(((1ULL<<1)-1ULL) << I219_MDIC_E_SHIFT)
+static inline unsigned long long I219_MDIC_GET(unsigned long long v, unsigned long long mask, unsigned shift) { return (v & mask) >> shift; }
+static inline unsigned long long I219_MDIC_SET(unsigned long long v, unsigned long long mask, unsigned shift, unsigned long long val) { return (v & ~mask) | ((val << shift) & mask); }
 
 /* Block INTERRUPTS base: 0x000C0 */
-/* Interrupt Cause Read (RC/WC) */
+/* Interrupt Cause Read */
+/* access=rc/w1c */
 #define I219_ICR	0x000C0
-/* Interrupt Cause Set (WO) */
+#define I219_ICR_TXDW_SHIFT	0
+#define I219_ICR_TXDW_MASK	(((1ULL<<1)-1ULL) << I219_ICR_TXDW_SHIFT)
+#define I219_ICR_TXQE_SHIFT	1
+#define I219_ICR_TXQE_MASK	(((1ULL<<1)-1ULL) << I219_ICR_TXQE_SHIFT)
+#define I219_ICR_LSC_SHIFT	2
+#define I219_ICR_LSC_MASK	(((1ULL<<1)-1ULL) << I219_ICR_LSC_SHIFT)
+#define I219_ICR_RXDMT0_SHIFT	4
+#define I219_ICR_RXDMT0_MASK	(((1ULL<<1)-1ULL) << I219_ICR_RXDMT0_SHIFT)
+#define I219_ICR_RXO_SHIFT	6
+#define I219_ICR_RXO_MASK	(((1ULL<<1)-1ULL) << I219_ICR_RXO_SHIFT)
+#define I219_ICR_RXT0_SHIFT	7
+#define I219_ICR_RXT0_MASK	(((1ULL<<1)-1ULL) << I219_ICR_RXT0_SHIFT)
+static inline unsigned long long I219_ICR_GET(unsigned long long v, unsigned long long mask, unsigned shift) { return (v & mask) >> shift; }
+static inline unsigned long long I219_ICR_SET(unsigned long long v, unsigned long long mask, unsigned shift, unsigned long long val) { return (v & ~mask) | ((val << shift) & mask); }
+/* Interrupt Cause Set */
+/* access=wo */
 #define I219_ICS	0x000C8
-/* Interrupt Mask Set/Read (RW) */
+/* Interrupt Mask Set/Read */
+/* access=rw */
 #define I219_IMS	0x000D0
-/* Interrupt Mask Clear (WO) */
+#define I219_IMS_TXDW_SHIFT	0
+#define I219_IMS_TXDW_MASK	(((1ULL<<1)-1ULL) << I219_IMS_TXDW_SHIFT)
+#define I219_IMS_TXQE_SHIFT	1
+#define I219_IMS_TXQE_MASK	(((1ULL<<1)-1ULL) << I219_IMS_TXQE_SHIFT)
+#define I219_IMS_LSC_SHIFT	2
+#define I219_IMS_LSC_MASK	(((1ULL<<1)-1ULL) << I219_IMS_LSC_SHIFT)
+#define I219_IMS_RXDMT0_SHIFT	4
+#define I219_IMS_RXDMT0_MASK	(((1ULL<<1)-1ULL) << I219_IMS_RXDMT0_SHIFT)
+#define I219_IMS_RXO_SHIFT	6
+#define I219_IMS_RXO_MASK	(((1ULL<<1)-1ULL) << I219_IMS_RXO_SHIFT)
+#define I219_IMS_RXT0_SHIFT	7
+#define I219_IMS_RXT0_MASK	(((1ULL<<1)-1ULL) << I219_IMS_RXT0_SHIFT)
+static inline unsigned long long I219_IMS_GET(unsigned long long v, unsigned long long mask, unsigned shift) { return (v & mask) >> shift; }
+static inline unsigned long long I219_IMS_SET(unsigned long long v, unsigned long long mask, unsigned shift, unsigned long long val) { return (v & ~mask) | ((val << shift) & mask); }
+/* Interrupt Mask Clear */
+/* access=wo */
 #define I219_IMC	0x000D8
 
 /* Block EITR base: 0x01680 */
