@@ -86,8 +86,18 @@ static inline unsigned long long I217_MDIC_SET(unsigned long long v, unsigned lo
 /* Interrupt Cause Read */
 /* access=rc/w1c */
 #define I217_ICR	0x000C0
+#define I217_ICR_TXDW_SHIFT	0
+#define I217_ICR_TXDW_MASK	(((1ULL<<1)-1ULL) << I217_ICR_TXDW_SHIFT)
+#define I217_ICR_TXQE_SHIFT	1
+#define I217_ICR_TXQE_MASK	(((1ULL<<1)-1ULL) << I217_ICR_TXQE_SHIFT)
 #define I217_ICR_LSC_SHIFT	2
 #define I217_ICR_LSC_MASK	(((1ULL<<1)-1ULL) << I217_ICR_LSC_SHIFT)
+#define I217_ICR_RXDMT0_SHIFT	4
+#define I217_ICR_RXDMT0_MASK	(((1ULL<<1)-1ULL) << I217_ICR_RXDMT0_SHIFT)
+#define I217_ICR_RXO_SHIFT	6
+#define I217_ICR_RXO_MASK	(((1ULL<<1)-1ULL) << I217_ICR_RXO_SHIFT)
+#define I217_ICR_RXT0_SHIFT	7
+#define I217_ICR_RXT0_MASK	(((1ULL<<1)-1ULL) << I217_ICR_RXT0_SHIFT)
 static inline unsigned long long I217_ICR_GET(unsigned long long v, unsigned long long mask, unsigned shift) { return (v & mask) >> shift; }
 static inline unsigned long long I217_ICR_SET(unsigned long long v, unsigned long long mask, unsigned shift, unsigned long long val) { return (v & ~mask) | ((val << shift) & mask); }
 /* Interrupt Cause Set */
@@ -96,30 +106,23 @@ static inline unsigned long long I217_ICR_SET(unsigned long long v, unsigned lon
 /* Interrupt Mask Set/Read */
 /* access=rw */
 #define I217_IMS	0x000D0
+#define I217_IMS_TXDW_SHIFT	0
+#define I217_IMS_TXDW_MASK	(((1ULL<<1)-1ULL) << I217_IMS_TXDW_SHIFT)
+#define I217_IMS_TXQE_SHIFT	1
+#define I217_IMS_TXQE_MASK	(((1ULL<<1)-1ULL) << I217_IMS_TXQE_SHIFT)
 #define I217_IMS_LSC_SHIFT	2
 #define I217_IMS_LSC_MASK	(((1ULL<<1)-1ULL) << I217_IMS_LSC_SHIFT)
+#define I217_IMS_RXDMT0_SHIFT	4
+#define I217_IMS_RXDMT0_MASK	(((1ULL<<1)-1ULL) << I217_IMS_RXDMT0_SHIFT)
+#define I217_IMS_RXO_SHIFT	6
+#define I217_IMS_RXO_MASK	(((1ULL<<1)-1ULL) << I217_IMS_RXO_SHIFT)
+#define I217_IMS_RXT0_SHIFT	7
+#define I217_IMS_RXT0_MASK	(((1ULL<<1)-1ULL) << I217_IMS_RXT0_SHIFT)
 static inline unsigned long long I217_IMS_GET(unsigned long long v, unsigned long long mask, unsigned shift) { return (v & mask) >> shift; }
 static inline unsigned long long I217_IMS_SET(unsigned long long v, unsigned long long mask, unsigned shift, unsigned long long val) { return (v & ~mask) | ((val << shift) & mask); }
 /* Interrupt Mask Clear */
 /* access=wo */
 #define I217_IMC	0x000D8
-
-/* Block EXT_INTERRUPTS base: 0x01500 */
-/* Extended Interrupt Mask Set/Read */
-/* access=rw */
-#define I217_EIMS	0x01524
-/* Extended Interrupt Mask Clear */
-/* access=wo */
-#define I217_EIMC	0x01528
-/* Extended Interrupt Auto Clear Enable */
-/* access=rw */
-#define I217_EIAC	0x0152C
-/* Extended Interrupt Auto Mask Enable */
-/* access=rw */
-#define I217_EIAM	0x01530
-/* Extended Interrupt Cause Read */
-/* access=rc/w1c */
-#define I217_EICR	0x01580
 
 /* Block EITR base: 0x01680 */
 /* Interrupt Throttling Rate Vector 0 */

@@ -164,10 +164,35 @@ blocks:
         access: rc/w1c
         spec_section: Section 11.1.2.2.22
         fields:
+          - name: TXDW
+            lsb: 0
+            width: 1
+            description: Transmit Descriptor Written Back
+            spec_section: Section 11.1.2.2.22
+          - name: TXQE
+            lsb: 1
+            width: 1
+            description: Transmit Queue Empty
+            spec_section: Section 11.1.2.2.22
           - name: LSC
             lsb: 2
             width: 1
             description: Link Status Change
+            spec_section: Section 11.1.2.2.22
+          - name: RXDMT0
+            lsb: 4
+            width: 1
+            description: Receive Descriptor Minimum Threshold hit
+            spec_section: Section 11.1.2.2.22
+          - name: RXO
+            lsb: 6
+            width: 1
+            description: Receiver Overrun
+            spec_section: Section 11.1.2.2.22
+          - name: RXT0
+            lsb: 7
+            width: 1
+            description: Receiver Timer Interrupt
             spec_section: Section 11.1.2.2.22
       - name: ICS
         offset: 0x8
@@ -182,10 +207,35 @@ blocks:
         access: rw
         spec_section: Section 11.1.2.2.25
         fields:
+          - name: TXDW
+            lsb: 0
+            width: 1
+            description: Mask for Transmit Descriptor Written Back
+            spec_section: Section 11.1.2.2.25
+          - name: TXQE
+            lsb: 1
+            width: 1
+            description: Mask for Transmit Queue Empty
+            spec_section: Section 11.1.2.2.25
           - name: LSC
             lsb: 2
             width: 1
             description: Link Status Change mask
+            spec_section: Section 11.1.2.2.25
+          - name: RXDMT0
+            lsb: 4
+            width: 1
+            description: Mask for Receive Descriptor Minimum Threshold hit
+            spec_section: Section 11.1.2.2.25
+          - name: RXO
+            lsb: 6
+            width: 1
+            description: Mask for Receiver Overrun
+            spec_section: Section 11.1.2.2.25
+          - name: RXT0
+            lsb: 7
+            width: 1
+            description: Mask for Receiver Timer Interrupt
             spec_section: Section 11.1.2.2.25
       - name: IMC
         offset: 0x18
@@ -193,35 +243,6 @@ blocks:
         description: Interrupt Mask Clear
         access: wo
         spec_section: Section 11.1.2.2.26
-
-  - name: EXT_INTERRUPTS
-    base: 0x01500
-    registers:
-      - name: EIMS
-        offset: 0x24
-        width: 32
-        description: Extended Interrupt Mask Set/Read
-        access: rw
-      - name: EIMC
-        offset: 0x28
-        width: 32
-        description: Extended Interrupt Mask Clear
-        access: wo
-      - name: EIAC
-        offset: 0x2C
-        width: 32
-        description: Extended Interrupt Auto Clear Enable
-        access: rw
-      - name: EIAM
-        offset: 0x30
-        width: 32
-        description: Extended Interrupt Auto Mask Enable
-        access: rw
-      - name: EICR
-        offset: 0x80
-        width: 32
-        description: Extended Interrupt Cause Read
-        access: rc/w1c
 
   - name: EITR
     base: 0x01680
