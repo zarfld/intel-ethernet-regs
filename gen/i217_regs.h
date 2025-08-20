@@ -38,16 +38,29 @@ extern "C" {
 
 /* Block MDIC base: 0x00020 */
 /* MDI Control */
+/* access=rw */
 #define I217_MDIC	0x00020
 
 /* Block INTERRUPTS base: 0x000C0 */
 /* Interrupt Cause Read */
+/* access=rc/w1c */
 #define I217_ICR	0x000C0
+#define I217_ICR_LSC_SHIFT	2
+#define I217_ICR_LSC_MASK	(((1ULL<<1)-1ULL) << I217_ICR_LSC_SHIFT)
+static inline unsigned long long I217_ICR_GET(unsigned long long v, unsigned long long mask, unsigned shift) { return (v & mask) >> shift; }
+static inline unsigned long long I217_ICR_SET(unsigned long long v, unsigned long long mask, unsigned shift, unsigned long long val) { return (v & ~mask) | ((val << shift) & mask); }
 /* Interrupt Cause Set */
+/* access=wo */
 #define I217_ICS	0x000C8
 /* Interrupt Mask Set/Read */
+/* access=rw */
 #define I217_IMS	0x000D0
+#define I217_IMS_LSC_SHIFT	2
+#define I217_IMS_LSC_MASK	(((1ULL<<1)-1ULL) << I217_IMS_LSC_SHIFT)
+static inline unsigned long long I217_IMS_GET(unsigned long long v, unsigned long long mask, unsigned shift) { return (v & mask) >> shift; }
+static inline unsigned long long I217_IMS_SET(unsigned long long v, unsigned long long mask, unsigned shift, unsigned long long val) { return (v & ~mask) | ((val << shift) & mask); }
 /* Interrupt Mask Clear */
+/* access=wo */
 #define I217_IMC	0x000D8
 
 /* Block EXT_INTERRUPTS base: 0x01500 */

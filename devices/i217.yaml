@@ -74,6 +74,7 @@ blocks:
         offset: 0x0
         width: 32
         description: MDI Control
+        access: rw
 
   - name: INTERRUPTS
     base: 0x000C0
@@ -82,18 +83,38 @@ blocks:
         offset: 0x0
         width: 32
         description: Interrupt Cause Read
+        access: rc/w1c
+        spec_section: Section 11.1.2.2.22
+        fields:
+          - name: LSC
+            lsb: 2
+            width: 1
+            description: Link Status Change
+            spec_section: Section 11.1.2.2.22
       - name: ICS
         offset: 0x8
         width: 32
         description: Interrupt Cause Set
+        access: wo
+        spec_section: Section 11.1.2.2.24
       - name: IMS
         offset: 0x10
         width: 32
         description: Interrupt Mask Set/Read
+        access: rw
+        spec_section: Section 11.1.2.2.25
+        fields:
+          - name: LSC
+            lsb: 2
+            width: 1
+            description: Link Status Change mask
+            spec_section: Section 11.1.2.2.25
       - name: IMC
         offset: 0x18
         width: 32
         description: Interrupt Mask Clear
+        access: wo
+        spec_section: Section 11.1.2.2.26
 
   - name: EXT_INTERRUPTS
     base: 0x01500
