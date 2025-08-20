@@ -25,6 +25,7 @@ def gen_header(device_yaml: str, out_dir: str):
         data = yaml.safe_load(f)
     device = data['device']
     blocks = data.get('blocks', [])
+    pcie_caps = data.get('pcie_caps', [])
     name = device.upper()
 
     lines = [HEADER_PROLOGUE]
@@ -42,6 +43,42 @@ def gen_header(device_yaml: str, out_dir: str):
                 return int(v, 16)
             return int(v)
         raise TypeError(f"Unsupported numeric type: {type(v)}")
+
+    # Emit PCIe capability constants (cap IDs and relative offsets)
+    if pcie_caps:
+        lines.append(f"/* PCI/PCIe Capabilities for {name} (PCI config space) */")
+        # Generic helper macros for capability scanning (header-defined only)
+        lines.append(f"#define {name}_PCIE_CAP_ID(vid)\t(vid)")
+        for cap in pcie_caps:
+            cap_name = str(cap.get('name', 'CAP')).upper()
+            cap_id = cap.get('cap_id')
+            cap_id_val = None
+            if isinstance(cap_id, int):
+                cap_id_val = cap_id
+            elif isinstance(cap_id, str):
+                cap_id_val = int(cap_id, 16) if cap_id.lower().startswith('0x') else int(cap_id)
+            else:
+                cap_id_val = 0
+            lines.append(f"#define {name}_{cap_name}_CAP_ID\t0x{cap_id_val:04X}")
+            # Registers within the capability
+            for reg in cap.get('registers', []):
+                rname = f"{cap_name}_{str(reg.get('name','REG')).upper()}"
+                roff = reg.get('offset', '0x0')
+                if isinstance(roff, int):
+                    off_val = roff
+                else:
+                    off_val = int(roff, 16) if roff.lower().startswith('0x') else int(roff)
+                lines.append(f"#define {name}_{rname}\t0x{off_val:02X}")
+                fields = reg.get('fields', [])
+                for fld in fields:
+                    fname = f"{rname}_{fld['name'].upper()}"
+                    lsb = int(fld['lsb'])
+                    fwidth = int(fld['width'])
+                    mask_expr = f"((1U<<{fwidth})-1U)" if fwidth < 32 else "0xFFFFFFFFU"
+                    lines.append(f"#define {name}_{fname}_SHIFT\t{lsb}")
+                    lines.append(f"#define {name}_{fname}_MASK\t({mask_expr} << {name}_{fname}_SHIFT)")
+            lines.append("")
+        lines.append("")
 
     for blk in blocks:
         base = parse_hex_or_int(blk['base'])

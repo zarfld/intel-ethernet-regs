@@ -8,6 +8,42 @@ extern "C" {
 #ifndef INTEL_I225_REGS_H
 #define INTEL_I225_REGS_H
 
+/* PCI/PCIe Capabilities for I225 (PCI config space) */
+#define I225_PCIE_CAP_ID(vid)	(vid)
+#define I225_MSI_X_CAP_ID	0x0011
+#define I225_MSI_X_MSGCTL	0x02
+#define I225_MSI_X_MSGCTL_TBL_SIZE_SHIFT	0
+#define I225_MSI_X_MSGCTL_TBL_SIZE_MASK	(((1U<<11)-1U) << I225_MSI_X_MSGCTL_TBL_SIZE_SHIFT)
+#define I225_MSI_X_MSGCTL_FE_SHIFT	14
+#define I225_MSI_X_MSGCTL_FE_MASK	(((1U<<1)-1U) << I225_MSI_X_MSGCTL_FE_SHIFT)
+#define I225_MSI_X_MSGCTL_EN_SHIFT	15
+#define I225_MSI_X_MSGCTL_EN_MASK	(((1U<<1)-1U) << I225_MSI_X_MSGCTL_EN_SHIFT)
+#define I225_MSI_X_TBL	0x04
+#define I225_MSI_X_PBA	0x08
+
+#define I225_LTR_CAP_ID	0x0018
+#define I225_LTR_CAP	0x04
+#define I225_LTR_CTRL	0x06
+
+#define I225_L1SS_CAP_ID	0x001E
+#define I225_L1SS_CAP	0x04
+#define I225_L1SS_CTRL1	0x08
+#define I225_L1SS_CTRL2	0x0C
+
+#define I225_PTM_CAP_ID	0x001F
+#define I225_PTM_CAP	0x04
+#define I225_PTM_CAP_GRANULARITY_SHIFT	8
+#define I225_PTM_CAP_GRANULARITY_MASK	(((1U<<8)-1U) << I225_PTM_CAP_GRANULARITY_SHIFT)
+#define I225_PTM_CTRL	0x08
+#define I225_PTM_CTRL_EN_SHIFT	0
+#define I225_PTM_CTRL_EN_MASK	(((1U<<1)-1U) << I225_PTM_CTRL_EN_SHIFT)
+#define I225_PTM_CTRL_RCPTM_EN_SHIFT	1
+#define I225_PTM_CTRL_RCPTM_EN_MASK	(((1U<<1)-1U) << I225_PTM_CTRL_RCPTM_EN_SHIFT)
+#define I225_PTM_STATUS	0x0A
+#define I225_PTM_STATUS_PTM_RESP_BUSY_SHIFT	0
+#define I225_PTM_STATUS_PTM_RESP_BUSY_MASK	(((1U<<1)-1U) << I225_PTM_STATUS_PTM_RESP_BUSY_SHIFT)
+
+
 /* Block PTP base: 0x0B600 */
 /* System time register Low */
 /* access=ro */
@@ -207,21 +243,13 @@ static inline unsigned long long I225_FP_CONFIG_SET(unsigned long long v, unsign
 /* access=ro */
 #define I225_FP_STATUS	0x08704
 
-/* Block PTM base: 0x08800 */
-/* PCIe PTM Configuration */
-/* access=rw */
-#define I225_PTM_CONFIG	0x08800
-#define I225_PTM_CONFIG_EN_SHIFT	0
-#define I225_PTM_CONFIG_EN_MASK	(((1ULL<<1)-1ULL) << I225_PTM_CONFIG_EN_SHIFT)
-#define I225_PTM_CONFIG_AUTO_UPD_SHIFT	1
-#define I225_PTM_CONFIG_AUTO_UPD_MASK	(((1ULL<<1)-1ULL) << I225_PTM_CONFIG_AUTO_UPD_SHIFT)
-#define I225_PTM_CONFIG_CLOCK_GRANULARITY_SHIFT	8
-#define I225_PTM_CONFIG_CLOCK_GRANULARITY_MASK	(((1ULL<<8)-1ULL) << I225_PTM_CONFIG_CLOCK_GRANULARITY_SHIFT)
-static inline unsigned long long I225_PTM_CONFIG_GET(unsigned long long v, unsigned long long mask, unsigned shift) { return (v & mask) >> shift; }
-static inline unsigned long long I225_PTM_CONFIG_SET(unsigned long long v, unsigned long long mask, unsigned shift, unsigned long long val) { return (v & ~mask) | ((val << shift) & mask); }
-/* PCIe PTM Status */
-/* access=ro */
-#define I225_PTM_STATUS	0x08804
+/* Block MANAGEABILITY base: 0x08800 */
+/* HOST Interface Control Register (RW) */
+#define I225_HICR	0x08F00
+/* Firmware Software Mailbox Register (RW) */
+#define I225_FWSWMB	0x08F04
+/* FW Status 0 register (RO) */
+#define I225_FWSTS	0x08F0C
 
 /* Block EITR base: 0x01680 */
 /* Interrupt Throttle for vector 0 */

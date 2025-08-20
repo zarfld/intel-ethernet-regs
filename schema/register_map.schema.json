@@ -7,6 +7,54 @@
     "device": { "type": "string" },
     "version": { "type": "string" },
     "spec_reference": { "type": "string" },
+    "pcie_caps": {
+      "type": "array",
+      "description": "PCI/PCIe capabilities present in PCI configuration space. Use cap_id to locate at runtime; offsets are relative to the capability header base.",
+      "items": {
+        "type": "object",
+        "required": ["name", "cap_id"],
+        "properties": {
+          "name": { "type": "string" },
+          "type": { "type": "string", "enum": ["std", "ext"], "description": "Standard capability (linked from 0x34) or Extended capability (linked from 0x100). Default: ext for >0xFF cap_id, std otherwise." },
+          "cap_id": { "type": ["string", "integer"], "description": "Capability ID (e.g., 0x11 for MSI-X, 0x001F for PTM)." },
+          "spec_section": { "type": "string" },
+          "registers": {
+            "type": "array",
+            "description": "Registers within the capability structure, offsets relative to the capability base (byte offsets).",
+            "items": {
+              "type": "object",
+              "required": ["name", "offset"],
+              "properties": {
+                "name": { "type": "string" },
+                "offset": { "type": "string", "pattern": "^0x[0-9A-Fa-f]+$" },
+                "width": { "type": "integer", "enum": [8, 16, 32] },
+                "description": { "type": "string" },
+                "spec_section": { "type": "string" },
+                "fields": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "required": ["name", "lsb", "width"],
+                    "properties": {
+                      "name": { "type": "string" },
+                      "lsb": { "type": "integer", "minimum": 0 },
+                      "width": { "type": "integer", "minimum": 1, "maximum": 32 },
+                      "description": { "type": "string" },
+                      "spec_section": { "type": "string" },
+                      "reserved": { "type": "boolean" },
+                      "enums": {
+                        "type": "object",
+                        "additionalProperties": { "type": ["string", "number"] }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "blocks": {
       "type": "array",
       "items": {

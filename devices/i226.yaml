@@ -1,6 +1,103 @@
 device: I226
 version: Rev 2.6
 spec_reference: external/intel_avb/spec/2407151103_Intel-Altera-KTI226V-S-RKTU_C26159200.pdf
+pcie_caps:
+  - name: MSI_X
+    type: std
+    cap_id: 0x11
+    spec_section: I226 family MSI-X Capability Structure
+    registers:
+      - name: MSGCTL
+        offset: 0x02
+        width: 16
+        description: MSI-X Message Control
+        fields:
+          - name: TBL_SIZE
+            lsb: 0
+            width: 11
+            description: Table size (N-1); 5 vectors supported
+          - name: FE
+            lsb: 14
+            width: 1
+            description: Function Mask
+          - name: EN
+            lsb: 15
+            width: 1
+            description: MSI-X Enable
+      - name: TBL
+        offset: 0x04
+        width: 32
+        description: MSI-X Table Offset/BIR
+      - name: PBA
+        offset: 0x08
+        width: 32
+        description: MSI-X Pending Bit Array Offset/BIR
+  - name: LTR
+    type: ext
+    cap_id: 0x0018
+    spec_section: PCIe Base Spec r5.x - Latency Tolerance Reporting
+    registers:
+      - name: CAP
+        offset: 0x04
+        width: 16
+        description: LTR Capability
+      - name: CTRL
+        offset: 0x06
+        width: 16
+        description: LTR Control
+  - name: L1SS
+    type: ext
+    cap_id: 0x001E
+    spec_section: PCIe ECN - L1 PM Substates
+    registers:
+      - name: CAP
+        offset: 0x04
+        width: 32
+        description: L1SS Capability
+      - name: CTRL1
+        offset: 0x08
+        width: 16
+        description: L1SS Control 1
+      - name: CTRL2
+        offset: 0x0C
+        width: 16
+        description: L1SS Control 2
+  - name: PTM
+    type: ext
+    cap_id: 0x001F
+    spec_section: PCIe PTM (Base Spec r5.x) – Endpoint PTM Capability/Control/Status
+    registers:
+      - name: CAP
+        offset: 0x04
+        width: 32
+        description: PTM Capability
+        fields:
+          - name: GRANULARITY
+            lsb: 8
+            width: 8
+            description: Local clock granularity in ns
+      - name: CTRL
+        offset: 0x08
+        width: 16
+        description: PTM Control
+        fields:
+          - name: EN
+            lsb: 0
+            width: 1
+            description: PTM Enable
+          - name: RCPTM_EN
+            lsb: 1
+            width: 1
+            description: Root/Component PTM Enable (as applicable)
+      - name: STATUS
+        offset: 0x0A
+        width: 16
+        description: PTM Status
+        fields:
+          - name: PTM_RESP_BUSY
+            lsb: 0
+            width: 1
+            description: PTM Response Pending/Busy
 blocks:
   - name: PTP
     base: 0x0B600
@@ -361,32 +458,24 @@ blocks:
         description: Frame Preemption Status
         access: ro
 
-  - name: PTM
+  - name: MANAGEABILITY
     base: 0x08800
     registers:
-      - name: PTM_CONFIG
-        offset: 0x0
+      - name: HICR
+        offset: 0x700
         width: 32
-        description: PCIe PTM Configuration
-        access: rw
-        fields:
-          - name: EN
-            lsb: 0
-            width: 1
-            description: Enable PTM
-          - name: AUTO_UPD
-            lsb: 1
-            width: 1
-            description: Auto update PTM config
-          - name: CLOCK_GRANULARITY
-            lsb: 8
-            width: 8
-            description: PTM clock granularity
-      - name: PTM_STATUS
-        offset: 0x4
+        description: HOST Interface Control Register (RW)
+        spec_section: I225/I226 SW Manual Section 8.22.2 (HICR 0x8F00; RW)
+      - name: FWSWMB
+        offset: 0x704
         width: 32
-        description: PCIe PTM Status
-        access: ro
+        description: Firmware Software Mailbox Register (RW)
+        spec_section: I225/I226 SW Manual Section 8.22.3 (FWSWMB 0x8F04; RW)
+      - name: FWSTS
+        offset: 0x70C
+        width: 32
+        description: FW Status 0 register (RO)
+        spec_section: I225/I226 SW Manual Section 8.22.4 (FWSTS 0x8F0C; RO)
 
   - name: EITR
     base: 0x01680
