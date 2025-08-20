@@ -2,6 +2,80 @@ device: I226
 version: Rev 2.6
 spec_reference: external/intel_avb/spec/2407151103_Intel-Altera-KTI226V-S-RKTU_C26159200.pdf
 blocks:
+  - name: PTP
+    base: 0x0B600
+    registers:
+      - name: SYSTIML
+        offset: 0x0
+        width: 32
+        description: System time register Low
+        access: ro
+      - name: SYSTIMH
+        offset: 0x4
+        width: 32
+        description: System time register High
+        access: ro
+      - name: TIMINCA
+        offset: 0x8
+        width: 32
+        description: Time Increment Attributes
+        access: rw
+      - name: TSYNCTXCTL
+        offset: 0x14
+        width: 32
+        description: TX Time Sync Control Register (0xB614)
+        access: rw
+        fields:
+          - name: TXTT
+            lsb: 0
+            width: 1
+            description: Tx timestamp valid (RO/V) - clears on read of TXSTMPH
+          - name: EN
+            lsb: 4
+            width: 1
+            description: Enable TX timestamping
+      - name: TXSTMPL
+        offset: 0x18
+        width: 32
+        description: TX Timestamp Value Low
+        access: ro
+      - name: TXSTMPH
+        offset: 0x1C
+        width: 32
+        description: TX Timestamp Value High
+        access: ro
+      - name: TSYNCRXCTL
+        offset: 0x20
+        width: 32
+        description: RX Time Sync Control Register (0xB620; RW)
+        access: rw
+        fields:
+          - name: RXTT
+            lsb: 0
+            width: 1
+            description: Rx timestamp valid (RO/V) - clears on read of RXSTMPH
+          - name: TYPE
+            lsb: 1
+            width: 3
+            description: Packet types to timestamp (V1/V2/All/Event)
+          - name: EN
+            lsb: 4
+            width: 1
+            description: Enable RX timestamping
+          - name: SYSCFI
+            lsb: 5
+            width: 1
+            description: System Clock Frequency Indication
+      - name: RXSTMPL
+        offset: 0x24
+        width: 32
+        description: RX Timestamp Low (0xB624; RO)
+        access: ro
+      - name: RXSTMPH
+        offset: 0x28
+        width: 32
+        description: RX Timestamp High (0xB628; RO)
+        access: ro
   - name: MAC_CTRL
     base: 0x00000
     registers:
@@ -28,6 +102,36 @@ blocks:
         width: 32
         description: MDI Control (MDIO/MDC access to internal PHY)
         spec_section: Section 1.1.1 (MDIO interface)
+        access: rw
+        fields:
+          - name: DATA
+            lsb: 0
+            width: 16
+            description: MDIO read/write data
+          - name: REG
+            lsb: 16
+            width: 5
+            description: MDIO register address
+          - name: PHY
+            lsb: 21
+            width: 5
+            description: MDIO PHY address
+          - name: OP
+            lsb: 26
+            width: 2
+            description: MDIO operation (01=write, 10=read)
+          - name: R
+            lsb: 28
+            width: 1
+            description: Ready/busy status
+          - name: I
+            lsb: 29
+            width: 1
+            description: Interrupt (set when MDIO operation completes)
+          - name: E
+            lsb: 30
+            width: 1
+            description: Error indicator
 
   - name: INTERRUPTS
     base: 0x000C0
@@ -36,18 +140,72 @@ blocks:
         offset: 0x0
         width: 32
         description: Interrupt Cause Read
+        access: rc/w1c
+        fields:
+          - name: TXDW
+            lsb: 0
+            width: 1
+            description: Transmit Descriptor Written Back
+          - name: TXQE
+            lsb: 1
+            width: 1
+            description: Transmit Queue Empty
+          - name: LSC
+            lsb: 2
+            width: 1
+            description: Link Status Change
+          - name: RXDMT0
+            lsb: 4
+            width: 1
+            description: Receive Descriptor Minimum Threshold hit
+          - name: RXO
+            lsb: 6
+            width: 1
+            description: Receiver Overrun
+          - name: RXT0
+            lsb: 7
+            width: 1
+            description: Receiver Timer Interrupt
       - name: ICS
         offset: 0x8
         width: 32
         description: Interrupt Cause Set
+        access: wo
       - name: IMS
         offset: 0x10
         width: 32
         description: Interrupt Mask Set/Read
+        access: rw
+        fields:
+          - name: TXDW
+            lsb: 0
+            width: 1
+            description: Mask for Transmit Descriptor Written Back
+          - name: TXQE
+            lsb: 1
+            width: 1
+            description: Mask for Transmit Queue Empty
+          - name: LSC
+            lsb: 2
+            width: 1
+            description: Link Status Change mask
+          - name: RXDMT0
+            lsb: 4
+            width: 1
+            description: Mask for Receive Descriptor Minimum Threshold hit
+          - name: RXO
+            lsb: 6
+            width: 1
+            description: Mask for Receiver Overrun
+          - name: RXT0
+            lsb: 7
+            width: 1
+            description: Mask for Receiver Timer Interrupt
       - name: IMC
         offset: 0x18
         width: 32
         description: Interrupt Mask Clear
+        access: wo
 
   - name: EXT_INTERRUPTS
     base: 0x01500
@@ -56,22 +214,122 @@ blocks:
         offset: 0x24
         width: 32
         description: Extended Interrupt Mask Set/Read
+        access: rw
       - name: EIMC
         offset: 0x28
         width: 32
         description: Extended Interrupt Mask Clear
+        access: wo
       - name: EIAC
         offset: 0x2C
         width: 32
         description: Extended Interrupt Auto Clear Enable
+        access: rw
       - name: EIAM
         offset: 0x30
         width: 32
         description: Extended Interrupt Auto Mask Enable
+        access: rw
       - name: EICR
         offset: 0x80
         width: 32
         description: Extended Interrupt Cause Read
+        access: rc/w1c
+
+  - name: TSN
+    base: 0x08600
+    registers:
+      - name: TAS_CTRL
+        offset: 0x0
+        width: 32
+        description: Time Aware Shaper Control
+        access: rw
+        fields:
+          - name: EN
+            lsb: 0
+            width: 1
+            description: Enable Time Aware Shaper
+          - name: GATE_LIST
+            lsb: 1
+            width: 1
+            description: Gate List Ready/Valid
+          - name: BASE_TIME
+            lsb: 2
+            width: 1
+            description: Base Time Valid
+      - name: TAS_CONFIG0
+        offset: 0x4
+        width: 32
+        description: TAS Base Time Low / Cycle Config
+        access: rw
+      - name: TAS_CONFIG1
+        offset: 0x8
+        width: 32
+        description: TAS Base Time High
+        access: rw
+      - name: TAS_GATE_LIST
+        offset: 0x10
+        width: 32
+        description: TAS Gate List Base
+        access: rw
+
+  - name: FRAME_PREEMPTION
+    base: 0x08700
+    registers:
+      - name: FP_CONFIG
+        offset: 0x0
+        width: 32
+        description: Frame Preemption Config
+        access: rw
+        fields:
+          - name: EN
+            lsb: 0
+            width: 1
+            description: Enable Frame Preemption
+          - name: VERIFY_DIS
+            lsb: 1
+            width: 1
+            description: Disable Verification
+          - name: PREEMPTABLE_QUEUES
+            lsb: 8
+            width: 8
+            description: Bitmask of preemptable queues
+          - name: MIN_FRAGMENT_SIZE
+            lsb: 16
+            width: 8
+            description: Minimum fragment size
+      - name: FP_STATUS
+        offset: 0x4
+        width: 32
+        description: Frame Preemption Status
+        access: ro
+
+  - name: PTM
+    base: 0x08800
+    registers:
+      - name: PTM_CONFIG
+        offset: 0x0
+        width: 32
+        description: PCIe PTM Configuration
+        access: rw
+        fields:
+          - name: EN
+            lsb: 0
+            width: 1
+            description: Enable PTM
+          - name: AUTO_UPD
+            lsb: 1
+            width: 1
+            description: Auto update PTM config
+          - name: CLOCK_GRANULARITY
+            lsb: 8
+            width: 8
+            description: PTM clock granularity
+      - name: PTM_STATUS
+        offset: 0x4
+        width: 32
+        description: PCIe PTM Status
+        access: ro
 
   - name: EITR
     base: 0x01680
