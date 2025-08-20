@@ -63,7 +63,15 @@ def gen_header(device_yaml: str, out_dir: str):
                 if reset:
                     meta.append(f"reset={reset}")
                 lines.append(f"/* {'; '.join(meta)} */")
-            lines.append(f"#define {name}_{rname}\t0x{abs_off:05X}")
+            count = int(reg.get('count', 0) or 0)
+            stride = reg.get('stride')
+            if count and stride is not None:
+                stride_val = parse_hex_or_int(stride)
+                for i in range(count):
+                    off_i = abs_off + i * stride_val
+                    lines.append(f"#define {name}_{rname}{i}\t0x{off_i:05X}")
+            else:
+                lines.append(f"#define {name}_{rname}\t0x{abs_off:05X}")
 
             # Emit field macros if present
             fields = reg.get('fields', [])
