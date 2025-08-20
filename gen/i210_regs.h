@@ -66,6 +66,10 @@ static inline unsigned long long I210_TSYNCRXCTL_SET(unsigned long long v, unsig
 #define I210_ICR	0x000C0
 #define I210_ICR_LSC_SHIFT	2
 #define I210_ICR_LSC_MASK	(((1ULL<<1)-1ULL) << I210_ICR_LSC_SHIFT)
+#define I210_ICR_MNG_SHIFT	18
+#define I210_ICR_MNG_MASK	(((1ULL<<1)-1ULL) << I210_ICR_MNG_SHIFT)
+#define I210_ICR_DRSTA_SHIFT	30
+#define I210_ICR_DRSTA_MASK	(((1ULL<<1)-1ULL) << I210_ICR_DRSTA_SHIFT)
 static inline unsigned long long I210_ICR_GET(unsigned long long v, unsigned long long mask, unsigned shift) { return (v & mask) >> shift; }
 static inline unsigned long long I210_ICR_SET(unsigned long long v, unsigned long long mask, unsigned shift, unsigned long long val) { return (v & ~mask) | ((val << shift) & mask); }
 /* Interrupt Cause Set */
@@ -76,6 +80,12 @@ static inline unsigned long long I210_ICR_SET(unsigned long long v, unsigned lon
 #define I210_IMS	0x000D0
 #define I210_IMS_LSC_SHIFT	2
 #define I210_IMS_LSC_MASK	(((1ULL<<1)-1ULL) << I210_IMS_LSC_SHIFT)
+#define I210_IMS_MNG_SHIFT	18
+#define I210_IMS_MNG_MASK	(((1ULL<<1)-1ULL) << I210_IMS_MNG_SHIFT)
+#define I210_IMS_TCP_TIMER_SHIFT	29
+#define I210_IMS_TCP_TIMER_MASK	(((1ULL<<1)-1ULL) << I210_IMS_TCP_TIMER_SHIFT)
+#define I210_IMS_DRSTA_SHIFT	30
+#define I210_IMS_DRSTA_MASK	(((1ULL<<1)-1ULL) << I210_IMS_DRSTA_SHIFT)
 static inline unsigned long long I210_IMS_GET(unsigned long long v, unsigned long long mask, unsigned shift) { return (v & mask) >> shift; }
 static inline unsigned long long I210_IMS_SET(unsigned long long v, unsigned long long mask, unsigned shift, unsigned long long val) { return (v & ~mask) | ((val << shift) & mask); }
 /* Interrupt Mask Clear */
@@ -100,6 +110,8 @@ static inline unsigned long long I210_IMS_SET(unsigned long long v, unsigned lon
 #define I210_EICR	0x01580
 #define I210_EICR_OTHER_SHIFT	31
 #define I210_EICR_OTHER_MASK	(((1ULL<<1)-1ULL) << I210_EICR_OTHER_SHIFT)
+#define I210_EICR_TCP_TIMER_SHIFT	30
+#define I210_EICR_TCP_TIMER_MASK	(((1ULL<<1)-1ULL) << I210_EICR_TCP_TIMER_SHIFT)
 static inline unsigned long long I210_EICR_GET(unsigned long long v, unsigned long long mask, unsigned shift) { return (v & mask) >> shift; }
 static inline unsigned long long I210_EICR_SET(unsigned long long v, unsigned long long mask, unsigned shift, unsigned long long val) { return (v & ~mask) | ((val << shift) & mask); }
 

@@ -192,6 +192,16 @@ blocks:
             width: 1
             description: Link Status Change
             spec_section: Section 8.8.9
+          - name: MNG
+            lsb: 18
+            width: 1
+            description: Management Event
+            spec_section: Section 8.8.9
+          - name: DRSTA
+            lsb: 30
+            width: 1
+            description: Device Reset Asserted
+            spec_section: Section 8.8.9
       - name: ICS
         offset: 0x8
         width: 32
@@ -210,6 +220,21 @@ blocks:
             width: 1
             description: Link Status Change mask
             spec_section: Section 8.8.11
+          - name: MNG
+            lsb: 18
+            width: 1
+            description: Management Event mask
+            spec_section: Section 8.8.11
+          - name: TCP_TIMER
+            lsb: 29
+            width: 1
+            description: TCP Timer interrupt mask
+            spec_section: Section 8.8.11
+          - name: DRSTA
+            lsb: 30
+            width: 1
+            description: Device Reset Asserted mask
+            spec_section: Section 8.8.11
       - name: IMC
         offset: 0x18
         width: 32
@@ -226,6 +251,12 @@ blocks:
         description: Extended Interrupt Mask Set/Read
         spec_section: Section 8.8.5
         access: rw
+        fields:
+          - name: TCP_TIMER
+            lsb: 30
+            width: 1
+            description: Mask bit for EICR TCP timer interrupt
+            spec_section: Section 8.8.5; See also Section 7.3.7
       - name: EIMC
         offset: 0x28
         width: 32
@@ -256,6 +287,11 @@ blocks:
             width: 1
             description: Other interrupt causes (summary of ICR as masked)
             spec_section: Section 8.8.3
+          - name: TCP_TIMER
+            lsb: 30
+            width: 1
+            description: TCP Timer interrupt cause (allocated to EICR[30])
+            spec_section: Section 7.3.7; See also Section 8.8.3
 
   - name: EITR
     base: 0x01680
