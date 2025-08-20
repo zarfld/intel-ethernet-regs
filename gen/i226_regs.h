@@ -128,6 +128,18 @@ static inline unsigned long long I226_IMS_SET(unsigned long long v, unsigned lon
 /* Extended Interrupt Mask Set/Read */
 /* access=rw */
 #define I226_EIMS	0x01524
+#define I226_EIMS_VEC0_SHIFT	0
+#define I226_EIMS_VEC0_MASK	(((1ULL<<1)-1ULL) << I226_EIMS_VEC0_SHIFT)
+#define I226_EIMS_VEC1_SHIFT	1
+#define I226_EIMS_VEC1_MASK	(((1ULL<<1)-1ULL) << I226_EIMS_VEC1_SHIFT)
+#define I226_EIMS_VEC2_SHIFT	2
+#define I226_EIMS_VEC2_MASK	(((1ULL<<1)-1ULL) << I226_EIMS_VEC2_SHIFT)
+#define I226_EIMS_VEC3_SHIFT	3
+#define I226_EIMS_VEC3_MASK	(((1ULL<<1)-1ULL) << I226_EIMS_VEC3_SHIFT)
+#define I226_EIMS_TCP_TIMER_SHIFT	30
+#define I226_EIMS_TCP_TIMER_MASK	(((1ULL<<1)-1ULL) << I226_EIMS_TCP_TIMER_SHIFT)
+static inline unsigned long long I226_EIMS_GET(unsigned long long v, unsigned long long mask, unsigned shift) { return (v & mask) >> shift; }
+static inline unsigned long long I226_EIMS_SET(unsigned long long v, unsigned long long mask, unsigned shift, unsigned long long val) { return (v & ~mask) | ((val << shift) & mask); }
 /* Extended Interrupt Mask Clear */
 /* access=wo */
 #define I226_EIMC	0x01528
@@ -140,10 +152,18 @@ static inline unsigned long long I226_IMS_SET(unsigned long long v, unsigned lon
 /* Extended Interrupt Cause Read */
 /* access=rc/w1c */
 #define I226_EICR	0x01580
-#define I226_EICR_OTHER_SHIFT	31
-#define I226_EICR_OTHER_MASK	(((1ULL<<1)-1ULL) << I226_EICR_OTHER_SHIFT)
+#define I226_EICR_VEC0_SHIFT	0
+#define I226_EICR_VEC0_MASK	(((1ULL<<1)-1ULL) << I226_EICR_VEC0_SHIFT)
+#define I226_EICR_VEC1_SHIFT	1
+#define I226_EICR_VEC1_MASK	(((1ULL<<1)-1ULL) << I226_EICR_VEC1_SHIFT)
+#define I226_EICR_VEC2_SHIFT	2
+#define I226_EICR_VEC2_MASK	(((1ULL<<1)-1ULL) << I226_EICR_VEC2_SHIFT)
+#define I226_EICR_VEC3_SHIFT	3
+#define I226_EICR_VEC3_MASK	(((1ULL<<1)-1ULL) << I226_EICR_VEC3_SHIFT)
 #define I226_EICR_TCP_TIMER_SHIFT	30
 #define I226_EICR_TCP_TIMER_MASK	(((1ULL<<1)-1ULL) << I226_EICR_TCP_TIMER_SHIFT)
+#define I226_EICR_OTHER_SHIFT	31
+#define I226_EICR_OTHER_MASK	(((1ULL<<1)-1ULL) << I226_EICR_OTHER_SHIFT)
 static inline unsigned long long I226_EICR_GET(unsigned long long v, unsigned long long mask, unsigned shift) { return (v & mask) >> shift; }
 static inline unsigned long long I226_EICR_SET(unsigned long long v, unsigned long long mask, unsigned shift, unsigned long long val) { return (v & ~mask) | ((val << shift) & mask); }
 

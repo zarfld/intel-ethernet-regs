@@ -215,6 +215,32 @@ blocks:
         width: 32
         description: Extended Interrupt Mask Set/Read
         access: rw
+        fields:
+          - name: VEC0
+            lsb: 0
+            width: 1
+            description: Mask for vector 0 (queue causes mapped via IVAR[0])
+            spec_section: Family convention; see I210 Section 8.8/6.2 (IVAR/EICR mapping)
+          - name: VEC1
+            lsb: 1
+            width: 1
+            description: Mask for vector 1 (queue causes mapped via IVAR[1])
+            spec_section: Family convention; see I210 Section 8.8/6.2 (IVAR/EICR mapping)
+          - name: VEC2
+            lsb: 2
+            width: 1
+            description: Mask for vector 2 (queue causes mapped via IVAR[2])
+            spec_section: Family convention; see I210 Section 8.8/6.2 (IVAR/EICR mapping)
+          - name: VEC3
+            lsb: 3
+            width: 1
+            description: Mask for vector 3 (queue causes mapped via IVAR[3])
+            spec_section: Family convention; see I210 Section 8.8/6.2 (IVAR/EICR mapping)
+          - name: TCP_TIMER
+            lsb: 30
+            width: 1
+            description: Mask for TCP Timer interrupt cause (EICR[30])
+            spec_section: I210 Section 7.3.7; I210 Section 8.8.3 (EICR[30])
       - name: EIMC
         offset: 0x28
         width: 32
@@ -236,14 +262,36 @@ blocks:
         description: Extended Interrupt Cause Read
         access: rc/w1c
         fields:
-          - name: OTHER
-            lsb: 31
+          - name: VEC0
+            lsb: 0
             width: 1
-            description: Other interrupt causes (summary of ICR as masked)
+            description: Vector 0 cause (summary of queue interrupts via IVAR[0])
+            spec_section: Family convention; see I210 Section 8.8/6.2 (IVAR/EICR mapping)
+          - name: VEC1
+            lsb: 1
+            width: 1
+            description: Vector 1 cause (summary of queue interrupts via IVAR[1])
+            spec_section: Family convention; see I210 Section 8.8/6.2 (IVAR/EICR mapping)
+          - name: VEC2
+            lsb: 2
+            width: 1
+            description: Vector 2 cause (summary of queue interrupts via IVAR[2])
+            spec_section: Family convention; see I210 Section 8.8/6.2 (IVAR/EICR mapping)
+          - name: VEC3
+            lsb: 3
+            width: 1
+            description: Vector 3 cause (summary of queue interrupts via IVAR[3])
+            spec_section: Family convention; see I210 Section 8.8/6.2 (IVAR/EICR mapping)
           - name: TCP_TIMER
             lsb: 30
             width: 1
             description: TCP Timer interrupt cause (allocated to EICR[30])
+            spec_section: I210 Section 7.3.7; I210 Section 8.8.3 (EICR[30])
+          - name: OTHER
+            lsb: 31
+            width: 1
+            description: Other interrupt causes (summary of ICR as masked)
+            spec_section: I210 Section 8.8.3 (Other Cause)
 
   - name: TSN
     base: 0x08600
