@@ -145,6 +145,14 @@ static inline unsigned long long I225_IMS_SET(unsigned long long v, unsigned lon
 /* Time Aware Shaper Control */
 /* access=rw */
 #define I225_TAS_CTRL	0x08600
+#define I225_TAS_CTRL_EN_SHIFT	0
+#define I225_TAS_CTRL_EN_MASK	(((1ULL<<1)-1ULL) << I225_TAS_CTRL_EN_SHIFT)
+#define I225_TAS_CTRL_GATE_LIST_SHIFT	1
+#define I225_TAS_CTRL_GATE_LIST_MASK	(((1ULL<<1)-1ULL) << I225_TAS_CTRL_GATE_LIST_SHIFT)
+#define I225_TAS_CTRL_BASE_TIME_SHIFT	2
+#define I225_TAS_CTRL_BASE_TIME_MASK	(((1ULL<<1)-1ULL) << I225_TAS_CTRL_BASE_TIME_SHIFT)
+static inline unsigned long long I225_TAS_CTRL_GET(unsigned long long v, unsigned long long mask, unsigned shift) { return (v & mask) >> shift; }
+static inline unsigned long long I225_TAS_CTRL_SET(unsigned long long v, unsigned long long mask, unsigned shift, unsigned long long val) { return (v & ~mask) | ((val << shift) & mask); }
 /* TAS Base Time Low / Cycle Config */
 /* access=rw */
 #define I225_TAS_CONFIG0	0x08604
@@ -159,6 +167,16 @@ static inline unsigned long long I225_IMS_SET(unsigned long long v, unsigned lon
 /* Frame Preemption Config */
 /* access=rw */
 #define I225_FP_CONFIG	0x08700
+#define I225_FP_CONFIG_EN_SHIFT	0
+#define I225_FP_CONFIG_EN_MASK	(((1ULL<<1)-1ULL) << I225_FP_CONFIG_EN_SHIFT)
+#define I225_FP_CONFIG_VERIFY_DIS_SHIFT	1
+#define I225_FP_CONFIG_VERIFY_DIS_MASK	(((1ULL<<1)-1ULL) << I225_FP_CONFIG_VERIFY_DIS_SHIFT)
+#define I225_FP_CONFIG_PREEMPTABLE_QUEUES_SHIFT	8
+#define I225_FP_CONFIG_PREEMPTABLE_QUEUES_MASK	(((1ULL<<8)-1ULL) << I225_FP_CONFIG_PREEMPTABLE_QUEUES_SHIFT)
+#define I225_FP_CONFIG_MIN_FRAGMENT_SIZE_SHIFT	16
+#define I225_FP_CONFIG_MIN_FRAGMENT_SIZE_MASK	(((1ULL<<8)-1ULL) << I225_FP_CONFIG_MIN_FRAGMENT_SIZE_SHIFT)
+static inline unsigned long long I225_FP_CONFIG_GET(unsigned long long v, unsigned long long mask, unsigned shift) { return (v & mask) >> shift; }
+static inline unsigned long long I225_FP_CONFIG_SET(unsigned long long v, unsigned long long mask, unsigned shift, unsigned long long val) { return (v & ~mask) | ((val << shift) & mask); }
 /* Frame Preemption Status */
 /* access=ro */
 #define I225_FP_STATUS	0x08704
@@ -167,6 +185,14 @@ static inline unsigned long long I225_IMS_SET(unsigned long long v, unsigned lon
 /* PCIe PTM Configuration */
 /* access=rw */
 #define I225_PTM_CONFIG	0x08800
+#define I225_PTM_CONFIG_EN_SHIFT	0
+#define I225_PTM_CONFIG_EN_MASK	(((1ULL<<1)-1ULL) << I225_PTM_CONFIG_EN_SHIFT)
+#define I225_PTM_CONFIG_AUTO_UPD_SHIFT	1
+#define I225_PTM_CONFIG_AUTO_UPD_MASK	(((1ULL<<1)-1ULL) << I225_PTM_CONFIG_AUTO_UPD_SHIFT)
+#define I225_PTM_CONFIG_CLOCK_GRANULARITY_SHIFT	8
+#define I225_PTM_CONFIG_CLOCK_GRANULARITY_MASK	(((1ULL<<8)-1ULL) << I225_PTM_CONFIG_CLOCK_GRANULARITY_SHIFT)
+static inline unsigned long long I225_PTM_CONFIG_GET(unsigned long long v, unsigned long long mask, unsigned shift) { return (v & mask) >> shift; }
+static inline unsigned long long I225_PTM_CONFIG_SET(unsigned long long v, unsigned long long mask, unsigned shift, unsigned long long val) { return (v & ~mask) | ((val << shift) & mask); }
 /* PCIe PTM Status */
 /* access=ro */
 #define I225_PTM_STATUS	0x08804

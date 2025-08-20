@@ -244,6 +244,19 @@ blocks:
         width: 32
         description: Time Aware Shaper Control
         access: rw
+        fields:
+          - name: EN
+            lsb: 0
+            width: 1
+            description: Enable Time Aware Shaper
+          - name: GATE_LIST
+            lsb: 1
+            width: 1
+            description: Gate List Ready/Valid
+          - name: BASE_TIME
+            lsb: 2
+            width: 1
+            description: Base Time Valid
       - name: TAS_CONFIG0
         offset: 0x4
         width: 32
@@ -268,6 +281,23 @@ blocks:
         width: 32
         description: Frame Preemption Config
         access: rw
+        fields:
+          - name: EN
+            lsb: 0
+            width: 1
+            description: Enable Frame Preemption
+          - name: VERIFY_DIS
+            lsb: 1
+            width: 1
+            description: Disable Verification
+          - name: PREEMPTABLE_QUEUES
+            lsb: 8
+            width: 8
+            description: Bitmask of preemptable queues
+          - name: MIN_FRAGMENT_SIZE
+            lsb: 16
+            width: 8
+            description: Minimum fragment size
       - name: FP_STATUS
         offset: 0x4
         width: 32
@@ -282,6 +312,19 @@ blocks:
         width: 32
         description: PCIe PTM Configuration
         access: rw
+        fields:
+          - name: EN
+            lsb: 0
+            width: 1
+            description: Enable PTM
+          - name: AUTO_UPD
+            lsb: 1
+            width: 1
+            description: Auto update PTM config
+          - name: CLOCK_GRANULARITY
+            lsb: 8
+            width: 8
+            description: PTM clock granularity
       - name: PTM_STATUS
         offset: 0x4
         width: 32
