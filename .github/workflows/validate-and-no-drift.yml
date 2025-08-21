@@ -42,3 +42,10 @@ jobs:
           git --no-pager diff -- gen || true
           # fail on any differences
           git diff --exit-code -- gen
+
+      - name: Build golden offset checks (tiny C)
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y build-essential
+          gcc -std=c11 -Wall -Wextra -Werror -Igen tests/verify_offsets.c -o /tmp/verify_offsets
+          /tmp/verify_offsets
