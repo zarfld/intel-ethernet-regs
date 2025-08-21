@@ -1,0 +1,44 @@
+name: Validate and prevent header drift
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  validate-and-regen:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0  # needed so reggen can resolve commit hashes for YAML and repo
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.x'
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install pyyaml jsonschema
+
+      - name: Validate device YAMLs against schema
+        run: |
+          python tools/validate_yaml.py schema/register_map.schema.json devices
+
+      - name: Regenerate headers from YAML
+        run: |
+          for f in devices/*.yaml; do
+            echo "Generating from $f"
+            python tools/reggen.py "$f" gen
+          done
+
+      - name: Fail if generated headers drift from committed files
+        run: |
+          # show diff for troubleshooting
+          git --no-pager diff -- gen || true
+          # fail on any differences
+          git diff --exit-code -- gen
