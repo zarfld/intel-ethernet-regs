@@ -1,11 +1,12 @@
 #!/usr/bin/env python3
 """
-Validate device YAMLs against the JSON Schema and perform basic structural checks:
-- Field overlap within each register
-- Duplicate absolute register offsets within a block
+Validate device YAMLs against the JSON Schema and perform structural checks:
+- Field overlap within each register (error)
+- Duplicate absolute register offsets within a block (error)
+- Gaps/holes between field bit ranges within a register (warning only)
 
 Usage (PowerShell):
-  py -3 tools\validate_yaml.py schema\register_map.schema.json devices
+    py -3 tools\validate_yaml.py schema\register_map.schema.json devices
 """
 import sys, os, json
 from typing import Dict, Any, List, Tuple
@@ -49,6 +50,27 @@ def check_field_overlaps(fields: List[Dict[str, Any]], path: str, errors: List[s
         used_bits |= mask
 
 
+def check_field_holes(fields: List[Dict[str, Any]], reg_width: int, path: str, warnings: List[str]):
+    if not fields:
+        return
+    # Sort by lsb
+    segs = sorted(((int(f["lsb"]), int(f["width"]), f.get("name", "")) for f in fields), key=lambda t: t[0])
+    # Detect gaps between consecutive fields (only up to the max-used bit)
+    max_used = 0
+    gaps = []
+    prev_end = None
+    for lsb, width, _ in segs:
+        end = lsb + width  # exclusive
+        if prev_end is not None and lsb > prev_end:
+            gaps.append((prev_end, lsb))
+        prev_end = max(prev_end or 0, end)
+        max_used = max(max_used, end)
+    # Only warn on gaps detected; many registers intentionally have reserved holes
+    if gaps:
+        gap_str = ", ".join([f"[{a}:{b})" for a, b in gaps])
+        warnings.append(f"Holes in {path}: uncovered bit ranges {gap_str} (info only)")
+
+
 def check_duplicate_offsets(block: Dict[str, Any], device: str, errors: List[str]):
     base = parse_num(block["base"]) if "base" in block else 0
     seen = {}
@@ -75,11 +97,12 @@ def check_duplicate_offsets(block: Dict[str, Any], device: str, errors: List[str
                 seen[key] = reg['name']
 
 
-def validate_device(yaml_path: str, schema: Dict[str, Any]) -> Tuple[bool, List[str]]:
+def validate_device(yaml_path: str, schema: Dict[str, Any]) -> Tuple[bool, List[str], List[str]]:
     with open(yaml_path, "r", encoding="utf-8") as f:
         data = yaml.safe_load(f)
 
     errors: List[str] = []
+    warnings: List[str] = []
     try:
         jsonschema.validate(instance=data, schema=schema)
     except jsonschema.ValidationError as e:
@@ -92,11 +115,13 @@ def validate_device(yaml_path: str, schema: Dict[str, Any]) -> Tuple[bool, List[
             fields = reg.get("fields", []) or []
             if fields:
                 check_field_overlaps(fields, f"{device}.{blk['name']}.{reg['name']}", errors)
+                reg_width = int(reg.get("width", 32) or 32)
+                check_field_holes(fields, reg_width, f"{device}.{blk['name']}.{reg['name']}", warnings)
         # Duplicate absolute offsets within a block
         check_duplicate_offsets(blk, device, errors)
 
     ok = len(errors) == 0
-    return ok, errors
+    return ok, errors, warnings
 
 
 def main():
@@ -110,14 +135,16 @@ def main():
 
     all_ok = True
     all_errors: List[str] = []
+    all_warnings: List[str] = []
     for name in sorted(os.listdir(devices_dir)):
         if not name.lower().endswith(('.yaml', '.yml')):
             continue
         path = os.path.join(devices_dir, name)
-        ok, errs = validate_device(path, schema)
+        ok, errs, warns = validate_device(path, schema)
         if not ok:
             all_ok = False
             all_errors.extend(errs)
+        all_warnings.extend(warns)
 
     if not all_ok:
         print("Validation FAILED:")
@@ -125,6 +152,10 @@ def main():
             print(" -", e)
         return 2
     print("Validation OK")
+    if all_warnings:
+        print("Warnings:")
+        for w in all_warnings:
+            print(" -", w)
     return 0
 
 
