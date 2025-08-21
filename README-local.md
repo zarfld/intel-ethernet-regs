@@ -5,15 +5,17 @@
 Prerequisites:
 
 - Python 3.x (py launcher works on Windows)
-- PyYAML: pip install pyyaml
+- PyYAML and jsonschema: `pip install pyyaml jsonschema`
 
 Steps:
 
-1. Install PyYAML
-2. Generate headers
+1. Install deps
+2. Validate YAML and schema (optional but recommended)
+3. Generate headers
 
 ```powershell
-py -3 -m pip install --user pyyaml
+py -3 -m pip install --user pyyaml jsonschema
+py -3 tools\validate_yaml.py schema\register_map.schema.json devices
 py -3 tools\reggen.py devices\i210.yaml gen
 ```
 

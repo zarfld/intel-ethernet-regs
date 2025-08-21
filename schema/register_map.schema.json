@@ -74,7 +74,10 @@
                 "width": { "type": "integer", "enum": [32, 64] },
                 "description": { "type": "string" },
                 "spec_section": { "type": "string" },
-                "access": { "type": "string", "enum": ["ro", "rw", "wo", "w1c", "w0c"] },
+                "access": { "type": "string", "enum": ["ro", "rw", "wo", "w1c", "w0c", "rc", "rc/w1c"] },
+                "reserved_mask": { "type": ["string", "integer"], "description": "Optional explicit reserved-bit mask for this register; bits set to 1 are reserved and should not be modified.", "pattern": "^0x[0-9A-Fa-f]+$" },
+                "atomic_read": { "type": "boolean", "description": "True if this register participates in a latched/atomic read sequence (e.g., SYSTIMH/L)." },
+                "atomic_read_note": { "type": "string", "description": "Free-form guidance for atomic/latched read semantics (order, sequence, etc.)." },
                 "reset": { "type": "string", "pattern": "^0x[0-9A-Fa-f]+$" },
                 "count": { "type": "integer", "minimum": 1 },
                 "stride": { "type": "string", "pattern": "^0x[0-9A-Fa-f]+$" },
@@ -89,6 +92,16 @@
                       "width": { "type": "integer", "minimum": 1, "maximum": 64 },
                       "description": { "type": "string" },
                       "spec_section": { "type": "string" },
+                      "units": { "type": "string", "description": "Units for the field value (e.g., ns, ticks, bytes)." },
+                      "range": {
+                        "type": "object",
+                        "description": "Permitted value range for the field.",
+                        "properties": {
+                          "min": { "type": ["number", "integer", "string"], "description": "Minimum value (inclusive); hex string allowed (0x…)." },
+                          "max": { "type": ["number", "integer", "string"], "description": "Maximum value (inclusive); hex string allowed (0x…)." }
+                        },
+                        "additionalProperties": false
+                      },
                       "reserved": { "type": "boolean" },
                       "enums": {
                         "type": "object",
