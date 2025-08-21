@@ -34,6 +34,7 @@ blocks:
         width: 32
         description: Tx Time Sync Control Register
         access: rw
+        reset: 0x0
         fields:
           - name: EN
             lsb: 4
@@ -69,6 +70,7 @@ blocks:
         width: 32
         description: Rx Time Sync Control Register
         access: rw
+        reset: 0x0
         fields:
           - name: EN
             lsb: 4
@@ -205,6 +207,7 @@ blocks:
         width: 32
         description: Interrupt Cause Read
         access: rc/w1c
+        reset: 0x0
         spec_section: Section 8.8.9
         fields:
           - name: LSC
@@ -233,6 +236,7 @@ blocks:
         width: 32
         description: Interrupt Mask Set/Read
         access: rw
+        reset: 0x0
         spec_section: Section 8.8.11
         fields:
           - name: LSC
@@ -271,6 +275,7 @@ blocks:
         description: Extended Interrupt Mask Set/Read
         spec_section: Section 8.8.5
         access: rw
+        reset: 0x0
         fields:
           - name: TCP_TIMER
             lsb: 30
@@ -301,6 +306,7 @@ blocks:
         description: Extended Interrupt Cause Read
         spec_section: Section 8.8.3
         access: rc/w1c
+        reset: 0x0
         fields:
           - name: OTHER
             lsb: 31
