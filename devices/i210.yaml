@@ -10,11 +10,15 @@ blocks:
         width: 32
         description: System time register Low
         spec_section: Section 8.15.8
+        atomic_read: true
+        atomic_read_note: Split 64-bit system time value; read both halves per atomic read sequence to obtain a coherent value (see Sections 8.15.8–8.15.9).
       - name: SYSTIMH
         offset: 0x4
         width: 32
         description: System time register High
         spec_section: Section 8.15.9
+        atomic_read: true
+        atomic_read_note: Split 64-bit system time value; read both halves per atomic read sequence to obtain a coherent value (see Sections 8.15.8–8.15.9).
       - name: TIMINCA
         offset: 0x8
         width: 32
@@ -51,11 +55,15 @@ blocks:
         width: 32
         description: Tx Timestamp Value Low
         spec_section: Section 8.15.5
+        atomic_read: true
+        atomic_read_note: Split 64-bit transmit timestamp value; read both halves per atomic read sequence for a coherent value (see Sections 8.15.5–8.15.6).
       - name: TXSTMPH
         offset: 0x1C
         width: 32
         description: Tx Timestamp Value High
         spec_section: Section 8.15.6
+        atomic_read: true
+        atomic_read_note: Split 64-bit transmit timestamp value; read both halves per atomic read sequence for a coherent value (see Sections 8.15.5–8.15.6).
       - name: TSYNCRXCTL
         offset: 0x20
         width: 32
@@ -82,11 +90,15 @@ blocks:
         width: 32
         description: Rx Timestamp Low
         spec_section: Section 8.15.2
+        atomic_read: true
+        atomic_read_note: Split 64-bit receive timestamp value; read both halves per atomic read sequence for a coherent value (see Sections 8.15.2–8.15.3).
       - name: RXSTMPH
         offset: 0x28
         width: 32
         description: Rx Timestamp High
         spec_section: Section 8.15.3
+        atomic_read: true
+        atomic_read_note: Split 64-bit receive timestamp value; read both halves per atomic read sequence for a coherent value (see Sections 8.15.2–8.15.3).
       - name: TSAUXC
         offset: 0x40
         width: 32
@@ -127,21 +139,29 @@ blocks:
         width: 32
         description: Auxiliary Timestamp 0 Register Low
         spec_section: Section 8.15.20
+        atomic_read: true
+        atomic_read_note: Split 64-bit auxiliary timestamp 0; read both halves per atomic read sequence for a coherent value (see Sections 8.15.20–8.15.21).
       - name: AUXSTMPH0
         offset: 0x60
         width: 32
         description: Auxiliary Timestamp 0 Register High
         spec_section: Section 8.15.21
+        atomic_read: true
+        atomic_read_note: Split 64-bit auxiliary timestamp 0; read both halves per atomic read sequence for a coherent value (see Sections 8.15.20–8.15.21).
       - name: AUXSTMPL1
         offset: 0x64
         width: 32
         description: Auxiliary Timestamp 1 Register Low
         spec_section: Section 8.15.22
+        atomic_read: true
+        atomic_read_note: Split 64-bit auxiliary timestamp 1; read both halves per atomic read sequence for a coherent value (see Sections 8.15.22–8.15.23).
       - name: AUXSTMPH1
         offset: 0x68
         width: 32
         description: Auxiliary Timestamp 1 Register High
         spec_section: Section 8.15.23
+        atomic_read: true
+        atomic_read_note: Split 64-bit auxiliary timestamp 1; read both halves per atomic read sequence for a coherent value (see Sections 8.15.22–8.15.23).
       - name: TSICR
         offset: 0x6C
         width: 32
@@ -481,21 +501,29 @@ blocks:
         width: 32
         description: Good Octets Received Count (Low)
         spec_section: Section 8.18.30
+        atomic_read: true
+        atomic_read_note: Split 64-bit counter; read both halves per atomic read sequence for a coherent value (see Sections 8.18.30–8.18.31).
       - name: GORCH
         offset: 0x8C
         width: 32
         description: Good Octets Received Count (High)
         spec_section: Section 8.18.31
+        atomic_read: true
+        atomic_read_note: Split 64-bit counter; read both halves per atomic read sequence for a coherent value (see Sections 8.18.30–8.18.31).
       - name: GOTCL
         offset: 0x90
         width: 32
         description: Good Octets Transmitted Count (Low)
         spec_section: Section 8.18.32
+        atomic_read: true
+        atomic_read_note: Split 64-bit counter; read both halves per atomic read sequence for a coherent value (see Sections 8.18.32–8.18.33).
       - name: GOTCH
         offset: 0x94
         width: 32
         description: Good Octets Transmitted Count (High)
         spec_section: Section 8.18.33
+        atomic_read: true
+        atomic_read_note: Split 64-bit counter; read both halves per atomic read sequence for a coherent value (see Sections 8.18.32–8.18.33).
       - name: MNGPTC
         offset: 0x1BC
         width: 32
@@ -541,18 +569,26 @@ blocks:
         width: 32
         description: Host Good Octets Received Count (Low)
         spec_section: Section 8.18.66
+        atomic_read: true
+        atomic_read_note: Split 64-bit counter; read both halves per atomic read sequence for a coherent value (see Sections 8.18.66–8.18.67).
       - name: HGORCH
         offset: 0x12C
         width: 32
         description: Host Good Octets Received Count (High)
         spec_section: Section 8.18.67
+        atomic_read: true
+        atomic_read_note: Split 64-bit counter; read both halves per atomic read sequence for a coherent value (see Sections 8.18.66–8.18.67).
       - name: HGOTCL
         offset: 0x130
         width: 32
         description: Host Good Octets Transmitted Count (Low)
         spec_section: Section 8.18.68
+        atomic_read: true
+        atomic_read_note: Split 64-bit counter; read both halves per atomic read sequence for a coherent value (see Sections 8.18.68–8.18.69).
       - name: HGOTCH
         offset: 0x134
         width: 32
         description: Host Good Octets Transmitted Count (High)
         spec_section: Section 8.18.69
+        atomic_read: true
+        atomic_read_note: Split 64-bit counter; read both halves per atomic read sequence for a coherent value (see Sections 8.18.68–8.18.69).
