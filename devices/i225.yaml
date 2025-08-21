@@ -414,6 +414,21 @@ blocks:
             width: 1
             description: Base Time Valid
             spec_section: I225 TSN/TAS Control; see IEEE 802.1Qbv implementation notes
+      - name: TAS_CONFIG0
+        offset: 0x4
+        width: 32
+        description: TAS Base Time Low / Cycle Config
+        access: rw
+      - name: TAS_CONFIG1
+        offset: 0x8
+        width: 32
+        description: TAS Base Time High
+        access: rw
+      - name: TAS_GATE_LIST
+        offset: 0x10
+        width: 32
+        description: TAS Gate List Base
+        access: rw
 
   - name: EITR
     base: 0x01680
@@ -482,21 +497,6 @@ blocks:
             width: 16
             description: Current down-counter; load by writing full register (common practice to write INTERVAL replicated in both halves)
             spec_section: I225 Software Manual 1.3, Section 6.3.5
-      - name: TAS_CONFIG0
-        offset: 0x4
-        width: 32
-        description: TAS Base Time Low / Cycle Config
-        access: rw
-      - name: TAS_CONFIG1
-        offset: 0x8
-        width: 32
-        description: TAS Base Time High
-        access: rw
-      - name: TAS_GATE_LIST
-        offset: 0x10
-        width: 32
-        description: TAS Gate List Base
-        access: rw
 
   - name: FRAME_PREEMPTION
     base: 0x08700
