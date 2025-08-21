@@ -1,0 +1,89 @@
+{
+  // VS Code tasks for validating, generating, and testing
+  "$schema": "vscode://schemas/tasks",
+  "version": "2.0.0",
+  "tasks": [
+    {
+      "label": "Validate YAML (schema + checks)",
+      "type": "shell",
+      "command": "python",
+      "args": [
+        "tools/validate_yaml.py",
+        "schema/register_map.schema.json",
+        "devices"
+      ],
+      "windows": {
+        "command": "py",
+        "args": ["-3", "tools\\validate_yaml.py", "schema\\register_map.schema.json", "devices"]
+      },
+      "group": "test",
+      "problemMatcher": []
+    },
+    {
+      "label": "Regenerate headers (all devices)",
+      "type": "shell",
+      "command": "bash",
+      "args": ["-lc", "for f in devices/*.yaml; do python3 tools/reggen.py \"$f\" gen; done"],
+      "windows": {
+        "command": "powershell",
+        "args": [
+          "-NoProfile",
+          "-ExecutionPolicy",
+          "Bypass",
+          "-Command",
+          "Get-ChildItem devices\\*.yaml | ForEach-Object { py -3 tools\\reggen.py $_.FullName gen }"
+        ]
+      },
+      "group": "build",
+      "problemMatcher": []
+    },
+    {
+      "label": "Generate i210 header only",
+      "type": "shell",
+      "command": "python",
+      "args": ["tools/reggen.py", "devices/i210.yaml", "gen"],
+      "windows": {
+        "command": "py",
+        "args": ["-3", "tools\\reggen.py", "devices\\i210.yaml", "gen"]
+      },
+      "group": "build",
+      "problemMatcher": []
+    },
+    {
+      "label": "Test: golden offsets (gcc)",
+      "type": "shell",
+      "command": "bash",
+      "args": [
+        "-lc",
+        "gcc -std=c11 -Wall -Wextra -Werror -Igen tests/verify_offsets.c -o /tmp/verify_offsets && /tmp/verify_offsets"
+      ],
+      "windows": {
+        "command": "powershell",
+        "args": [
+          "-NoProfile",
+          "-ExecutionPolicy",
+          "Bypass",
+          "-Command",
+          "gcc -std=c11 -Wall -Wextra -Werror -Igen tests/verify_offsets.c -o .vscode/verify_offsets.exe; ./.vscode/verify_offsets.exe"
+        ]
+      },
+      "problemMatcher": ["$gcc"],
+      "group": "test"
+    },
+    {
+      "label": "All: validate + regen + test",
+      "type": "shell",
+      "command": "echo",
+      "args": ["Run validate, regenerate, and golden-offset test"],
+      "dependsOn": [
+        "Validate YAML (schema + checks)",
+        "Regenerate headers (all devices)",
+        "Test: golden offsets (gcc)"
+      ],
+      "group": {
+        "kind": "build",
+        "isDefault": true
+      }
+    }
+  ]
+}
