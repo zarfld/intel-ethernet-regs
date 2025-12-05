@@ -49,6 +49,36 @@ static inline unsigned long long I210_TSYNCRXCTL_SET(unsigned long long v, unsig
 #define I210_RXSTMPL	0x0B624
 /* Rx Timestamp High */
 #define I210_RXSTMPH	0x0B628
+/* TimeSync Auxiliary Control */
+#define I210_TSAUXC	0x0B640
+/* Target Time Register 0 Low */
+#define I210_TRGTTIML0	0x0B644
+/* Target Time Register 0 High */
+#define I210_TRGTTIMH0	0x0B648
+/* Target Time Register 1 Low */
+#define I210_TRGTTIML1	0x0B64C
+/* Target Time Register 1 High */
+#define I210_TRGTTIMH1	0x0B650
+/* Frequency Out 0 Control */
+#define I210_FREQOUT0	0x0B654
+/* Frequency Out 1 Control */
+#define I210_FREQOUT1	0x0B658
+/* Auxiliary Timestamp 0 Register Low */
+#define I210_AUXSTMPL0	0x0B65C
+/* Auxiliary Timestamp 0 Register High */
+#define I210_AUXSTMPH0	0x0B660
+/* Auxiliary Timestamp 1 Register Low */
+#define I210_AUXSTMPL1	0x0B664
+/* Auxiliary Timestamp 1 Register High */
+#define I210_AUXSTMPH1	0x0B668
+/* Time Sync Interrupt Cause Register */
+#define I210_TSICR	0x0B66C
+/* Time Sync Interrupt Mask Register */
+#define I210_TSIM	0x0B674
+/* RX Packet Buffer Size */
+#define I210_RXPBSIZE	0x02404
+#define I210_RXPBSIZE_CFG_TS_EN_SHIFT	29
+#define I210_RXPBSIZE_CFG_TS_EN_MASK	(((1ULL<<1)-1ULL) << I210_RXPBSIZE_CFG_TS_EN_SHIFT)
 
 /* Block MAC_CTRL base: 0x00000 */
 /* Device Control */

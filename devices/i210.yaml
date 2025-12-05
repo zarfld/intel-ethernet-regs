@@ -378,6 +378,20 @@ blocks:
         width: 32
         description: Flow Control Refresh Timer Value
 
+  - name: PKT_BUFFER
+    base: 0x02400
+    registers:
+      - name: RXPBSIZE
+        offset: 0x4
+        width: 32
+        description: RX Packet Buffer Size
+        access: rw
+        fields:
+          - name: CFG_TS_EN
+            lsb: 29
+            width: 1
+            description: Enable timestamp in packet buffer (allocates 16 bytes for HW timestamp)
+
   - name: RX_QUEUE0
     base: 0x02800
     registers:

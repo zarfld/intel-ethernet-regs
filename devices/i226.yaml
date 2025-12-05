@@ -173,6 +173,71 @@ blocks:
         width: 32
         description: RX Timestamp High (0xB628; RO)
         access: ro
+      - name: TSAUXC
+        offset: 0x40
+        width: 32
+        description: TimeSync Auxiliary Control (0xB640; RW)
+        access: rw
+      - name: TRGTTIML0
+        offset: 0x44
+        width: 32
+        description: Target Time Register 0 Low (0xB644; RW)
+        access: rw
+      - name: TRGTTIMH0
+        offset: 0x48
+        width: 32
+        description: Target Time Register 0 High (0xB648; RW)
+        access: rw
+      - name: TRGTTIML1
+        offset: 0x4C
+        width: 32
+        description: Target Time Register 1 Low (0xB64C; RW)
+        access: rw
+      - name: TRGTTIMH1
+        offset: 0x50
+        width: 32
+        description: Target Time Register 1 High (0xB650; RW)
+        access: rw
+      - name: FREQOUT0
+        offset: 0x54
+        width: 32
+        description: Frequency Out 0 Control (0xB654; RW)
+        access: rw
+      - name: FREQOUT1
+        offset: 0x58
+        width: 32
+        description: Frequency Out 1 Control (0xB658; RW)
+        access: rw
+      - name: AUXSTMPL0
+        offset: 0x5C
+        width: 32
+        description: Auxiliary Timestamp 0 Register Low (0xB65C; RO)
+        access: ro
+      - name: AUXSTMPH0
+        offset: 0x60
+        width: 32
+        description: Auxiliary Timestamp 0 Register High (0xB660; RO)
+        access: ro
+      - name: AUXSTMPL1
+        offset: 0x64
+        width: 32
+        description: Auxiliary Timestamp 1 Register Low (0xB664; RO)
+        access: ro
+      - name: AUXSTMPH1
+        offset: 0x68
+        width: 32
+        description: Auxiliary Timestamp 1 Register High (0xB668; RO)
+        access: ro
+      - name: TSICR
+        offset: 0x6C
+        width: 32
+        description: Time Sync Interrupt Cause Register (0xB66C; RW1C)
+        access: rw
+      - name: TSIM
+        offset: 0x74
+        width: 32
+        description: Time Sync Interrupt Mask Register (0xB674; RW)
+        access: rw
   - name: MAC_CTRL
     base: 0x00000
     registers:
@@ -389,6 +454,20 @@ blocks:
             width: 1
             description: Other interrupt causes (summary of ICR as masked)
             spec_section: I210 Section 8.8.3 (Other Cause)
+
+  - name: PKT_BUFFER
+    base: 0x02400
+    registers:
+      - name: RXPBSIZE
+        offset: 0x4
+        width: 32
+        description: RX Packet Buffer Size (0x2404; RW)
+        access: rw
+        fields:
+          - name: CFG_TS_EN
+            lsb: 29
+            width: 1
+            description: Enable timestamp in packet buffer (allocates 16 bytes for HW timestamp)
 
   - name: TSN
     base: 0x08600

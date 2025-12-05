@@ -89,6 +89,50 @@ static inline unsigned long long I226_TSYNCRXCTL_SET(unsigned long long v, unsig
 /* RX Timestamp High (0xB628; RO) */
 /* access=ro */
 #define I226_RXSTMPH	0x0B628
+/* TimeSync Auxiliary Control (0xB640; RW) */
+/* access=rw */
+#define I226_TSAUXC	0x0B640
+/* Target Time Register 0 Low (0xB644; RW) */
+/* access=rw */
+#define I226_TRGTTIML0	0x0B644
+/* Target Time Register 0 High (0xB648; RW) */
+/* access=rw */
+#define I226_TRGTTIMH0	0x0B648
+/* Target Time Register 1 Low (0xB64C; RW) */
+/* access=rw */
+#define I226_TRGTTIML1	0x0B64C
+/* Target Time Register 1 High (0xB650; RW) */
+/* access=rw */
+#define I226_TRGTTIMH1	0x0B650
+/* Frequency Out 0 Control (0xB654; RW) */
+/* access=rw */
+#define I226_FREQOUT0	0x0B654
+/* Frequency Out 1 Control (0xB658; RW) */
+/* access=rw */
+#define I226_FREQOUT1	0x0B658
+/* Auxiliary Timestamp 0 Register Low (0xB65C; RO) */
+/* access=ro */
+#define I226_AUXSTMPL0	0x0B65C
+/* Auxiliary Timestamp 0 Register High (0xB660; RO) */
+/* access=ro */
+#define I226_AUXSTMPH0	0x0B660
+/* Auxiliary Timestamp 1 Register Low (0xB664; RO) */
+/* access=ro */
+#define I226_AUXSTMPL1	0x0B664
+/* Auxiliary Timestamp 1 Register High (0xB668; RO) */
+/* access=ro */
+#define I226_AUXSTMPH1	0x0B668
+/* Time Sync Interrupt Cause Register (0xB66C; RW1C) */
+/* access=rw */
+#define I226_TSICR	0x0B66C
+/* Time Sync Interrupt Mask Register (0xB674; RW) */
+/* access=rw */
+#define I226_TSIM	0x0B674
+/* RX Packet Buffer Size (0x2404; RW) */
+/* access=rw */
+#define I226_RXPBSIZE	0x02404
+#define I226_RXPBSIZE_CFG_TS_EN_SHIFT	29
+#define I226_RXPBSIZE_CFG_TS_EN_MASK	(((1ULL<<1)-1ULL) << I226_RXPBSIZE_CFG_TS_EN_SHIFT)
 
 /* Block MAC_CTRL base: 0x00000 */
 /* Device Control */
