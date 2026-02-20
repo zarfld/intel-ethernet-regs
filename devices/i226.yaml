@@ -178,6 +178,31 @@ blocks:
         width: 32
         description: TimeSync Auxiliary Control (0xB640; RW)
         access: rw
+        fields:
+          - name: EN_TT0
+            lsb: 0
+            width: 1
+            description: Enable Target Time 0
+          - name: EN_CLK0
+            lsb: 2
+            width: 1
+            description: Enable clock 0
+          - name: EN_TT1
+            lsb: 4
+            width: 1
+            description: Enable Target Time 1
+          - name: AUTT0
+            lsb: 16
+            width: 1
+            description: Auxiliary Timestamp 0 captured
+          - name: AUTT1
+            lsb: 17
+            width: 1
+            description: Auxiliary Timestamp 1 captured
+          - name: PLLLOCKED
+            lsb: 31
+            width: 1
+            description: PLL locked/disable bit
       - name: TRGTTIML0
         offset: 0x44
         width: 32
@@ -233,11 +258,29 @@ blocks:
         width: 32
         description: Time Sync Interrupt Cause Register (0xB66C; RW1C)
         access: rw
+        fields:
+          - name: TT0
+            lsb: 3
+            width: 1
+            description: Target Time 0 triggered
+          - name: TT1
+            lsb: 4
+            width: 1
+            description: Target Time 1 triggered
       - name: TSIM
         offset: 0x74
         width: 32
         description: Time Sync Interrupt Mask Register (0xB674; RW)
         access: rw
+        fields:
+          - name: TT0
+            lsb: 3
+            width: 1
+            description: Target Time 0 interrupt mask
+          - name: TT1
+            lsb: 4
+            width: 1
+            description: Target Time 1 interrupt mask
   - name: MAC_CTRL
     base: 0x00000
     registers:
@@ -403,6 +446,11 @@ blocks:
             width: 1
             description: Mask for TCP Timer interrupt cause (EICR[30])
             spec_section: I210 Section 7.3.7; I210 Section 8.8.3 (EICR[30])
+          - name: OTHER
+            lsb: 31
+            width: 1
+            description: Mask for OTHER interrupts (includes TimeSync)
+            spec_section: I226 interrupt mapping convention
       - name: EIMC
         offset: 0x28
         width: 32
