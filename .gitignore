@@ -39,3 +39,4 @@
 
 # debug information files
 *.dwo
+gen/i226_regs.backup.h
