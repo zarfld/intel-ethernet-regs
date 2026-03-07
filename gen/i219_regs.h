@@ -111,6 +111,21 @@ static inline unsigned long long I219_IMS_SET(unsigned long long v, unsigned lon
 /* Wake Up Status */
 #define I219_WUS	0x05810
 
+/* PTP/IEEE 1588 Registers (manually added - not auto-generated) */
+/* System Time Registers */
+#define I219_SYSTIML	0x0B600  /* System Time Low */
+#define I219_SYSTIMH	0x0B604  /* System Time High */
+#define I219_TIMINCA	0x0B608  /* Time Increment Attributes */
+#define I219_TSAUXC	0x0B640  /* Time Sync Auxiliary Control */
+
+/* TX Timestamp Registers */
+#define I219_TXSTMPL	0x0B618  /* TX Timestamp Low */
+#define I219_TXSTMPH	0x0B61C  /* TX Timestamp High */
+
+/* RX Timestamp Registers */
+#define I219_RXSTMPL	0x0B624  /* RX Timestamp Low */
+#define I219_RXSTMPH	0x0B628  /* RX Timestamp High */
+
 #endif /* INTEL_I219_REGS_H */
 
 #ifdef __cplusplus

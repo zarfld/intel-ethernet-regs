@@ -150,6 +150,21 @@ static inline unsigned long long I217_IMS_SET(unsigned long long v, unsigned lon
 /* LED Control */
 #define I217_LEDCTL	0x00E00
 
+/* PTP/IEEE 1588 Registers (manually added - not auto-generated) */
+/* System Time Registers */
+#define I217_SYSTIML	0x0B600  /* System Time Low */
+#define I217_SYSTIMH	0x0B604  /* System Time High */
+#define I217_TIMINCA	0x0B608  /* Time Increment Attributes */
+#define I217_TSAUXC	0x0B640  /* Time Sync Auxiliary Control */
+
+/* TX Timestamp Registers */
+#define I217_TXSTMPL	0x0B618  /* TX Timestamp Low */
+#define I217_TXSTMPH	0x0B61C  /* TX Timestamp High */
+
+/* RX Timestamp Registers */
+#define I217_RXSTMPL	0x0B624  /* RX Timestamp Low */
+#define I217_RXSTMPH	0x0B628  /* RX Timestamp High */
+
 #endif /* INTEL_I217_REGS_H */
 
 #ifdef __cplusplus

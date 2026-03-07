@@ -63,6 +63,8 @@ extern "C" {
 #define I226_TSYNCTXCTL_TXTT_MASK	(((1ULL<<1)-1ULL) << I226_TSYNCTXCTL_TXTT_SHIFT)
 #define I226_TSYNCTXCTL_EN_SHIFT	4
 #define I226_TSYNCTXCTL_EN_MASK	(((1ULL<<1)-1ULL) << I226_TSYNCTXCTL_EN_SHIFT)
+#define I226_TSYNCTXCTL_RSVD_SHIFT	5
+#define I226_TSYNCTXCTL_RSVD_MASK	(((1ULL<<1)-1ULL) << I226_TSYNCTXCTL_RSVD_SHIFT)
 static inline unsigned long long I226_TSYNCTXCTL_GET(unsigned long long v, unsigned long long mask, unsigned shift) { return (v & mask) >> shift; }
 static inline unsigned long long I226_TSYNCTXCTL_SET(unsigned long long v, unsigned long long mask, unsigned shift, unsigned long long val) { return (v & ~mask) | ((val << shift) & mask); }
 /* TX Timestamp Value Low */
