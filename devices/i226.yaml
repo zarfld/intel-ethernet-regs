@@ -131,6 +131,10 @@ blocks:
             lsb: 4
             width: 1
             description: Enable TX timestamping
+          - name: RSVD
+            lsb: 5
+            width: 1
+            description: Reserved
       - name: TXSTMPL
         offset: 0x18
         width: 32

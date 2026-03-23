@@ -2,6 +2,50 @@ device: I219
 version: Rev 2.0 (May 2015)
 spec_reference: external/intel_avb/spec/ethernet-connection-i219-datasheet.md
 blocks:
+  - name: PTP
+    base: 0x0B600
+    registers:
+      - name: SYSTIML
+        offset: 0x0
+        width: 32
+        description: System time register Low
+        access: ro
+      - name: SYSTIMH
+        offset: 0x4
+        width: 32
+        description: System time register High
+        access: ro
+      - name: TIMINCA
+        offset: 0x8
+        width: 32
+        description: Time Increment Attributes
+        access: rw
+      - name: TXSTMPL
+        offset: 0x18
+        width: 32
+        description: TX Timestamp Value Low
+        access: ro
+      - name: TXSTMPH
+        offset: 0x1C
+        width: 32
+        description: TX Timestamp Value High
+        access: ro
+      - name: RXSTMPL
+        offset: 0x24
+        width: 32
+        description: RX Timestamp Low
+        access: ro
+      - name: RXSTMPH
+        offset: 0x28
+        width: 32
+        description: RX Timestamp High
+        access: ro
+      - name: TSAUXC
+        offset: 0x40
+        width: 32
+        description: TimeSync Auxiliary Control
+        access: rw
+
   - name: MAC_CTRL
     base: 0x00000
     registers:

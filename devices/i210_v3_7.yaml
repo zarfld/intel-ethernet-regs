@@ -73,6 +73,71 @@ blocks:
         offset: 0x28
         width: 32
         description: Rx Timestamp High
+      - name: TSAUXC
+        offset: 0x40
+        width: 32
+        description: TimeSync Auxiliary Control
+      - name: TRGTTIML0
+        offset: 0x44
+        width: 32
+        description: Target Time Register 0 Low
+      - name: TRGTTIMH0
+        offset: 0x48
+        width: 32
+        description: Target Time Register 0 High
+      - name: TRGTTIML1
+        offset: 0x4C
+        width: 32
+        description: Target Time Register 1 Low
+      - name: TRGTTIMH1
+        offset: 0x50
+        width: 32
+        description: Target Time Register 1 High
+      - name: FREQOUT0
+        offset: 0x54
+        width: 32
+        description: Frequency Out 0 Control
+      - name: FREQOUT1
+        offset: 0x58
+        width: 32
+        description: Frequency Out 1 Control
+      - name: AUXSTMPL0
+        offset: 0x5C
+        width: 32
+        description: Auxiliary Timestamp 0 Register Low
+      - name: AUXSTMPH0
+        offset: 0x60
+        width: 32
+        description: Auxiliary Timestamp 0 Register High
+      - name: AUXSTMPL1
+        offset: 0x64
+        width: 32
+        description: Auxiliary Timestamp 1 Register Low
+      - name: AUXSTMPH1
+        offset: 0x68
+        width: 32
+        description: Auxiliary Timestamp 1 Register High
+      - name: TSICR
+        offset: 0x6C
+        width: 32
+        description: Time Sync Interrupt Cause Register
+      - name: TSIM
+        offset: 0x74
+        width: 32
+        description: Time Sync Interrupt Mask Register
+
+  - name: RXBUF
+    base: 0x02400
+    registers:
+      - name: RXPBSIZE
+        offset: 0x4
+        width: 32
+        description: RX Packet Buffer Size
+        fields:
+          - name: CFG_TS_EN
+            lsb: 29
+            width: 1
+            description: Enable timestamping into RX packet buffer
 
   - name: MAC_CTRL
     base: 0x00000

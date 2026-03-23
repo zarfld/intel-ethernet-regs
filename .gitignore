@@ -40,3 +40,6 @@
 # debug information files
 *.dwo
 gen/i226_regs.backup.h
+# Auto-backup directory created by IntelAvbFilter build system (BackupSSOTHeaders target)
+# Contains pre-generation snapshots for diff/rollback; machine-local, not committed
+gen/backup/

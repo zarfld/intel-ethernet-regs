@@ -91,6 +91,12 @@ blocks:
         description: RX Timestamp High (0xB628; RO)
         spec_section: Section 11.1.2.7
         access: ro
+      - name: TSAUXC
+        offset: 0x40
+        width: 32
+        description: TimeSync Auxiliary Control
+        spec_section: Section 11.1.2.7
+        access: rw
 
   - name: MAC_CTRL
     base: 0x00000
