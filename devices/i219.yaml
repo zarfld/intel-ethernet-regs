@@ -20,6 +20,17 @@ blocks:
         width: 32
         description: Time Increment Attributes
         access: rw
+      - name: TSYNCTXCTL
+        offset: 0x14
+        width: 32
+        description: Tx Time Sync Control — TX timestamping enable (IGB PTP block, abs 0xB614)
+        access: rw
+        reset: 0x0
+        fields:
+          - name: EN
+            lsb: 4
+            width: 1
+            description: Enable TX packet timestamping (bit 4; hardware latches TX timestamp on next 1588 tx)
       - name: TXSTMPL
         offset: 0x18
         width: 32
@@ -28,8 +39,29 @@ blocks:
       - name: TXSTMPH
         offset: 0x1C
         width: 32
-        description: TX Timestamp Value High
+        description: TX Timestamp Value High; bit 31 = VALID (timestamp ready)
         access: ro
+      - name: TSYNCRXCTL
+        offset: 0x20
+        width: 32
+        description: Rx Time Sync Control — RX timestamping enable and type (IGB PTP block, abs 0xB620)
+        access: rw
+        reset: 0x0
+        fields:
+          - name: TYPE
+            lsb: 1
+            width: 3
+            description: Timestamp type selection (bits 3:1); I219 uses 3-bit field at lsb=1 — DIFFERENT from I210 (2-bit at lsb=5)
+            enums:
+              0: L2V2_ONLY
+              1: L4V1_ONLY
+              2: V2_ALL
+              4: ALL_PKTS
+              5: ALL_V2_EVENT
+          - name: EN
+            lsb: 4
+            width: 1
+            description: Enable RX packet timestamping (bit 4)
       - name: RXSTMPL
         offset: 0x24
         width: 32
@@ -45,6 +77,11 @@ blocks:
         width: 32
         description: TimeSync Auxiliary Control
         access: rw
+        fields:
+          - name: DISABLE_SYSTIME
+            lsb: 31
+            width: 1
+            description: Disable system time counting (1=freeze counters for write, 0=normal running)
 
   - name: MAC_CTRL
     base: 0x00000
@@ -270,3 +307,47 @@ blocks:
         width: 32
         description: Wake Up Status
         spec_section: Section 11.1.2.6.3
+
+  - name: ETQF
+    base: 0x05CB0
+    registers:
+      - name: ETQF0
+        offset: 0x0
+        width: 32
+        description: EtherType Queue Filter 0 — identifies IEEE 1588 PTP packets for timestamping
+        access: rw
+        fields:
+          - name: ETYPE
+            lsb: 0
+            width: 16
+            description: EtherType value to match (set to 0x88F7 for IEEE 1588 PTP)
+          - name: FILTER_EN
+            lsb: 26
+            width: 1
+            description: Enable this EtherType filter entry
+          - name: TS_1588
+            lsb: 30
+            width: 1
+            description: Enable IEEE 1588 timestamping for packets matched by this filter
+          - name: QUEUE_EN
+            lsb: 31
+            width: 1
+            description: Route matched packets to the queue specified by ETQS
+
+  - name: ETQS
+    base: 0x0EC00
+    registers:
+      - name: ETQS0
+        offset: 0x0
+        width: 32
+        description: EtherType Queue Select 0 — specifies destination queue for ETQF0-matched packets
+        access: rw
+        fields:
+          - name: QUEUE_IDX
+            lsb: 16
+            width: 7
+            description: Destination receive queue index for EtherType-matched packets (bits 22:16)
+          - name: QUEUE_EN
+            lsb: 31
+            width: 1
+            description: Enable queue routing for EtherType-matched packets
