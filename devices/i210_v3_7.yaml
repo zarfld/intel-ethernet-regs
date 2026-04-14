@@ -437,3 +437,126 @@ blocks:
         offset: 0x94
         width: 32
         description: Good Octets Transmitted Count (High)
+
+  # AVB / Credit-Based Shaper (802.1Qav) registers — I210 Datasheet Section 7.2 / 8.2.7
+  - name: TQAV
+    base: 0x03000
+    registers:
+      - name: TQAVCC
+        offset: 0x4
+        width: 32
+        description: Transmit AVB Credit-Based Shaper Control (Queue n). Base 0x3004, stride 0x40 for queues 0–3.
+        count: 4
+        stride: 0x40
+        spec_section: Section 8.2.7
+        fields:
+          - name: IDLE_SLOPE
+            lsb: 0
+            width: 20
+            description: IdleSlope — credits accumulated per byte of bandwidth unit. Bandwidth = IdleSlope / 2^20 * link_speed.
+            spec_section: Section 8.2.7
+          - name: QUEUE_MODE
+            lsb: 30
+            width: 2
+            description: Queue operating mode
+            enums:
+              0: STRICT_PRIORITY
+              2: SR_CLASS_A
+              3: SR_CLASS_B
+            spec_section: Section 8.2.7
+
+      - name: TQAVCTRL
+        offset: 0x570
+        width: 32
+        description: Transmit AVB Control. Must be set to TSN/Qav mode at init; cannot change during operation. MAC Flow Control must be disabled when Qav is active.
+        spec_section: Section 8.2.6
+        fields:
+          - name: TRANSMIT_MODE
+            lsb: 0
+            width: 2
+            description: Transmit scheduling mode — 0=legacy, 1=TSN/Qav
+            enums:
+              0: LEGACY
+              1: TSN_QAV
+            spec_section: Section 8.2.6
+          - name: FETCH_ARB
+            lsb: 4
+            width: 1
+            description: DMA fetch arbitration — 0=round-robin, 1=strict-priority
+            spec_section: Section 8.2.6
+          - name: MULTIQ_EN
+            lsb: 8
+            width: 1
+            description: Enable multi-queue Qav mode
+            spec_section: Section 8.2.6
+
+  # TX descriptor queue control — priority bit for SR queue DMA fetch
+  - name: TXDCTL
+    base: 0x0E028
+    registers:
+      - name: TXDCTL
+        offset: 0x0
+        width: 32
+        description: Transmit Descriptor Control (Queue n). Base 0xE028, stride 0x100 for queues 0–3.
+        count: 4
+        stride: 0x100
+        spec_section: Section 8.2.13
+        fields:
+          - name: PTHRESH
+            lsb: 0
+            width: 5
+            description: Prefetch threshold — fetch when fewer than this many descriptors are fetched
+            spec_section: Section 8.2.13
+          - name: HTHRESH
+            lsb: 8
+            width: 5
+            description: Host threshold — fetch if at least this many free descriptors in host memory
+            spec_section: Section 8.2.13
+          - name: WTHRESH
+            lsb: 16
+            width: 5
+            description: Write-back threshold — write back after this many descriptors are processed
+            spec_section: Section 8.2.13
+          - name: QUEUE_EN
+            lsb: 25
+            width: 1
+            description: Queue enable
+            spec_section: Section 8.2.13
+          - name: PRIORITY
+            lsb: 22
+            width: 1
+            description: Priority — set to treat this queue as high-priority for DMA fetch. Required for SR (stream reservation) queues in Qav mode.
+            spec_section: Section 8.2.13
+
+  # EtherType Queue Filter — required to identify PTP packets (0x88F7) for hardware timestamping
+  - name: ETQF
+    base: 0x05CB0
+    registers:
+      - name: ETQF
+        offset: 0x0
+        width: 32
+        description: EtherType Queue Filter (index n). Base 0x5CB0, stride 0x4 for indices 0–7. Set EtherType=0x88F7, FILTER_EN=1, TS_1588=1 to enable PTP hardware timestamping.
+        count: 8
+        stride: 0x4
+        spec_section: Section 8.6.3
+        fields:
+          - name: ETYPE
+            lsb: 0
+            width: 16
+            description: EtherType value to match (e.g. 0x88F7 for IEEE 1588 PTP)
+            spec_section: Section 8.6.3
+          - name: FILTER_EN
+            lsb: 26
+            width: 1
+            description: Filter enable — set to activate this ETQF entry
+            spec_section: Section 8.6.3
+          - name: TS_1588
+            lsb: 30
+            width: 1
+            description: IEEE 1588 timestamp enable — hardware timestamps matched packets via TSYNCRXCTL
+            spec_section: Section 8.6.3
+          - name: QUEUE_EN
+            lsb: 31
+            width: 1
+            description: Queue enable — steer matched packets to the queue specified in ETQS
+            spec_section: Section 8.6.3
