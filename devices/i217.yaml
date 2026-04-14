@@ -69,6 +69,13 @@ blocks:
             width: 3
             description: Packet types to timestamp (V1/V2/All/Event)
             spec_section: Section 11.1.2.7.1
+            enums:
+              0: NONE
+              1: L4UDP_PTP_EVT
+              2: L4UDP_PTP_ALL
+              3: L2ETH_PTP_EVT
+              4: L2ETH_PTP_ALL
+              7: ALL_PKTS
           - name: EN
             lsb: 4
             width: 1
@@ -297,3 +304,18 @@ blocks:
         offset: 0x0
         width: 32
         description: LED Control
+
+  - name: SEMAPHORES
+    base: 0x05B50
+    registers:
+      - name: SWSM
+        offset: 0x0
+        width: 32
+        description: Software-Firmware Synchronization (SW/HW semaphore for MAC register access including MDIC)
+        spec_section: Section 10.2.5
+        access: rw
+        fields:
+          - name: SWESMBI
+            lsb: 0
+            width: 1
+            description: SW-to-Firmware Semaphore Bit. SW sets to 1 to request ownership; re-reads to confirm. Cleared by SW on release.
