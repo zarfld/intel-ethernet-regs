@@ -101,6 +101,17 @@ blocks:
         width: 32
         description: Extended Device Control
         spec_section: Section 11.1.2.2.4
+      - name: EXTCNF_CTRL
+        offset: 0xF00
+        width: 32
+        description: Extended Configuration Control — PHY/MDIO software ownership flag (same as I217, PCH silicon family)
+        spec_section: Section 11.1.2.2.17
+        access: rw
+        fields:
+          - name: SWFLAG
+            lsb: 5
+            width: 1
+            description: SW MDIO ownership flag (bit 5); set by SW to claim MDIO bus; ME backs off when set; clear to release
 
   - name: MDIO
     base: 0x00020
