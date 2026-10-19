@@ -17,6 +17,20 @@ blocks:
         offset: 0x8
         width: 32
         description: Time Increment Attributes
+        access: rw
+        reset: 0x0
+        fields:
+          - name: INCVALUE
+            lsb: 0
+            width: 31
+            description: Increment value, added to or subtracted from the 8 ns clock cycle in units of 2^-32 ns
+            spec_section: Section 8.15.11
+          - name: ISGN
+            lsb: 31
+            width: 1
+            description: Increment sign, 0b = 8 ns + INCVALUE*2^-32 ns per cycle, 1b = 8 ns - INCVALUE*2^-32 ns per cycle
+            spec_section: Section 8.15.11
+        spec_section: Section 8.15.11
       - name: TSYNCTXCTL
         offset: 0x14
         width: 32
