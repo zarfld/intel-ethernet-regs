@@ -524,6 +524,17 @@ blocks:
   - name: TX_RETRY
     base: 0x00400
     registers:
+      - name: TCTL
+        offset: 0x0
+        width: 32
+        description: Transmit Control (0x0400; RW)
+        access: rw
+        spec_section: I225 Software Manual Rev 1.3 Section 8.11.1
+        fields:
+          - name: EN
+            lsb: 1
+            width: 1
+            description: Transmit enable; writing 0 leaves data in the transmit FIFO until re-enabled
       - name: RETX_CTL
         offset: 0x1C
         width: 32
