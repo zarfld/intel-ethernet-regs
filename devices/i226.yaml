@@ -521,6 +521,383 @@ blocks:
             width: 1
             description: Enable timestamp in packet buffer (allocates 16 bytes for HW timestamp)
 
+  - name: TX_RETRY
+    base: 0x00400
+    registers:
+      - name: RETX_CTL
+        offset: 0x1C
+        width: 32
+        description: Retry Buffer Control (0x041C; RW)
+        access: rw
+        reset: 0x3
+        spec_section: I225 Software Manual Rev 1.3 Section 8.11.4
+        fields:
+          - name: WATERMARK
+            lsb: 0
+            width: 4
+            description: Minimal Qwords in the retry buffer before transmission starts
+
+  - name: TX_QAV
+    base: 0x03000
+    registers:
+      - name: TQAVCC
+        offset: 0x4
+        count: 2
+        stride: 0x40
+        width: 32
+        description: Tx Qav Credit Control (0x3004, 0x3044; RW)
+        access: rw
+        spec_section: I225 Software Manual Rev 1.3 Section 8.12.4
+        fields:
+          - name: IDLE_SLOPE
+            lsb: 0
+            width: 16
+            description: Idle slope of the queue
+          - name: KEEP_CREDITS
+            lsb: 30
+            width: 1
+            description: Keep credits while valid descriptors exist and no packet is in the packet buffer
+      - name: TQAVHC
+        offset: 0xC
+        count: 2
+        stride: 0x40
+        width: 32
+        description: Tx Qav Hi Credit (0x300C + 0x40*n; RW)
+        access: rw
+        spec_section: I225 Software Manual Rev 1.3 Section 8.12.1
+
+  - name: TX_SCHED
+    base: 0x03300
+    registers:
+      - name: GTXOFFSET
+        offset: 0x10
+        width: 32
+        description: Transmit Scheduling Offset (0x3310; RW)
+        access: rw
+        spec_section: I225 Software Manual Rev 1.3 Section 8.12.6
+        fields:
+          - name: TXOFFSET
+            lsb: 0
+            width: 16
+            description: Global transmit offset in ns
+      - name: BASET_L
+        offset: 0x14
+        width: 32
+        description: Scheduling Base Time Low (0x3314; RW)
+        access: rw
+        spec_section: I225 Software Manual Rev 1.3 Section 8.12.7
+        fields:
+          - name: BASE_TIME_L
+            lsb: 0
+            width: 30
+            description: Base time, ns
+          - name: AUTO_SET
+            lsb: 30
+            width: 1
+            description: Set BaseT to the closest value to SYSTIM; auto-cleared; requires COPY_H
+          - name: COPY_H
+            lsb: 31
+            width: 1
+            description: Take the high part from SYSTIM; auto-cleared; requires AUTO_SET
+      - name: BASET_H
+        offset: 0x18
+        width: 32
+        description: Scheduling Base Time High, seconds (0x3318; RW)
+        access: rw
+        spec_section: I225 Software Manual Rev 1.3 Section 8.12.8
+      - name: QBVCYCLET
+        offset: 0x1C
+        width: 32
+        description: Qbv Cycle Time (0x331C; RW)
+        access: rw
+        reset: 0x3B9ACA00
+        spec_section: I225 Software Manual Rev 1.3 Section 8.12.9
+        fields:
+          - name: QBV_CYCLE_TIME
+            lsb: 0
+            width: 30
+            description: Qbv cycle time in ns
+      - name: QBVCYCLET_S
+        offset: 0x20
+        width: 32
+        description: Shadow Qbv Cycle Time (0x3320; RW)
+        access: rw
+        reset: 0x0
+        spec_section: I225 Software Manual Rev 1.3 Section 8.12.10
+        fields:
+          - name: SHADOW_QBVCYCLE
+            lsb: 0
+            width: 30
+            description: Zero for Basic Scheduling, non-zero for Qbv Scheduling
+          - name: PLUS1
+            lsb: 31
+            width: 1
+            description: Controls the AUTO_SET option of BASET_L
+      - name: STQT
+        offset: 0x24
+        count: 4
+        stride: 0x4
+        width: 32
+        description: Qbv Start Time (0x3324 + 4*n; RW)
+        access: rw
+        reset: 0x0
+        spec_section: I225 Software Manual Rev 1.3 Section 8.12.11
+        fields:
+          - name: START_TIME
+            lsb: 0
+            width: 30
+            description: Start of the queue window relative to BaseT, ns
+      - name: ENDQT
+        offset: 0x34
+        count: 4
+        stride: 0x4
+        width: 32
+        description: Qbv End Time (0x3334 + 4*n; RW). Rev 1.3 lists reset 0x3B9ACA00; DID 0x125B read 0 at baseline on 2026-11-04
+        access: rw
+        spec_section: I225 Software Manual Rev 1.3 Section 8.12.12
+        fields:
+          - name: END_TIME
+            lsb: 0
+            width: 30
+            description: End of the queue window relative to BaseT, ns
+      - name: TXQCTL
+        offset: 0x44
+        count: 4
+        stride: 0x4
+        width: 32
+        description: Transmit Queue Control (0x3344 + 4*n; RW)
+        access: rw
+        reset: 0x0
+        spec_section: I225 Software Manual Rev 1.3 Section 8.12.3
+        fields:
+          - name: QUEUE_MODE
+            lsb: 0
+            width: 1
+            description: 0 best effort, 1 LaunchT
+          - name: STRICT_CYCLE
+            lsb: 1
+            width: 1
+            description: Transmit only if the whole packet completes before the Qbv cycle ends
+          - name: STRICT_END
+            lsb: 2
+            width: 1
+            description: Transmit only if the whole packet completes before the Qbv window ends
+          - name: PREEMPTABLE
+            lsb: 3
+            width: 1
+            description: 0 preemptive (eTXQ), 1 preemptable (pTXQ)
+          - name: REPORT_TIMER_SEL
+            lsb: 4
+            width: 2
+            description: Timer reported in the DMA time stamp of the queue
+          - name: QAV_SEL
+            lsb: 6
+            width: 2
+            description: Credit based shaping set of the queue
+          - name: DATA_FETCH_TIM
+            lsb: 15
+            width: 1
+            description: Enable FETCH_TIM_DELTA
+          - name: FETCH_TIM_DELTA
+            lsb: 16
+            width: 16
+            description: Reduced from the launch time for the fetch decision, ns
+      - name: TXARB
+        offset: 0x54
+        width: 32
+        description: Tx Arbitration Control (0x3354; RW)
+        access: rw
+        spec_section: I225 Software Manual Rev 1.3 Section 8.12.5
+        fields:
+          - name: TXQ_PRIORITY_0
+            lsb: 0
+            width: 2
+            description: Queue assigned priority 0, highest
+          - name: TXQ_PRIORITY_1
+            lsb: 2
+            width: 2
+            description: Queue assigned priority 1
+          - name: TXQ_PRIORITY_2
+            lsb: 4
+            width: 2
+            description: Queue assigned priority 2
+          - name: TXQ_PRIORITY_3
+            lsb: 6
+            width: 2
+            description: Queue assigned priority 3, lowest
+          - name: MNG_ARB
+            lsb: 16
+            width: 2
+            description: Queue sharing arbitration with Manageability traffic
+
+  - name: TX_PKT_BUFFER
+    base: 0x03400
+    registers:
+      - name: TXPBSIZE
+        offset: 0x4
+        width: 32
+        description: Transmit Packet Buffer Size (0x3404; RW)
+        access: rw
+        reset: 0x04000014
+        spec_section: I225 Software Manual Rev 1.3 Section 8.3.2
+        fields:
+          - name: TXPB0SIZE
+            lsb: 0
+            width: 6
+            description: Tx packet buffer 0 size in KB
+          - name: TXPB1SIZE
+            lsb: 6
+            width: 6
+            description: Tx packet buffer 1 size in KB
+          - name: TXPB2SIZE
+            lsb: 12
+            width: 6
+            description: Tx packet buffer 2 size in KB
+          - name: TXPB3SIZE
+            lsb: 18
+            width: 6
+            description: Tx packet buffer 3 size in KB
+          - name: OS2BMCPBSIZE
+            lsb: 24
+            width: 6
+            description: OS to BMC packet buffer size in KB
+
+  - name: TX_TSN_CTRL
+    base: 0x03500
+    registers:
+      - name: DTXMXPKTSZ
+        offset: 0x5C
+        width: 32
+        description: DMA TX Maximum Packet Size (0x355C; RW)
+        access: rw
+        reset: 0x98
+        spec_section: I225 Software Manual Rev 1.3 Section 8.11.9
+        fields:
+          - name: MAX_TPKT_SIZE
+            lsb: 0
+            width: 9
+            description: Maximum transmit packet size in 64-byte units
+      - name: TQAVCTRL
+        offset: 0x70
+        width: 32
+        description: Tx Qav Control (0x3570; RW)
+        access: rw
+        reset: 0x0
+        spec_section: I225 Software Manual Rev 1.3 Section 8.12.2
+        fields:
+          - name: TRANSMIT_MODE
+            lsb: 0
+            width: 1
+            description: 0 legacy, 1 TSN; set at software initialization, not during dynamic operation (Section 7.5.2.1)
+          - name: PREEMPT_ENA
+            lsb: 1
+            width: 1
+            description: Enable the transmit preemption scheme
+          - name: STAT_1588_EN
+            lsb: 2
+            width: 1
+            description: Report the DMA time of transmitted packets in the transmit descriptors
+          - name: ENHANCED_QAV
+            lsb: 3
+            width: 1
+            description: Set when TSN is enabled; reserved in Rev 1.3, name from upstream igc
+          - name: DATA_FETCH_ARB
+            lsb: 4
+            width: 1
+            description: 0 round robin, 1 most empty; TSN mode only
+          - name: FUTSCDDIS
+            lsb: 7
+            width: 1
+            description: Future schedule disable; reserved in Rev 1.3, name and position from upstream igc for I226
+          - name: SCH_TIMER_SEL
+            lsb: 12
+            width: 2
+            description: 1588 timer used for transmit scheduling
+          - name: MIN_FRAG
+            lsb: 14
+            width: 2
+            description: Minimum transmitted preempted fragment size
+
+  - name: TX_RING
+    base: 0x0E000
+    registers:
+      - name: TDLEN
+        offset: 0x8
+        count: 4
+        stride: 0x40
+        width: 32
+        description: Transmit Descriptor Ring Length (0xE008 + 0x40*n; RW)
+        access: rw
+        spec_section: I225 Software Manual Rev 1.3 Section 8.11.12
+        fields:
+          - name: LEN
+            lsb: 7
+            width: 13
+            description: Descriptor ring length in units of 8 descriptors
+      - name: TDH
+        offset: 0x10
+        count: 4
+        stride: 0x40
+        width: 32
+        description: Transmit Descriptor Head (0xE010 + 0x40*n; RW). Hardware-controlled; does not prove a descriptor may be released (Section 8.11.13)
+        access: rw
+        spec_section: I225 Software Manual Rev 1.3 Section 8.11.13
+        fields:
+          - name: HEAD
+            lsb: 0
+            width: 16
+            description: Transmit descriptor head
+      - name: TDT
+        offset: 0x18
+        count: 4
+        stride: 0x40
+        width: 32
+        description: Transmit Descriptor Tail (0xE018 + 0x40*n; RW)
+        access: rw
+        spec_section: I225 Software Manual Rev 1.3 Section 8.11.14
+        fields:
+          - name: TAIL
+            lsb: 0
+            width: 16
+            description: Transmit descriptor tail
+      - name: TXDCTL
+        offset: 0x28
+        count: 4
+        stride: 0x40
+        width: 32
+        description: Transmit Descriptor Control (0xE028 + 0x40*n; RW)
+        access: rw
+        spec_section: I225 Software Manual Rev 1.3 Section 8.11.15
+        fields:
+          - name: PTHRESH
+            lsb: 0
+            width: 5
+            description: Prefetch threshold
+          - name: HTHRESH
+            lsb: 8
+            width: 5
+            description: Host threshold
+          - name: WTHRESH
+            lsb: 16
+            width: 5
+            description: Write-back threshold
+          - name: ENABLE
+            lsb: 25
+            width: 1
+            description: Transmit queue enable
+          - name: SWFLSH
+            lsb: 26
+            width: 1
+            description: Transmit software flush of descriptor write-back
+          - name: PRIORITY
+            lsb: 27
+            width: 1
+            description: 0 low, 1 high transmit queue priority
+          - name: HWBTHRESH
+            lsb: 28
+            width: 4
+            description: Transmit head write-back threshold
+
   - name: TSN
     base: 0x08600
     registers:
