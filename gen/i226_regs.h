@@ -284,7 +284,7 @@ static inline unsigned long long I226_RXPBSIZE_GET(unsigned long long v, unsigne
 static inline unsigned long long I226_RXPBSIZE_SET(unsigned long long v, unsigned long long mask, unsigned shift, unsigned long long val) { return (v & ~mask) | ((val << shift) & mask); }
 
 /* Block TX_RETRY base: 0x00400 */
-/* Transmit Control (0x0400; RW) */
+/* Transmit Control (0x0400; RW). Encoding cross-checked against public Linux igc (IGC_TCTL 0x00400, IGC_TCTL_EN 0x00000002); the I225 manual is an I225 reference, not I226 verification. EN FIFO retention is an I210-derived inference, unverified for I226 */
 /* access=rw */
 #define I226_TCTL	0x00400
 #define I226_TCTL_EN_SHIFT	1
