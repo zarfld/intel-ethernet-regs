@@ -73,9 +73,7 @@ def _scale_lines(prefix: str, fld: dict, what: str) -> list:
     scale = fld['scale']
     if isinstance(scale, bool) or not isinstance(scale, int) or scale < 1:
         raise ContractError(f"{what}.scale: must be a positive integer, got {scale!r}")
-    units = fld.get('units')
-    if not isinstance(units, str) or not units.strip() or '*/' in units or '\n' in units:
-        raise ContractError(f"{what}.scale: requires 'units' as a non-empty single-line string")
+    units = _evidence(fld, 'units', f"{what}.scale")  # emitted in the comment: same single-line rule as evidence
     ev = _evidence(fld, 'scale_evidence', f"{what}.scale")
     return [f"/* SCALE: {scale} {units.strip()} per field unit; {ev} */", f"#define {prefix}_SCALE\t{scale}U"]
 
