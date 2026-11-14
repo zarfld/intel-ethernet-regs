@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-import sys, os, json, subprocess
+import sys, os, json, subprocess, re
 try:
     import yaml
 except Exception:
@@ -22,6 +22,61 @@ def _git_rev_short(path: str) -> str:
         return out.decode().strip()
     except Exception:
         return "unknown"
+
+class ContractError(ValueError):
+    """A YAML value that the generator must not emit (missing or invalid evidence, invalid value)."""
+
+
+def _evidence(obj: dict, key: str, what: str) -> str:
+    """Evidence text emitted as a C comment: a non-empty single line without a comment terminator."""
+    ev = obj.get(key)
+    if not isinstance(ev, str) or not ev.strip():
+        raise ContractError(f"{what}: '{key}' must be a non-empty string")
+    if '*/' in ev or '\n' in ev or '\r' in ev:
+        raise ContractError(f"{what}: '{key}' must be a single line without '*/'")
+    return ev.strip()
+
+
+def _register_value(v, bits: int, what: str) -> int:
+    """An observed register value: integer or 0x hex string within the register width; bool and float rejected."""
+    if isinstance(v, bool):
+        raise ContractError(f"{what}: must be an integer or 0x hex string, got {v!r}")
+    if isinstance(v, int):
+        val = v
+    elif isinstance(v, str) and re.fullmatch(r"0x[0-9A-Fa-f]+", v.strip()):
+        val = int(v.strip(), 16)
+    else:
+        raise ContractError(f"{what}: must be an integer or 0x hex string, got {v!r}")
+    if val < 0 or val >= (1 << bits):
+        raise ContractError(f"{what}: 0x{val:X} does not fit a {bits}-bit register")
+    return val
+
+
+def _value_lines(prefix: str, obj: dict, value_key: str, evidence_key: str, bits: int, what: str, suffix: str) -> list:
+    """Comment with the evidence, then the constant. Nothing when neither key is present."""
+    if value_key not in obj and evidence_key not in obj:
+        return []
+    if value_key not in obj:
+        raise ContractError(f"{what}: '{evidence_key}' without '{value_key}'")
+    val = _register_value(obj[value_key], bits, f"{what}.{value_key}")
+    ev = _evidence(obj, evidence_key, f"{what}.{value_key}")
+    lit = f"0x{val:016X}ULL" if bits == 64 else f"0x{val:08X}U"
+    return [f"/* {suffix}: {ev} */", f"#define {prefix}_{suffix}\t{lit}"]
+
+
+def _scale_lines(prefix: str, fld: dict, what: str) -> list:
+    """Field scale: a positive integer with units and evidence. Nothing when neither key is present."""
+    if 'scale' not in fld and 'scale_evidence' not in fld:
+        return []
+    if 'scale' not in fld:
+        raise ContractError(f"{what}: 'scale_evidence' without 'scale'")
+    scale = fld['scale']
+    if isinstance(scale, bool) or not isinstance(scale, int) or scale < 1:
+        raise ContractError(f"{what}.scale: must be a positive integer, got {scale!r}")
+    units = _evidence(fld, 'units', f"{what}.scale")  # emitted in the comment: same single-line rule as evidence
+    ev = _evidence(fld, 'scale_evidence', f"{what}.scale")
+    return [f"/* SCALE: {scale} {units.strip()} per field unit; {ev} */", f"#define {prefix}_SCALE\t{scale}U"]
+
 
 HEADER_EPILOGUE = """
 #ifdef __cplusplus
@@ -152,10 +207,15 @@ extern "C" {{
                     except Exception:
                         continue
                     lines.append(f"#define {name}_{fname}_{str(ename).upper()}\t{ev_int}U")
+                lines.extend(_scale_lines(f"{name}_{fname}", fld, f"{name}.{rname}.{fld['name']}"))
             if fields:
                 # Inline helpers once per register
                 lines.append(f"static inline unsigned long long {name}_{rname}_GET(unsigned long long v, unsigned long long mask, unsigned shift) {{ return (v & mask) >> shift; }}")
                 lines.append(f"static inline unsigned long long {name}_{rname}_SET(unsigned long long v, unsigned long long mask, unsigned shift, unsigned long long val) {{ return (v & ~mask) | ((val << shift) & mask); }}")
+            # Observed baseline values with their evidence (#8); emitted only when present
+            reg_bits = 64 if int(reg.get('width', 32) or 32) == 64 else 32
+            lines.extend(_value_lines(f"{name}_{rname}", reg, 'baseline', 'baseline_evidence', reg_bits, f"{name}.{rname}", "BASELINE"))
+            lines.extend(_value_lines(f"{name}_{rname}", reg, 'baseline_alt', 'baseline_alt_evidence', reg_bits, f"{name}.{rname}", "BASELINE_ALT"))
         lines.append("")
 
     lines.append(f"#endif /* {guard} */")
@@ -171,5 +231,9 @@ if __name__ == '__main__':
     if len(sys.argv) < 3:
         print("Usage: reggen.py <device.yaml> <out_dir>")
         sys.exit(1)
-    out = gen_header(sys.argv[1], sys.argv[2])
+    try:
+        out = gen_header(sys.argv[1], sys.argv[2])
+    except ContractError as e:
+        print(f"reggen.py: {sys.argv[1]}: {e}", file=sys.stderr)
+        sys.exit(2)
     print(out)

@@ -598,6 +598,8 @@ blocks:
         description: Scheduling Base Time Low (0x3314; RW)
         access: rw
         spec_section: I225 Software Manual Rev 1.3 Section 8.12.7
+        baseline: 0x0
+        baseline_evidence: "Observed on I226-LM 0x125B REV_04 under the Windows Intel miniport (version not recorded) after Disable/Enable-NetAdapter: IntelAvbFilter #328 recovery record 2026-11-05 (investigations/issue-328-tas-isolated-arm-20261104.md), read-only check log SHA256 c9f1d2f774d0efb3. The miniport may program this register. Not an established I226 reset value; other revisions and miniports not established; matching it does not establish a clean adapter, restoration or transmit behaviour. Comparison only: the I225 manual Rev 1.3 lists 0 (Software Reset, I225 scope); Linux igc does not write BASET when disabling TSN"
         fields:
           - name: BASE_TIME_L
             lsb: 0
@@ -617,6 +619,8 @@ blocks:
         description: "Scheduling Base Time High, seconds (0x3318; RW). BASE_TIME_H bits 31:0 follow the I225 manual (I225 scope); seconds units at lsb 0 are consistent with Linux igc's unshifted u32 write. The 32-bit width and range are inferred for I226, not verified by an I226 document or hardware"
         access: rw
         spec_section: "I225 Software Manual Rev 1.3 Section 8.12.8 (I225 scope, not I226 verification); public implementation cross-check: Linux igc igc_regs.h IGC_BASET_H, igc_tsn.c BaseT seconds write"
+        baseline: 0x0
+        baseline_evidence: "Observed on I226-LM 0x125B REV_04 under the Windows Intel miniport (version not recorded) after Disable/Enable-NetAdapter: IntelAvbFilter #328 recovery record 2026-11-05 (investigations/issue-328-tas-isolated-arm-20261104.md), read-only check log SHA256 c9f1d2f774d0efb3. The miniport may program this register. Not an established I226 reset value; other revisions and miniports not established; matching it does not establish a clean adapter, restoration or transmit behaviour. Comparison only: the I225 manual Rev 1.3 lists 0 (Software Reset, I225 scope); Linux igc does not write BASET when disabling TSN"
         fields:
           - name: BASE_TIME_H
             lsb: 0
@@ -630,6 +634,8 @@ blocks:
         access: rw
         reset: 0x3B9ACA00
         spec_section: I225 Software Manual Rev 1.3 Section 8.12.9
+        baseline: 0x3B9ACA00
+        baseline_evidence: "Observed on I226-LM 0x125B REV_04 under the Windows Intel miniport (version not recorded) after Disable/Enable-NetAdapter: IntelAvbFilter #328 recovery record 2026-11-05 (investigations/issue-328-tas-isolated-arm-20261104.md), read-only check log SHA256 c9f1d2f774d0efb3. The miniport may program this register. Not an established I226 reset value; other revisions and miniports not established; matching it does not establish a clean adapter, restoration or transmit behaviour. Comparison only: the I225 manual Rev 1.3 initial value (I225 scope) and the Linux igc programmed value (NSEC_PER_SEC) are the same; agreement does not establish the I226 reset value"
         fields:
           - name: QBV_CYCLE_TIME
             lsb: 0
@@ -642,6 +648,8 @@ blocks:
         access: rw
         reset: 0x0
         spec_section: I225 Software Manual Rev 1.3 Section 8.12.10
+        baseline: 0x0
+        baseline_evidence: "Observed on I226-LM 0x125B REV_04 under the Windows Intel miniport (version not recorded) after Disable/Enable-NetAdapter: IntelAvbFilter #328 recovery record 2026-11-05 (investigations/issue-328-tas-isolated-arm-20261104.md), read-only check log SHA256 c9f1d2f774d0efb3. The miniport may program this register. Not an established I226 reset value; other revisions and miniports not established; matching it does not establish a clean adapter, restoration or transmit behaviour. Comparison only: the I225 manual Rev 1.3 lists 0 (Software Reset, I225 scope) and Linux igc programs 0"
         fields:
           - name: SHADOW_QBVCYCLE
             lsb: 0
@@ -660,6 +668,8 @@ blocks:
         access: rw
         reset: 0x0
         spec_section: I225 Software Manual Rev 1.3 Section 8.12.11
+        baseline: 0x0
+        baseline_evidence: "Observed on I226-LM 0x125B REV_04 under the Windows Intel miniport (version not recorded) after Disable/Enable-NetAdapter: IntelAvbFilter #328 recovery record 2026-11-05 (investigations/issue-328-tas-isolated-arm-20261104.md), read-only check log SHA256 c9f1d2f774d0efb3, all four queues. The miniport may program this register. Not an established I226 reset value; other revisions and miniports not established; matching it does not establish a clean adapter, restoration or transmit behaviour. Comparison only: the I225 manual Rev 1.3 lists 0 (Software Reset, I225 scope) and Linux igc programs 0"
         fields:
           - name: START_TIME
             lsb: 0
@@ -673,6 +683,10 @@ blocks:
         description: Qbv End Time (0x3334 + 4*n; RW). Rev 1.3 lists reset 0x3B9ACA00; DID 0x125B read 0 at baseline on 2026-11-04
         access: rw
         spec_section: I225 Software Manual Rev 1.3 Section 8.12.12
+        baseline: 0x0
+        baseline_evidence: "Observed on I226-LM 0x125B REV_04 under the Windows Intel miniport (version not recorded) after Disable/Enable-NetAdapter: IntelAvbFilter #328 recovery record 2026-11-05 (investigations/issue-328-tas-isolated-arm-20261104.md), read-only check log SHA256 c9f1d2f774d0efb3, all four queues. The miniport may program this register. Not an established I226 reset value; other revisions and miniports not established; matching it does not establish a clean adapter, restoration or transmit behaviour; first read 0 at a healthy baseline on 2026-11-04 (intel-ethernet-regs 09d4c1c). Differs from the I225 manual Rev 1.3 initial value and the Linux igc programmed value, both 0x3B9ACA00 (see BASELINE_ALT); the cause is unknown"
+        baseline_alt: 0x3B9ACA00
+        baseline_alt_evidence: "1 s: the I225 manual Rev 1.3 initial value (I225 scope) and the value Linux igc programs in igc_tsn_disable_offload (NSEC_PER_SEC). Provided only as the second value IntelAvbFilter DES-C-TAS-010 section 3.6 accepts for the windows baseline. Not observed on this I226 (I226-LM 0x125B REV_04); not an established I226 reset value"
         fields:
           - name: END_TIME
             lsb: 0
@@ -687,6 +701,8 @@ blocks:
         access: rw
         reset: 0x0
         spec_section: I225 Software Manual Rev 1.3 Section 8.12.3
+        baseline: 0x0
+        baseline_evidence: "Observed on I226-LM 0x125B REV_04 under the Windows Intel miniport (version not recorded) after Disable/Enable-NetAdapter: IntelAvbFilter #328 recovery record 2026-11-05 (investigations/issue-328-tas-isolated-arm-20261104.md), read-only check log SHA256 c9f1d2f774d0efb3, all four queues. The miniport may program this register. Not an established I226 reset value; other revisions and miniports not established; matching it does not establish a clean adapter, restoration or transmit behaviour. Comparison only: the I225 manual Rev 1.3 lists 0 (Software Reset, I225 scope) and Linux igc programs 0"
         fields:
           - name: QUEUE_MODE
             lsb: 0
@@ -795,6 +811,9 @@ blocks:
             lsb: 0
             width: 9
             description: Maximum transmit packet size in 64-byte units
+            units: bytes
+            scale: 64
+            scale_evidence: "Linux igc IGC_DTXMXPKTSZ_TSN 0x19 = 1600 bytes and IGC_DTXMXPKTSZ_DEFAULT 0x98 = 9728 bytes, used for I225 and I226; the I225 manual Rev 1.3 states 64-byte resolution (I225 scope). Not measured on I226. Decoding only: read the register value; no default is provided"
       - name: TQAVCTRL
         offset: 0x70
         width: 32
@@ -802,6 +821,8 @@ blocks:
         access: rw
         reset: 0x0
         spec_section: I225 Software Manual Rev 1.3 Section 8.12.2
+        baseline: 0x0
+        baseline_evidence: "Observed on I226-LM 0x125B REV_04 under the Windows Intel miniport (version not recorded) after Disable/Enable-NetAdapter: IntelAvbFilter #328 recovery record 2026-11-05 (investigations/issue-328-tas-isolated-arm-20261104.md), read-only check log SHA256 c9f1d2f774d0efb3. The miniport may program this register. Not an established I226 reset value; other revisions and miniports not established; matching it does not establish a clean adapter, restoration or transmit behaviour. Comparison only: the I225 manual Rev 1.3 lists all fields 0 without a reset type (I225 scope); Linux igc clears the TSN bits by read-modify-write"
         fields:
           - name: TRANSMIT_MODE
             lsb: 0

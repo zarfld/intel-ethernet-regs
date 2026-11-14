@@ -3,6 +3,14 @@
   "title": "Intel Ethernet Register Map Schema",
   "type": "object",
   "required": ["device", "version", "blocks"],
+  "definitions": {
+    "evidence": {
+      "type": "string",
+      "description": "Source, applicability and open uncertainty of a value, emitted as a C comment beside its constant: one line, no comment terminator.",
+      "pattern": "\\S",
+      "not": { "pattern": "\\*/|[\\r\\n]" }
+    }
+  },
   "properties": {
     "device": { "type": "string" },
     "version": { "type": "string" },
@@ -87,6 +95,20 @@
                 "atomic_read": { "type": "boolean", "description": "True if this register participates in a latched/atomic read sequence (e.g., SYSTIMH/L)." },
                 "atomic_read_note": { "type": "string", "description": "Free-form guidance for atomic/latched read semantics (order, sequence, etc.)." },
                 "reset": { "type": ["string", "integer"], "pattern": "^0x[0-9A-Fa-f]+$" },
+                "baseline": {
+                  "type": ["string", "integer"],
+                  "pattern": "^0x[0-9A-Fa-f]+$",
+                  "minimum": 0,
+                  "description": "Observed clean-adapter value of the register, not a reset value. Requires baseline_evidence."
+                },
+                "baseline_evidence": { "$ref": "#/definitions/evidence" },
+                "baseline_alt": {
+                  "type": ["string", "integer"],
+                  "pattern": "^0x[0-9A-Fa-f]+$",
+                  "minimum": 0,
+                  "description": "A second, separately attributed reference value that a consumer rule accepts. Requires baseline_alt_evidence."
+                },
+                "baseline_alt_evidence": { "$ref": "#/definitions/evidence" },
                 "count": { "type": "integer", "minimum": 1 },
                 "stride": { "type": ["string", "integer"], "pattern": "^0x[0-9A-Fa-f]+$" },
                 "fields": {
@@ -101,6 +123,12 @@
                       "description": { "type": "string" },
                       "spec_section": { "type": "string" },
                       "units": { "type": "string", "description": "Units for the field value (e.g., ns, ticks, bytes)." },
+                      "scale": {
+                        "type": "integer",
+                        "minimum": 1,
+                        "description": "Units per field count: decoded value = field value * scale, in units. Requires units and scale_evidence."
+                      },
+                      "scale_evidence": { "$ref": "#/definitions/evidence" },
                       "range": {
                         "type": "object",
                         "description": "Permitted value range for the field.",
@@ -115,9 +143,19 @@
                         "type": "object",
                         "additionalProperties": { "type": ["string", "number"] }
                       }
+                    },
+                    "dependencies": {
+                      "scale": ["scale_evidence", "units"],
+                      "scale_evidence": ["scale"]
                     }
                   }
                 }
+              },
+              "dependencies": {
+                "baseline": ["baseline_evidence"],
+                "baseline_evidence": ["baseline"],
+                "baseline_alt": ["baseline_alt_evidence"],
+                "baseline_alt_evidence": ["baseline_alt"]
               }
             }
           }

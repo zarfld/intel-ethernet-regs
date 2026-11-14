@@ -33,6 +33,28 @@ int main(void) {
     static_assert(I226_BASET_H_BASE_TIME_H_SHIFT == 0, "I226_BASET_H_BASE_TIME_H shift mismatch");
     static_assert(I226_BASET_H_BASE_TIME_H_MASK == 0xFFFFFFFFULL, "I226_BASET_H_BASE_TIME_H mask mismatch");
 
+    /* I226 TSN schedule-register baselines (#8). Expected values are the read-back recorded in the
+       IntelAvbFilter #328 recovery record of 2026-11-05 (I226-LM 0x125B REV_04, Windows miniport, log SHA256
+       c9f1d2f774d0efb3), not the YAML. These asserts check that the generated constants match that declared
+       evidence; they do not prove I226 reset behaviour, a clean adapter, restoration or transmit behaviour */
+    static_assert(I226_TQAVCTRL_BASELINE == 0x0U, "I226_TQAVCTRL baseline mismatch");
+    static_assert(I226_BASET_L_BASELINE == 0x0U, "I226_BASET_L baseline mismatch");
+    static_assert(I226_BASET_H_BASELINE == 0x0U, "I226_BASET_H baseline mismatch");
+    static_assert(I226_QBVCYCLET_BASELINE == 0x3B9ACA00U, "I226_QBVCYCLET baseline mismatch");
+    static_assert(I226_QBVCYCLET_S_BASELINE == 0x0U, "I226_QBVCYCLET_S baseline mismatch");
+    static_assert(I226_STQT_BASELINE == 0x0U, "I226_STQT baseline mismatch");
+    static_assert(I226_ENDQT_BASELINE == 0x0U, "I226_ENDQT baseline mismatch");
+    static_assert(I226_TXQCTL_BASELINE == 0x0U, "I226_TXQCTL baseline mismatch");
+
+    /* The second ENDQT value IntelAvbFilter DES-C-TAS-010 section 3.6 accepts for the windows baseline: 1 s, the
+       I225 manual Rev 1.3 initial value and the value Linux igc programs (NSEC_PER_SEC). Not observed on this I226
+       and not an established I226 reset value */
+    static_assert(I226_ENDQT_BASELINE_ALT == 0x3B9ACA00U, "I226_ENDQT alternative baseline mismatch");
+
+    /* DTXMXPKTSZ.MAX_TPKT_SIZE scale, bytes per unit, from Linux igc: IGC_DTXMXPKTSZ_TSN 0x19 = 1600 bytes and
+       IGC_DTXMXPKTSZ_DEFAULT 0x98 = 9728 bytes. Decoding only; not measured on I226 */
+    static_assert(I226_DTXMXPKTSZ_MAX_TPKT_SIZE_SCALE == 64U, "I226_DTXMXPKTSZ_MAX_TPKT_SIZE scale mismatch");
+
     /* Success without runtime */
     return 0;
 }
