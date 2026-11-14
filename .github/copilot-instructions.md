@@ -68,4 +68,9 @@ This repo is a Single Source of Truth (SSOT) for Intel Ethernet controller regis
 - Watch for width/offset math and `count`/`stride` combinations — no overlap checks are enforced.
 - Macro prefix derives from `device:` uppercased (e.g., `I210`, `I211`).
 
+### Provenance lines and the drift check (current generator)
+- Every generated header has a `/* Source YAML: <file> @ <commit>; Repo: <commit> */` line. `reggen.py` stamps the last commit touching the YAML file and the last commit touching `devices/` (`git log -n 1 -- <path>`). CI regenerates all headers and fails on any `git diff -- gen` (#2).
+- Headers regenerated before the YAML change is committed are stale after it; one YAML change makes every header's `Repo:` stale. Regenerate all headers in a later commit that changes only `gen/`.
+- Squash or rebase merges of a YAML change produce new commit hashes on `main`, so stamps from the branch no longer match (derived from `reggen.py`, not tested). This is a property of the current generator, not a merge policy; making generation independent of history is future work for a separate issue.
+
 Questions or mismatches? Point to the relevant lines in `tools/reggen.py`, the YAML, or a generated header and we’ll refine this doc.
