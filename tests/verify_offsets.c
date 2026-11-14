@@ -25,6 +25,14 @@ int main(void) {
     static_assert(I226_TCTL_EN_SHIFT == 1, "I226_TCTL_EN shift mismatch");
     static_assert(I226_TCTL_EN_MASK == 0x2ULL, "I226_TCTL_EN mask mismatch");
 
+    /* I226 Scheduling Base Time High and its seconds field. The offset is from the public
+       Linux igc driver (IGC_BASET_H 0x3318); shift 0 and mask 0xFFFFFFFF are the declared
+       I225-derived encoding (I225 manual bits 31:0, lsb 0 consistent with igc's unshifted
+       write), not from the YAML. They do not verify I226 hardware width */
+    static_assert(I226_BASET_H == 0x03318, "I226_BASET_H offset mismatch");
+    static_assert(I226_BASET_H_BASE_TIME_H_SHIFT == 0, "I226_BASET_H_BASE_TIME_H shift mismatch");
+    static_assert(I226_BASET_H_BASE_TIME_H_MASK == 0xFFFFFFFFULL, "I226_BASET_H_BASE_TIME_H mask mismatch");
+
     /* Success without runtime */
     return 0;
 }

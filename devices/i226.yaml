@@ -614,9 +614,15 @@ blocks:
       - name: BASET_H
         offset: 0x18
         width: 32
-        description: Scheduling Base Time High, seconds (0x3318; RW)
+        description: "Scheduling Base Time High, seconds (0x3318; RW). BASE_TIME_H bits 31:0 follow the I225 manual (I225 scope); seconds units at lsb 0 are consistent with Linux igc's unshifted u32 write. The 32-bit width and range are inferred for I226, not verified by an I226 document or hardware"
         access: rw
-        spec_section: I225 Software Manual Rev 1.3 Section 8.12.8
+        spec_section: "I225 Software Manual Rev 1.3 Section 8.12.8 (I225 scope, not I226 verification); public implementation cross-check: Linux igc igc_regs.h IGC_BASET_H, igc_tsn.c BaseT seconds write"
+        fields:
+          - name: BASE_TIME_H
+            lsb: 0
+            width: 32
+            description: "Base time, whole seconds. Width and range 0..0xFFFFFFFF are I225-derived and inferred for I226; I226 upper-bit behaviour and maximum supported BaseT are not established"
+            spec_section: "I225 Software Manual Rev 1.3 Section 8.12.8 (I225 only); not verified for I226"
       - name: QBVCYCLET
         offset: 0x1C
         width: 32
