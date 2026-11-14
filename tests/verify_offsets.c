@@ -1,6 +1,7 @@
 #include <assert.h>
 #include <stdint.h>
 #include "../gen/i210_regs.h"
+#include "../gen/i226_regs.h"
 
 /* Compile-time checks for golden offsets; adjust as needed per device. */
 
@@ -17,6 +18,12 @@ int main(void) {
     /* A couple of extended interrupts */
     static_assert(I210_EICR == 0x01580, "I210_EICR offset mismatch");
     static_assert(I210_EIMS == 0x01524, "I210_EIMS offset mismatch");
+
+    /* I226 Transmit Control and its enable bit; expected values from the public
+       Linux igc driver (IGC_TCTL 0x00400, IGC_TCTL_EN 0x00000002), not from the YAML */
+    static_assert(I226_TCTL == 0x00400, "I226_TCTL offset mismatch");
+    static_assert(I226_TCTL_EN_SHIFT == 1, "I226_TCTL_EN shift mismatch");
+    static_assert(I226_TCTL_EN_MASK == 0x2ULL, "I226_TCTL_EN mask mismatch");
 
     /* Success without runtime */
     return 0;
